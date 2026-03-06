@@ -17,17 +17,24 @@ var _road_source_id: int = -1
 var _selected_ruin: Node = null
 var _rng := RandomNumberGenerator.new()
 
-# Fantasma de colocación (construir en suelo)
+# Fantasma de colocación (construir en suelo, muro, tropa)
 var _placement_type: String = ""
 var _placement_ghost: Node2D = null
 var _placeables_root: Node2D
+var _walls_root: Node2D
+var _troops_root: Node2D
 const PLACEABLE_SCENE := preload("res://scenes/placeable_building.tscn")
+const WALL_SCENE := preload("res://scenes/wall.tscn")
+const TROOP_SCENE := preload("res://scenes/troop.tscn")
 const PLACEABLE_SIZE_TILES: Vector2i = Vector2i(4, 4)
+const WALL_SIZE_TILES: Vector2i = Vector2i(2, 1)
 
 
 func _ready() -> void:
 	_tilemap = $Ground
 	_placeables_root = $Placeables
+	_walls_root = $Walls
+	_troops_root = $Troops
 	_rng.randomize()
 	_setup_tileset()
 	_generate_ground()
@@ -131,11 +138,12 @@ func _process(_delta: float) -> void:
 		var cam := get_viewport().get_camera_2d()
 		if cam != null:
 			var mouse_world: Vector2 = cam.get_global_mouse_position()
+			var size_tiles: Vector2i = _get_placement_size_tiles()
 			var cell := Vector2i(
 				int(round(mouse_world.x / TILE_SIZE)),
 				int(round(mouse_world.y / TILE_SIZE))
 			)
-			_placement_ghost.global_position = Vector2(cell.x * TILE_SIZE, cell.y * TILE_SIZE) + Vector2(PLACEABLE_SIZE_TILES.x * TILE_SIZE * 0.5, PLACEABLE_SIZE_TILES.y * TILE_SIZE * 0.5)
+			_placement_ghost.global_position = Vector2(cell.x * TILE_SIZE, cell.y * TILE_SIZE) + Vector2(size_tiles.x * TILE_SIZE * 0.5, size_tiles.y * TILE_SIZE * 0.5)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -197,19 +205,40 @@ func _select_at_mouse() -> void:
 		_selected_ruin.set_selected(true)
 
 
+func _get_placement_size_tiles() -> Vector2i:
+	if _placement_type == "wall":
+		return WALL_SIZE_TILES
+	if _placement_type == "troop":
+		return Vector2i(1, 1)
+	return PLACEABLE_SIZE_TILES
+
+
 func start_placement(building_type: String) -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
-	if gm == null or not gm.has_method("can_build") or not gm.can_build(building_type):
+	if gm == null:
 		return
+	if building_type == "troop":
+		if not gm.has_method("can_afford") or not gm.can_afford(gm.get("TROOP_COST")):
+			return
+	else:
+		if not gm.has_method("can_build") or not gm.can_build(building_type):
+			return
 	if _placement_ghost != null:
 		_cancel_placement()
 	_placement_type = building_type
-	_placement_ghost = PLACEABLE_SCENE.instantiate() as Node2D
+	if building_type == "troop":
+		_placement_ghost = TROOP_SCENE.instantiate() as Node2D
+	else:
+		_placement_ghost = PLACEABLE_SCENE.instantiate() as Node2D
 	if _placement_ghost == null:
 		return
-	_placement_ghost.set("building_type", building_type)
+	if building_type != "troop":
+		_placement_ghost.set("building_type", building_type)
 	_placement_ghost.modulate.a = 0.6
-	_placeables_root.add_child(_placement_ghost)
+	if _placement_type == "troop":
+		_troops_root.add_child(_placement_ghost)
+	else:
+		_placeables_root.add_child(_placement_ghost)
 
 
 func _cancel_placement() -> void:
@@ -221,24 +250,57 @@ func _cancel_placement() -> void:
 
 func _place_at(world_pos: Vector2) -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
-	if gm == null or _placement_ghost == null or not gm.has_method("can_build") or not gm.can_build(_placement_type):
+	if gm == null or _placement_ghost == null:
 		_cancel_placement()
 		return
-	if _overlaps_ruin(world_pos):
+	if _placement_type == "troop":
+		var cost: Dictionary = gm.get("TROOP_COST") if gm.get("TROOP_COST") != null else {}
+		if not gm.has_method("spend") or not gm.spend(cost):
+			_cancel_placement()
+			return
+		_placement_ghost.global_position = world_pos
+		_placement_ghost.modulate.a = 1.0
+		var sm: Node = get_node_or_null("/root/SoundManager")
+		if sm != null and sm.has_method("play_build"):
+			sm.play_build()
+		_placement_type = ""
+		_placement_ghost = null
 		return
-	var def: Dictionary = gm.get("BUILDING_TYPES")[_placement_type]
-	var costs: Dictionary = def.get("cost", {})
-	if not costs.is_empty() and gm.has_method("spend") and not gm.spend(costs):
+	if not gm.has_method("can_build") or not gm.can_build(_placement_type):
 		_cancel_placement()
 		return
-	var building: Node2D = PLACEABLE_SCENE.instantiate() as Node2D
-	if building == null:
-		_cancel_placement()
+	if _placement_type != "wall" and _overlaps_ruin(world_pos):
 		return
-	building.global_position = world_pos
-	building.set("building_type", _placement_type)
-	_placeables_root.add_child(building)
-	gm.register_building(building, _placement_type, world_pos)
+	if _placement_type == "wall":
+		if _overlaps_wall(world_pos):
+			_cancel_placement()
+			return
+		var def: Dictionary = gm.get("BUILDING_TYPES")[_placement_type]
+		var costs: Dictionary = def.get("cost", {})
+		if not gm.has_method("spend") or not gm.spend(costs):
+			_cancel_placement()
+			return
+		var wall_node: StaticBody2D = WALL_SCENE.instantiate() as StaticBody2D
+		if wall_node == null:
+			_cancel_placement()
+			return
+		wall_node.global_position = world_pos
+		_walls_root.add_child(wall_node)
+		gm.register_building(wall_node, "wall", world_pos)
+	else:
+		var def: Dictionary = gm.get("BUILDING_TYPES")[_placement_type]
+		var costs: Dictionary = def.get("cost", {})
+		if not costs.is_empty() and gm.has_method("spend") and not gm.spend(costs):
+			_cancel_placement()
+			return
+		var building: Node2D = PLACEABLE_SCENE.instantiate() as Node2D
+		if building == null:
+			_cancel_placement()
+			return
+		building.global_position = world_pos
+		building.set("building_type", _placement_type)
+		_placeables_root.add_child(building)
+		gm.register_building(building, _placement_type, world_pos)
 	var sm: Node = get_node_or_null("/root/SoundManager")
 	if sm != null and sm.has_method("play_build"):
 		sm.play_build()
@@ -246,8 +308,9 @@ func _place_at(world_pos: Vector2) -> void:
 
 
 func _overlaps_ruin(center: Vector2) -> bool:
-	var half := Vector2(PLACEABLE_SIZE_TILES.x * TILE_SIZE * 0.5, PLACEABLE_SIZE_TILES.y * TILE_SIZE * 0.5)
-	var my_rect := Rect2(center - half, Vector2(PLACEABLE_SIZE_TILES.x * TILE_SIZE, PLACEABLE_SIZE_TILES.y * TILE_SIZE))
+	var size_tiles: Vector2i = _get_placement_size_tiles()
+	var half := Vector2(size_tiles.x * TILE_SIZE * 0.5, size_tiles.y * TILE_SIZE * 0.5)
+	var my_rect := Rect2(center - half, Vector2(size_tiles.x * TILE_SIZE, size_tiles.y * TILE_SIZE))
 	var ruins_root: Node = $Ruins
 	for child in ruins_root.get_children():
 		var r: Node = child
@@ -257,6 +320,18 @@ func _overlaps_ruin(center: Vector2) -> bool:
 		var rsize: Vector2 = Vector2(r.get("size_tiles").x * TILE_SIZE, r.get("size_tiles").y * TILE_SIZE)
 		var r_rect := Rect2(rpos, rsize)
 		if my_rect.intersects(r_rect):
+			return true
+	return false
+
+
+func _overlaps_wall(center: Vector2) -> bool:
+	var half := Vector2(WALL_SIZE_TILES.x * TILE_SIZE * 0.5, WALL_SIZE_TILES.y * TILE_SIZE * 0.5)
+	var my_rect := Rect2(center - half, Vector2(WALL_SIZE_TILES.x * TILE_SIZE, WALL_SIZE_TILES.y * TILE_SIZE))
+	for w in get_tree().get_nodes_in_group("wall"):
+		var wall_node: Node = w as Node
+		if not wall_node.has_method("get_rect_global"):
+			continue
+		if my_rect.intersects(wall_node.get_rect_global()):
 			return true
 	return false
 

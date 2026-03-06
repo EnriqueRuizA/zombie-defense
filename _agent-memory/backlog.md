@@ -8,6 +8,21 @@ Formato: `[ ] Descripción (prioridad: CRÍTICA|ALTA|MEDIA|BAJA)`
 
 ## Por hacer
 
+### Fase 1 — Recursos y economía (plan: PLAN_EJECUCION_ZONE_ZERO.md)
+
+- [ ] **F1.1** Definir 6 recursos GDD y mapear desde los 12 actuales — ALTA (PO: criterios en requirements.md)
+- [ ] **F1.2** Migrar GameManager y HUD a 6 recursos — ALTA
+- [ ] **F1.3** Escasez por zona: celdas/edificios saqueados — ALTA
+- [ ] **F1.4** Edificio de producción: huerto → Comida — ALTA
+- [ ] **F1.5** Guardar/cargar con 6 recursos y edificios de producción — MEDIA
+
+### Fase 3 (paralelizable)
+
+- [ ] **F3.1** Tipos infectados: Vagabundo, Corredor, Aglutinador — ALTA
+- [ ] **F3.2** Comportamiento día vs noche (velocidad/cantidad oleada) — ALTA
+
+### Otros
+
 - [ ] Restaurar edificios "en suelo" al cargar partida (opcional) — BAJA
 
 ## Hecho (resumen)
@@ -22,3 +37,6 @@ Formato: `[ ] Descripción (prioridad: CRÍTICA|ALTA|MEDIA|BAJA)`
 - Feedback visual: destello verde en recurso del HUD al ganar (recolectar/día); destello amarillo en "Día N" al cambiar de día.
 - Sonido: SoundManager autoload; reproduce click.wav, build.wav, save.wav, day.wav desde assets/sfx/ si existen; llamadas en menú, construcción, guardado y cambio de día.
 - Fantasma de colocación: botones "Almacén en suelo" y "Torre en suelo"; preview semitransparente sigue el ratón; clic izquierdo coloca (gasta recursos, comprueba solapamiento con ruinas); Escape o clic derecho cancela; escena placeable_building.tscn.
+- Muros: edificio "wall" (10 ladrillos, 5 madera, max 15); escena wall.tscn con vida (40 HP) y colisión; infectados al chocar dañan el muro y se detienen; muro destruido se desregistra.
+- Zombies agresores: infectados con vida (20 HP), barra de vida al recibir daño; tropas les disparan y pueden eliminarlos antes de llegar al HQ.
+- Tropas de defensa: escena troop.tscn, disparan al infectado más cercano en rango (140 px, 8 de daño/seg); botón "Colocar tropa" (5 munición, 3 raciones), colocación con fantasma.

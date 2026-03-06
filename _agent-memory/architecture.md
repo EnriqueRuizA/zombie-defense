@@ -32,7 +32,10 @@ _agent-memory/    # Memoria compartida: requirements, architecture, bug-reports,
 
 - **GameManager** (autoload): recursos, día/hora, noche, edificios, supervivientes, `hq_position`, `get_defender_count()`, señales (`day_changed`, `night_started`, `hq_registered`, `survivors_updated`), `reset_for_new_game()`, `consume_survivor_rations()`, `apply_survivor_jobs()`, `set_survivor_job()`, `can_build()` / `count_buildings()`, `save_game()` / `load_game()` / `apply_loaded_state()`.
 - **SoundManager** (autoload): `play_ui_click()`, `play_build()`, `play_save()`, `play_day_change()`; reproduce WAV desde `assets/sfx/` si existen.
-- **map_gen** (ciudad): `start_placement(type)` inicia modo fantasma; ghost sigue ratón; clic coloca, Escape/derecho cancela; `Placeables` contiene edificios en suelo (placeable_building.tscn).
+- **map_gen** (ciudad): `start_placement(type)` inicia modo fantasma (almacen, tower, wall, troop); ghost sigue ratón; clic coloca, Escape/derecho cancela; `Placeables`, `Walls`, `Troops`; muros con wall.tscn (vida, grupo "wall"); tropas con troop.tscn (disparan a grupo "infected").
+- **infected.gd**: vida (20 HP), `take_damage()`; comprueba muros en ruta y los daña; grupo "infected"; barra de vida al recibir daño.
+- **wall.gd**: vida (40 HP), `take_damage()`, `get_rect_global()`, señal `destroyed`; grupo "wall".
+- **troop.gd**: dispara al infectado más cercano en rango (140 px, 8 dmg/s); grupo "troop".
 - **Escena principal**: `scenes/main.tscn` → instancia menú; New Game carga `scenes/city.tscn`.
 - **Ciudad**: raíz con script `map_gen.gd`; nodos Ground (TileMap), Ruins, Survivors, Camera2D, HUD, BuildMenu, SurvivorsPanel, GameLoop (paneles Derrota/Victoria). GameLoop y paneles con `process_mode = PROCESS_MODE_ALWAYS` para que los botones respondan en pausa.
 - **Convenciones**: nombres de dominio en español cuando ya existan; comentarios de fase (ej. "Fase 6") en scripts relevantes.

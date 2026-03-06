@@ -14,8 +14,11 @@ const RESOURCE_KEYS: Array[String] = [
 const BUILDING_TYPES: Dictionary = {
 	"hq": {"cost": {}, "max": 1, "name": "HQ"},
 	"almacen": {"cost": {"wood": 25, "bricks": 15}, "max": 5, "name": "Almacén"},
-	"tower": {"cost": {"wood": 20, "raw_metal": 15}, "max": 3, "name": "Torre de vigilancia"}
+	"tower": {"cost": {"wood": 20, "raw_metal": 15}, "max": 3, "name": "Torre de vigilancia"},
+	"wall": {"cost": {"bricks": 10, "wood": 5}, "max": 15, "name": "Muro"}
 }
+# Coste para colocar una tropa de defensa
+const TROOP_COST: Dictionary = {"ammo_crates": 5, "food_rations": 3}
 
 # Trabajos de supervivientes (id interno -> nombre UI)
 const JOB_IDS: Array[String] = ["idle", "scavenge", "defend"]
@@ -138,7 +141,16 @@ func register_building(building_node: Node, building_type: String, pos: Vector2)
 		hq_placed = true
 		hq_position = pos
 		hq_registered.emit(pos)
+	if building_type == "wall" and building_node.has_signal("destroyed"):
+		building_node.destroyed.connect(_on_building_destroyed.bind(building_node))
 	current_selected_ruin = null
+
+
+func _on_building_destroyed(building_node: Node) -> void:
+	for i in range(buildings.size() - 1, -1, -1):
+		if (buildings[i] as Dictionary).get("node") == building_node:
+			buildings.remove_at(i)
+			break
 
 
 ## Fase 6: añadir superviviente a la lista (datos).

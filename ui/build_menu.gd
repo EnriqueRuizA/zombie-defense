@@ -9,6 +9,8 @@ extends CanvasLayer
 @onready var btn_cancel: Button = $Panel/Margin/VBox/Cancel
 @onready var btn_almacen_suelo: Button = $Panel/Margin/VBox/AlmacenSuelo
 @onready var btn_torre_suelo: Button = $Panel/Margin/VBox/TorreSuelo
+@onready var btn_muro_suelo: Button = $Panel/Margin/VBox/MuroSuelo
+@onready var btn_colocar_tropa: Button = $Panel/Margin/VBox/ColocarTropa
 
 
 func _ready() -> void:
@@ -47,6 +49,9 @@ func _update_visibility() -> void:
 	btn_cancel.visible = has_selection
 	btn_almacen_suelo.visible = gm.has_method("can_build") and gm.can_build("almacen")
 	btn_torre_suelo.visible = gm.has_method("can_build") and gm.can_build("tower")
+	btn_muro_suelo.visible = gm.has_method("can_build") and gm.can_build("wall")
+	var troop_cost: Variant = gm.get("TROOP_COST")
+	btn_colocar_tropa.visible = gm.has_method("can_afford") and troop_cost is Dictionary and gm.can_afford(troop_cost)
 	panel.visible = true
 
 
@@ -107,3 +112,15 @@ func _on_torre_suelo_pressed() -> void:
 	var city: Node = get_parent()
 	if city != null and city.has_method("start_placement"):
 		city.start_placement("tower")
+
+
+func _on_muro_suelo_pressed() -> void:
+	var city: Node = get_parent()
+	if city != null and city.has_method("start_placement"):
+		city.start_placement("wall")
+
+
+func _on_colocar_tropa_pressed() -> void:
+	var city: Node = get_parent()
+	if city != null and city.has_method("start_placement"):
+		city.start_placement("troop")

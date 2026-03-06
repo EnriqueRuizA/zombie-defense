@@ -34,6 +34,10 @@ rendering_quadrant_size = 16
 
 [node name="Placeables" type="Node2D" parent="."]
 
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Troops" type="Node2D" parent="."]
+
 [node name="NavRegion2D" type="NavigationRegion2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]

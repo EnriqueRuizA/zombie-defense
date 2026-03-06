@@ -7,8 +7,10 @@ Documento vivo: el **PO** escribe aquí requisitos, criterios de aceptación y p
 
 ## Visión del producto
 
-- **Proyecto**: Infection Free Zone Clone (Godot 4.x, 2D top-down).
-- **Objetivo**: Base jugable de supervivencia: menú → ciudad → colocar HQ → supervivientes → sobrevivir días (victoria/derrota) → volver a menú.
+- **Proyecto**: Infection Free Zone Clone (Godot 4.x, 2D top-down), evolucionando hacia **Zone Zero: Last Bastion** según el GDD.
+- **Objetivo actual**: Base jugable de supervivencia: menú → ciudad → colocar HQ → supervivientes → defensa (muros, tropas) → oleadas de infectados → sobrevivir días (victoria/derrota) → volver a menú.
+- **Plan a largo plazo**: Ver **`_agent-memory/PLAN_ZONE_ZERO.md`** (fases 1–13 alineadas con `ZONE_ZERO_GDD.md`). El backlog priorizado se alimenta de ese plan.
+- **Ejecución**: **`_agent-memory/PLAN_EJECUCION_ZONE_ZERO.md`** define el protocolo de handoff (PO → Dev → QA → Director), DoD y desglose de ítems por fase. Los criterios de aceptación de cada ítem se escriben aquí o en `docs/` antes de implementar.
 
 ---
 
@@ -24,9 +26,11 @@ Documento vivo: el **PO** escribe aquí requisitos, criterios de aceptación y p
 
 ---
 
-## Criterios de aceptación por fase
+## Criterios de aceptación por fase / ítem
 
 - Detalle en `docs/CRITERIOS_ACEPTACION_FASE5.md`, `CRITERIOS_JUGABLE_MINIMO.md`, `CRITERIOS_ACEPTACION_FASE6.md`.
+- **Fase 1 (F1.x):** Criterios resumidos en PLAN_EJECUCION_ZONE_ZERO.md; el PO debe ampliarlos aquí o en `docs/` antes de que Dev implemente F1.2–F1.5.
+- **Fase 3 (F3.x):** Idem para F3.1–F3.2 cuando se prioricen.
 
 ---
 
