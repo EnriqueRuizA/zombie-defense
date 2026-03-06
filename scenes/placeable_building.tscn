@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ifz_placeable_building"]
+
+[ext_resource type="Script" path="res://scripts/placeable_building.gd" id="1_script"]
+
+[node name="PlaceableBuilding" type="Node2D"]
+script = ExtResource("1_script")

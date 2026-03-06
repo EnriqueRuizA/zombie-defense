@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ifz_survivor"]
+
+[ext_resource type="Script" path="res://scripts/survivor.gd" id="1_surv"]
+
+[node name="Survivor" type="Node2D"]
+script = ExtResource("1_surv")
+survivor_name = "Surv"
+health = 100
+job = "Sin asignar"

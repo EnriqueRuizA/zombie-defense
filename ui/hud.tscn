@@ -1,0 +1,217 @@
+[gd_scene load_steps=2 format=3 uid="uid://ifz_hud"]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="BgBar" type="ColorRect" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 52.0
+color = Color(0.08, 0.1, 0.14, 0.82)
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 42.0
+
+[node name="HBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DayTime" type="VBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="DayLabel" type="Label" parent="Margin/HBox/DayTime"]
+layout_mode = 2
+text = "Day 1"
+
+[node name="PhaseLabel" type="Label" parent="Margin/HBox/DayTime"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 1, 1)
+text = "Día"
+
+[node name="TimeBar" type="ProgressBar" parent="Margin/HBox/DayTime"]
+custom_minimum_size = Vector2(120, 14)
+layout_mode = 2
+max_value = 1.0
+value = 0.0
+show_percentage = false
+
+[node name="HQWarning" type="Label" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+text = "¡Coloca el HQ!"
+visible = false
+
+[node name="Resources" type="HBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Wood" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/Wood"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.545, 0.271, 0.075, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/Wood"]
+layout_mode = 2
+text = "0"
+
+[node name="RawMetal" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/RawMetal"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.753, 0.753, 0.753, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/RawMetal"]
+layout_mode = 2
+text = "0"
+
+[node name="Bricks" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/Bricks"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.698, 0.133, 0.133, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/Bricks"]
+layout_mode = 2
+text = "0"
+
+[node name="BasicTool" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/BasicTool"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(1, 0.843, 0, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/BasicTool"]
+layout_mode = 2
+text = "0"
+
+[node name="CannedFood" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/CannedFood"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.565, 0.933, 0.565, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/CannedFood"]
+layout_mode = 2
+text = "0"
+
+[node name="FoodRations" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/FoodRations"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.871, 0.722, 0.529, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/FoodRations"]
+layout_mode = 2
+text = "0"
+
+[node name="BagGrain" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/BagGrain"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.957, 0.643, 0.376, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/BagGrain"]
+layout_mode = 2
+text = "0"
+
+[node name="RawMeat" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/RawMeat"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.863, 0.078, 0.235, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/RawMeat"]
+layout_mode = 2
+text = "0"
+
+[node name="AmmoCrates" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/AmmoCrates"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/AmmoCrates"]
+layout_mode = 2
+text = "0"
+
+[node name="FuelCanister" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/FuelCanister"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(1, 1, 0.6, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/FuelCanister"]
+layout_mode = 2
+text = "0"
+
+[node name="Fertilizer" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/Fertilizer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.196, 0.804, 0.196, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/Fertilizer"]
+layout_mode = 2
+text = "0"
+
+[node name="FirstAidKit" type="HBoxContainer" parent="Margin/HBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="ColorRect" parent="Margin/HBox/Resources/FirstAidKit"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
+
+[node name="Label" type="Label" parent="Margin/HBox/Resources/FirstAidKit"]
+layout_mode = 2
+text = "0"
+
+[node name="SaveBtn" type="Button" parent="Margin/HBox"]
+layout_mode = 2
+text = "Guardar"

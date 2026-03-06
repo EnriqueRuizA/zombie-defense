@@ -1,72 +1,84 @@
 extends Control
-## Menú principal: Jugar, Opciones, Salir. Opciones guarda volumen en ConfigFile.
+## FASE 1: Menú principal del prototipo.
 
-@onready var boton_jugar: Button = $VBox/JugarBtn
-@onready var boton_opciones: Button = $VBox/OpcionesBtn
-@onready var boton_salir: Button = $VBox/SalirBtn
-@onready var panel_opciones: Panel = $PanelOpciones
-@onready var slider_volumen: HSlider = $PanelOpciones/VBox/VolumenSlider
-@onready var cerrar_opciones_btn: Button = $PanelOpciones/VBox/CerrarOpcionesBtn
+@onready var new_game_btn: Button = $VBox/Buttons/NewGameBtn
+@onready var load_btn: Button = $VBox/Buttons/LoadBtn
+@onready var quit_btn: Button = $VBox/Buttons/QuitBtn
+@onready var beep_player: AudioStreamPlayer = $BeepPlayer
+@onready var load_dialog: AcceptDialog = $LoadDialog
 
-const CONFIG_PATH: String = "user://config.cfg"
-const SECCION: String = "audio"
-const KEY_VOLUMEN: String = "volumen_db"
+const BEEP_HZ: float = 440.0
+const BEEP_SECONDS: float = 0.10
+const BEEP_GAIN: float = 0.20
+const BEEP_SR: float = 44100.0
+
 
 func _ready() -> void:
-	boton_jugar.pressed.connect(_on_jugar_pressed)
-	boton_opciones.pressed.connect(_on_opciones_pressed)
-	boton_salir.pressed.connect(_on_salir_pressed)
-	cerrar_opciones_btn.pressed.connect(_on_cerrar_opciones_pressed)
-	panel_opciones.visible = false
-	_cargar_opciones()
-	slider_volumen.value_changed.connect(_on_volumen_changed)
+	# Beep desactivado por defecto para evitar errores WASAPI en algunos Windows.
+	# Para reactivar: descomenta las 3 líneas siguientes.
+	# var gen := AudioStreamGenerator.new()
+	# gen.mix_rate = BEEP_SR
+	# beep_player.stream = gen
+	new_game_btn.pressed.connect(_on_new_game_pressed)
+	load_btn.pressed.connect(_on_load_pressed)
+	quit_btn.pressed.connect(_on_quit_pressed)
 
 
-func _get_audio_manager() -> Node:
-	return get_node_or_null("/root/AudioManager")
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
 
 
-func _cargar_opciones() -> void:
-	var cfg := ConfigFile.new()
-	if cfg.load(CONFIG_PATH) == OK and cfg.has_section_key(SECCION, KEY_VOLUMEN):
-		slider_volumen.value = cfg.get_value(SECCION, KEY_VOLUMEN, 0.8)
-	var am: Node = _get_audio_manager()
-	if am != null and am.has_method("set_volumen_master_db"):
-		am.set_volumen_master_db(linear_to_db(slider_volumen.value))
+func _on_new_game_pressed() -> void:
+	_play_beep()
+	_try_sound_click()
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm != null and gm.has_method("reset_for_new_game"):
+		gm.reset_for_new_game()
+	get_tree().change_scene_to_file("res://scenes/city.tscn")
 
 
-func _guardar_opciones() -> void:
-	var cfg := ConfigFile.new()
-	if cfg.load(CONFIG_PATH) != OK:
-		pass
-	cfg.set_value(SECCION, KEY_VOLUMEN, slider_volumen.value)
-	cfg.save(CONFIG_PATH)
+func _on_load_pressed() -> void:
+	_play_beep()
+	_try_sound_click()
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm != null and gm.has_method("load_game") and gm.has_method("apply_loaded_state"):
+		var data: Dictionary = gm.load_game()
+		if not data.is_empty() and gm.apply_loaded_state(data):
+			get_tree().change_scene_to_file("res://scenes/city.tscn")
+			return
+	load_dialog.dialog_text = "No hay partida guardada."
+	load_dialog.popup_centered()
 
 
-func _on_volumen_changed(val: float) -> void:
-	var am: Node = _get_audio_manager()
-	if am != null and am.has_method("set_volumen_master_db"):
-		am.set_volumen_master_db(linear_to_db(val))
-	_guardar_opciones()
-
-
-func linear_to_db(linear: float) -> float:
-	if linear <= 0.0:
-		return -80.0
-	return 20.0 * log(linear) / log(10.0)
-
-
-func _on_jugar_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
-
-
-func _on_opciones_pressed() -> void:
-	panel_opciones.visible = true
-
-
-func _on_cerrar_opciones_pressed() -> void:
-	panel_opciones.visible = false
-
-
-func _on_salir_pressed() -> void:
+func _on_quit_pressed() -> void:
+	_play_beep()
+	_try_sound_click()
 	get_tree().quit()
+
+
+func _try_sound_click() -> void:
+	var sm: Node = get_node_or_null("/root/SoundManager")
+	if sm != null and sm.has_method("play_ui_click"):
+		sm.play_ui_click()
+
+
+func _play_beep() -> void:
+	if beep_player.stream == null:
+		return
+	beep_player.play()
+	var playback := beep_player.get_stream_playback()
+	if playback == null or not (playback is AudioStreamGeneratorPlayback):
+		return
+
+	var gen := playback as AudioStreamGeneratorPlayback
+	var frames := int(BEEP_SR * BEEP_SECONDS)
+	if frames <= 0:
+		return
+	if not gen.can_push_buffer(frames):
+		return
+
+	for i in frames:
+		var t := float(i) / BEEP_SR
+		var s := sin(TAU * BEEP_HZ * t) * BEEP_GAIN
+		gen.push_frame(Vector2(s, s))

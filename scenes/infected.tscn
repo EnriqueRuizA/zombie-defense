@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ifz_infected"]
+
+[ext_resource type="Script" path="res://scripts/infected.gd" id="1_infected"]
+
+[node name="Infected" type="Node2D"]
+script = ExtResource("1_infected")
