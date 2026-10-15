@@ -1,0 +1,47 @@
+:root { --bg:#0b1020; --panel:#101a30; --line:#26315a; --txt:#e5e9f5; --mut:#93a0c4; --acc:#22c55e; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--txt); font-family:Segoe UI,Arial,sans-serif; }
+.topbar { display:flex; gap:12px; align-items:center; justify-content:space-between; padding:8px 14px; background:#0e1530; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.logo { font-weight:800; font-size:18px; } .logo span { color:#4ade80; }
+.top-stats { display:flex; gap:14px; align-items:center; font-size:14px; }
+.top-stats b { font-size:15px; } .phase { color:var(--mut); font-size:12px; }
+.factions { display:flex; gap:8px; align-items:center; }
+.factions label { background:var(--panel); border:1px solid var(--line); padding:5px 9px; border-radius:8px; cursor:pointer; font-size:13px; }
+.t { color:#60a5fa; } .z { color:#c084fc; } .p { color:#facc15; }
+button { background:#1e2a52; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px 12px; cursor:pointer; }
+button:hover { background:#2b3a6e; } button.active { background:#16a34a; border-color:#16a34a; }
+main { display:flex; gap:12px; padding:12px 14px; align-items:flex-start; }
+.board-wrap { position:relative; flex:0 1 auto; }
+canvas { background:#020617; border:1px solid var(--line); border-radius:10px; max-width:72vw; width:960px; height:auto; display:block; }
+.bottombar { display:flex; gap:12px; align-items:center; margin-top:8px; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:8px 12px; flex-wrap:wrap; }
+.ratio { display:flex; gap:10px; align-items:center; } .ratio small { color:var(--mut); }
+.ratio input { width:180px; accent-color:var(--acc); }
+.build { display:flex; gap:6px; } .mini { display:flex; gap:12px; margin-left:auto; color:var(--mut); font-size:13px; } .mini b { color:var(--txt); }
+.side { width:300px; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.side h3 { margin:0 0 4px; font-size:15px; }
+#leaderboard { display:flex; flex-direction:column; gap:6px; }
+.lb-row { display:flex; justify-content:space-between; align-items:center; background:#0e1530; border:1px solid var(--line); border-radius:8px; padding:6px 9px; font-size:13px; }
+.lb-row.me { border-color:var(--acc); } .lb-row.dead { opacity:.5; }
+.lb-row i { display:inline-block; width:10px; height:10px; border-radius:3px; margin:0 4px; }
+.hint { font-size:12.5px; color:var(--mut); min-height:30px; } .msg { color:#fde047; min-height:20px; font-size:13px; }
+/* Lote 1a: panel de región + lista de frentes + selector de dificultad */
+#fronts-list, #region-card { display:flex; flex-direction:column; gap:6px; font-size:13px; background:#0e1530; border:1px solid var(--line); border-radius:8px; padding:8px 10px; min-height:34px; }
+.fr-row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.fr-row button { padding:2px 9px; }
+.dim { color:var(--mut); }
+.factions select { background:#1e2a52; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:5px 6px; font-size:13px; }
+details { font-size:13px; color:#cbd5e1; } summary { cursor:pointer; color:var(--txt); }
+ul { padding-left:18px; margin:6px 0; } li { margin:5px 0; }
+#overlay { position:absolute; inset:0 0 62px 0; background:rgba(2,6,23,.9); display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:10px; text-align:center; padding:20px; }
+#overlay.hidden { display:none; }
+#ov-title.win { color:#4ade80; } #ov-title.lose { color:#f87171; }
+#ov-stats { background:#0e1530; border:1px solid var(--line); padding:12px; border-radius:8px; max-width:90%; white-space:pre-wrap; font-size:13px; }
+footer { padding:10px 14px; color:var(--mut); font-size:12px; border-top:1px solid var(--line); }
+/* Paridad OpenFront: economía + temporizador + leaderboard */
+.econ { display:flex; gap:12px; align-items:center; font-size:13px; color:var(--mut); flex-wrap:wrap; }
+.econ b { color:var(--txt); }
+#btn-pause { padding:4px 10px; }
+#hud-time { font-variant-numeric:tabular-nums; }
+.lb-row span:first-child { display:flex; align-items:center; gap:4px; }
+canvas { image-rendering:auto; }
+@media (max-width:1100px) { main { flex-wrap:wrap; } canvas { max-width:96vw; } .side { width:100%; } }
