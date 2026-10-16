@@ -5,10 +5,10 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { MirvExecution } from "@openfront/engine/execution/MIRVExecution";
-import { MissileSiloExecution } from "@openfront/engine/execution/MissileSiloExecution";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { MirvExecution } from "@zombie-defense/engine/execution/MIRVExecution";
+import { MissileSiloExecution } from "@zombie-defense/engine/execution/MissileSiloExecution";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
 import { setup } from "./util/Setup";
 import { executeTicks } from "./util/utils";
 

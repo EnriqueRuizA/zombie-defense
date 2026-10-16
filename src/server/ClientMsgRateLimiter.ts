@@ -1,4 +1,4 @@
-import { ClientID } from "@openfront/engine-api/Schemas";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
 import { RateLimiter } from "limiter";
 
 const INTENTS_PER_SECOND = 10;

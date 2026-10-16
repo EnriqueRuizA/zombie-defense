@@ -1,4 +1,4 @@
-import type { PublicProgress } from "@openfront/shared/ApiSchemas";
+import type { PublicProgress } from "@zombie-defense/shared/ApiSchemas";
 import { getUserMe } from "./Api";
 import { fetchPublicPlayerProgress } from "./ProgressionApi";
 

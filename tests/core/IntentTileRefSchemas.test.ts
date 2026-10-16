@@ -9,7 +9,7 @@ import {
   MoveWarshipIntentSchema,
   SpawnIntentSchema,
   UpgradeStructureIntentSchema,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 import { describe, expect, it } from "vitest";
 
 const RECIPIENT = "aaaaaaaa";

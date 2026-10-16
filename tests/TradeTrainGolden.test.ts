@@ -14,9 +14,9 @@
  * This is a test of the formulas, not of the simulation. See
  * TradeTrainScenarios.test.ts for end-to-end numbers on real maps.
  */
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { Player } from "@openfront/engine/game/Game";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { Player } from "@zombie-defense/engine/game/Game";
 
 function makeConfig(gameConfig: Partial<GameConfig> = {}): EngineConfig {
   return new EngineConfig(gameConfig as GameConfig, false);

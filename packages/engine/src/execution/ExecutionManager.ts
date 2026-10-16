@@ -3,9 +3,9 @@ import {
   GameID,
   StampedIntent,
   Turn,
-} from "@openfront/engine-api/Schemas";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { simpleHash } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-api/Schemas";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import { Execution, Game } from "../game/Game";
 import { AllianceExtensionExecution } from "./alliance/AllianceExtensionExecution";
 import { AllianceRejectExecution } from "./alliance/AllianceRejectExecution";

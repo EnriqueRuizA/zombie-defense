@@ -1,10 +1,10 @@
-import { GameID, ID } from "@openfront/engine-api/Schemas";
-import { replacer } from "@openfront/shared/SharedUtil";
+import { GameID, ID } from "@zombie-defense/engine-api/Schemas";
+import { replacer } from "@zombie-defense/shared/SharedUtil";
 import {
   GameRecord,
   GameRecordSchema,
   PartialGameRecord,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import z from "zod";
 import { registeredSite } from "./ClusterCheckin";
 import { logger } from "./Logger";

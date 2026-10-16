@@ -1,4 +1,4 @@
-import { CosmeticPack } from "@openfront/shared/CosmeticSchemas";
+import { CosmeticPack } from "@zombie-defense/shared/CosmeticSchemas";
 import {
   html,
   LitElement,

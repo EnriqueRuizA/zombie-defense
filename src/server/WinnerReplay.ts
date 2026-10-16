@@ -1,5 +1,5 @@
-import { GameStartInfo, Turn } from "@openfront/engine-api/Schemas";
-import type { ReplayedWinner } from "@openfront/engine/WinnerReplay";
+import { GameStartInfo, Turn } from "@zombie-defense/engine-api/Schemas";
+import type { ReplayedWinner } from "@zombie-defense/engine/WinnerReplay";
 import { fork } from "child_process";
 import os from "os";
 import path from "path";

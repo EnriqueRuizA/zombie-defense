@@ -42,9 +42,9 @@ vi.mock("../../../../src/client/InGameModal", () => ({
   showInGameAlert: vi.fn(),
 }));
 
-import { GameType, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
-import { packLevelBadge } from "@openfront/shared/LevelBadgeWire";
+import { GameType, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
+import { packLevelBadge } from "@zombie-defense/shared/LevelBadgeWire";
 import {
   ownLevelBadgeFrom,
   PlayerPanel,

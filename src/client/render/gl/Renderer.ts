@@ -9,9 +9,9 @@
  *     structure levels → bars → bloom → trails → missiles → fx → conquest → names
  */
 
-import type { MapLayer } from "@openfront/engine-api/game/MapFiles";
-import type { Config } from "@openfront/engine-lib/configuration/Config";
-import { defensePostRangeForLevel } from "@openfront/engine-lib/configuration/Config";
+import type { MapLayer } from "@zombie-defense/engine-api/game/MapFiles";
+import type { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { defensePostRangeForLevel } from "@zombie-defense/engine-lib/configuration/Config";
 import { translateText } from "../../Utils";
 import type { SpiralRibbon } from "../frame/SpiralTrails";
 import type {

@@ -1,5 +1,5 @@
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { zInt, zRef } from "@openfront/engine-lib/snapshot/SnapshotType";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { zInt, zRef } from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { Attack, Execution, Game, Unit } from "../game/Game";
 import { execSnapshotType } from "../snapshot/ExecutionSnapshot";

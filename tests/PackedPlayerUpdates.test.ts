@@ -4,15 +4,15 @@
  * and `playerNameViewData` is attached only on ticks where the worker
  * recomputed name placements. See GameUpdateViewData in GameUpdates.ts.
  */
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   GameUpdateViewData,
-} from "@openfront/engine-api/game/GameUpdates";
-import { Executor } from "@openfront/engine/execution/ExecutionManager";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { GameRunner } from "@openfront/engine/GameRunner";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { Executor } from "@zombie-defense/engine/execution/ExecutionManager";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { GameRunner } from "@zombie-defense/engine/GameRunner";
 import { setup } from "./util/Setup";
 
 const gameID = "game_id";

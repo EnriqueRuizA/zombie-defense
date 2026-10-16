@@ -1,12 +1,12 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { TrainType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { MotionPlanRecord } from "@openfront/engine-lib/game/MotionPlans";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { TrainType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { MotionPlanRecord } from "@zombie-defense/engine-lib/game/MotionPlans";
 import {
   zInt,
   zPlayerRef,
   zRef,
   zTiles,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { Execution, Game, Player, Unit } from "../game/Game";
 import { RailNetwork } from "../game/RailNetwork";

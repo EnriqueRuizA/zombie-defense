@@ -1,6 +1,6 @@
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
 import { describe, expect, it } from "vitest";
 
 const cfg = new EngineConfig({} as unknown as GameConfig, false);

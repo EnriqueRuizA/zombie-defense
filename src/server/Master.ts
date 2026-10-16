@@ -1,4 +1,4 @@
-import { GameEnv } from "@openfront/shared/configuration/Env";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
 import cluster from "cluster";
 import crypto from "crypto";
 import express from "express";

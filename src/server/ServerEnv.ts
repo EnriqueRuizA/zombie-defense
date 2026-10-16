@@ -1,11 +1,11 @@
-import { GameID } from "@openfront/engine-api/Schemas";
-import { simpleHash } from "@openfront/engine-lib/Util";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import {
   ClusterConfig,
   InstanceLetterSchema,
-} from "@openfront/shared/ClusterConfig";
-import { GameEnv, parseGameEnv } from "@openfront/shared/configuration/Env";
-import { generateGameID } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/shared/ClusterConfig";
+import { GameEnv, parseGameEnv } from "@zombie-defense/shared/configuration/Env";
+import { generateGameID } from "@zombie-defense/shared/SharedUtil";
 import { JWK } from "jose";
 import { z } from "zod";
 

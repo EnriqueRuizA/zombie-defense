@@ -1,4 +1,4 @@
-import type { ClientPlatform } from "@openfront/shared/WireSchemas";
+import type { ClientPlatform } from "@zombie-defense/shared/WireSchemas";
 import { isDesktopShell } from "./DesktopShell";
 import { gamePortal } from "./GamePortal";
 

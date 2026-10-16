@@ -1,7 +1,7 @@
 import {
   ErrorUpdate,
   GameUpdateViewData,
-} from "@openfront/engine-api/game/GameUpdates";
+} from "@zombie-defense/engine-api/game/GameUpdates";
 import {
   AttackClusteredPositionsResultMessage,
   HumanStatsResultMessage,
@@ -17,7 +17,7 @@ import {
   SnapshotResultMessage,
   TransportShipSpawnResultMessage,
   WorkerMessage,
-} from "@openfront/engine-api/worker/WorkerMessages";
+} from "@zombie-defense/engine-api/worker/WorkerMessages";
 import {
   createGameRunner,
   createGameRunnerFromSnapshot,

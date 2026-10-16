@@ -1,11 +1,11 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameConfig,
   GameConfigSchema,
   PoolConfig,
   PoolConfigSchema,
-} from "@openfront/engine-api/Schemas";
-import { CreateGameInputSchema } from "@openfront/shared/WorkerSchemas";
+} from "@zombie-defense/engine-api/Schemas";
+import { CreateGameInputSchema } from "@zombie-defense/shared/WorkerSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { poolIndexFor } from "../../src/server/PoolRouting";
 import {

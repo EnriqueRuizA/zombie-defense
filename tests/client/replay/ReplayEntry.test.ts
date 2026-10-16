@@ -5,7 +5,7 @@
  * viewer sent the game back.
  */
 
-import type { GameRecord } from "@openfront/shared/WireSchemas";
+import type { GameRecord } from "@zombie-defense/shared/WireSchemas";
 import { ClientEnv } from "../../../src/client/ClientEnv";
 import {
   classicReplayHref,

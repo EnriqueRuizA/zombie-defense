@@ -1,4 +1,4 @@
-import { CloseCode } from "@openfront/shared/CloseCodes";
+import { CloseCode } from "@zombie-defense/shared/CloseCodes";
 import EventEmitter from "events";
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import {

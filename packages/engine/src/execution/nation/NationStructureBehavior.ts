@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Difficulty,
   GameMode,
@@ -7,15 +7,15 @@ import {
   Relation,
   Structures,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   readVersioned,
   snapshotType,
   Versioned,
   zInt,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
-import { assertNever } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
+import { assertNever } from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import { Attack, Game, Player, Unit } from "../../game/Game";
 import { Cluster } from "../../game/TrainStation";

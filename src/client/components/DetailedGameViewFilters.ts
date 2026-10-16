@@ -4,8 +4,8 @@ import {
   HumansVsNations,
   Quads,
   Trios,
-} from "@openfront/engine-api/game/GameTypes";
-import { PublicGameInfo, PublicGames } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PublicGameInfo, PublicGames } from "@zombie-defense/shared/WireSchemas";
 
 /**
  * Filtering, ordering and saved-profile logic for the Detailed View lobby

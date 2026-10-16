@@ -1,4 +1,4 @@
-import { PoolConfig } from "@openfront/engine-api/Schemas";
+import { PoolConfig } from "@zombie-defense/engine-api/Schemas";
 import { describe, expect, it } from "vitest";
 import { poolIndexFor, poolTargetFor } from "../../src/server/PoolRouting";
 

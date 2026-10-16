@@ -1,12 +1,12 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { TerraNullius } from "@openfront/engine-api/game/GameTypes";
-import { AllPlayersStats, ClientID } from "@openfront/engine-api/Schemas";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { TerraNullius } from "@zombie-defense/engine-api/game/GameTypes";
+import { AllPlayersStats, ClientID } from "@zombie-defense/engine-api/Schemas";
 import {
   BoatUnitType,
   NukeType,
   OtherUnitType,
   PlayerStats,
-} from "@openfront/engine-api/StatsSchemas";
+} from "@zombie-defense/engine-api/StatsSchemas";
 import { Player } from "./Game";
 
 export interface Stats {

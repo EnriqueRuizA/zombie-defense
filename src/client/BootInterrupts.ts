@@ -16,7 +16,7 @@
 import {
   isTemporaryUsername,
   type UserMeResponse,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import type { DesktopUpdateState } from "./DesktopShell";
 import { lapseNoticeDue } from "./PlayerName";
 import {

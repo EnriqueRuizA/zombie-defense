@@ -1,8 +1,8 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   CreateGameInputSchema,
   isPrivateGameInput,
-} from "@openfront/shared/WorkerSchemas";
+} from "@zombie-defense/shared/WorkerSchemas";
 import { describe, expect, it } from "vitest";
 import { testGameConfig } from "../util/Wire";
 

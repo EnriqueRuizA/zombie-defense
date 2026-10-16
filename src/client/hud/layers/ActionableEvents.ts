@@ -1,12 +1,12 @@
-import { MessageType, Tick } from "@openfront/engine-api/game/GameTypes";
+import { MessageType, Tick } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AllianceExtensionUpdate,
   AllianceRequestReplyUpdate,
   AllianceRequestUpdate,
   BrokeAllianceUpdate,
   GameUpdateType,
-} from "@openfront/engine-api/game/GameUpdates";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { Controller } from "../../Controller";

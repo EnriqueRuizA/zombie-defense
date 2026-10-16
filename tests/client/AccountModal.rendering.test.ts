@@ -1,4 +1,4 @@
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // ─── Mocks (mirrors tests/client/clan/ClanModalTestUtils.ts factories) ──────
@@ -31,7 +31,7 @@ vi.mock("../../src/client/Utils", () => ({
   getMapName: vi.fn((m: string) => m),
   renderDuration: vi.fn(() => ""),
 }));
-vi.mock("@openfront/engine-lib/Format", () => ({
+vi.mock("@zombie-defense/engine-lib/Format", () => ({
   renderNumber: vi.fn((n: number) => String(n)),
 }));
 

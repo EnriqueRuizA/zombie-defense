@@ -1,5 +1,5 @@
-import { Cell } from "@openfront/engine-api/game/GameTypes";
-import { EventBus, GameEvent } from "@openfront/shared/EventBus";
+import { Cell } from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus, GameEvent } from "@zombie-defense/shared/EventBus";
 import {
   CenterCameraEvent,
   DragEvent,

@@ -3,8 +3,8 @@ import {
   GameMapSize,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import { renderDuration, translateText } from "../../client/Utils";
 
 // Non-default settings worth surfacing, shared by the join modal (post-join

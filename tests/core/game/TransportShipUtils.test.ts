@@ -1,8 +1,8 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { canBuildTransportShip } from "@openfront/engine/game/TransportShipUtils";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { canBuildTransportShip } from "@zombie-defense/engine/game/TransportShipUtils";
 import { describe, expect, it } from "vitest";
 import { createGame, L, W } from "../pathfinding/_fixtures";
 

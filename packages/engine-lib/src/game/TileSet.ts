@@ -1,5 +1,5 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { ReadonlyTileSet } from "@openfront/engine-api/game/ReadViews";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { ReadonlyTileSet } from "@zombie-defense/engine-api/game/ReadViews";
 
 // Deleted dense slots hold this sentinel. Tile refs are grid indices and map
 // coordinates are capped at 65535, so the largest possible ref is

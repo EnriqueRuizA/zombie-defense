@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   AllPlayers,
   GameType,
@@ -6,24 +6,24 @@ import {
   PlayerID,
   Tick,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AllPlayersStats,
   ClientID,
   Intent,
   Winner,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 import {
   CloseCode,
   CloseReason,
   isCloseReason,
   isTerminalClose,
-} from "@openfront/shared/CloseCodes";
+} from "@zombie-defense/shared/CloseCodes";
 import {
   EventBus,
   EventConstructor,
   GameEvent,
-} from "@openfront/shared/EventBus";
+} from "@zombie-defense/shared/EventBus";
 import {
   ClientHashMessage,
   ClientIntentMessage,
@@ -38,13 +38,13 @@ import {
   LiveStats,
   ReportReason,
   ServerMessage,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   createGameWireContext,
   decodeServerMessage,
   encodeClientMessage,
-} from "@openfront/shared/ZbinWire";
-import { ZbContext } from "@openfront/zbin";
+} from "@zombie-defense/shared/ZbinWire";
+import { ZbContext } from "@zombie-defense/zbin";
 import { ClientEnv, NoServerError } from "src/client/ClientEnv";
 import { getPlayToken } from "./Auth";
 import { LobbyConfig } from "./ClientGameRunner";

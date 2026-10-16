@@ -1,11 +1,11 @@
-import { GAME_ID_REGEX } from "@openfront/engine-api/Schemas";
+import { GAME_ID_REGEX } from "@zombie-defense/engine-api/Schemas";
 import {
   isRewardClaimable,
   UserMeResponse,
-} from "@openfront/shared/ApiSchemas";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
-import { toWireGameStartInfo } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/shared/ApiSchemas";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
+import { toWireGameStartInfo } from "@zombie-defense/shared/SharedUtil";
 import {
   GameInfo,
   GameRecord,
@@ -13,8 +13,8 @@ import {
   LobbyInfoEvent,
   PublicGameInfo,
   WireGameStartInfo,
-} from "@openfront/shared/WireSchemas";
-import { GameEnv } from "@openfront/shared/configuration/Env";
+} from "@zombie-defense/shared/WireSchemas";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
 import { ClientEnv } from "src/client/ClientEnv";
 import { renderNavVersion } from "src/client/GameVersion";
 import { responseHasLinkedIdentity } from "./AccountIdentity";

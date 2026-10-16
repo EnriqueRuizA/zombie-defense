@@ -4,9 +4,9 @@ import {
   GameMode,
   Quads,
   Trios,
-} from "@openfront/engine-api/game/GameTypes";
-import { ServerStartGameMessage } from "@openfront/shared/WireSchemas";
-import { createGameWireContext } from "@openfront/shared/ZbinWire";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ServerStartGameMessage } from "@zombie-defense/shared/WireSchemas";
+import { createGameWireContext } from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import {
   cid,

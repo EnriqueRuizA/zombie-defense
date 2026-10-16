@@ -21,15 +21,15 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GOLD_INDEX_TRAIN_OTHER,
   GOLD_INDEX_TRAIN_SELF,
-} from "@openfront/engine-api/StatsSchemas";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { FactoryExecution } from "@openfront/engine/execution/FactoryExecution";
-import { PortExecution } from "@openfront/engine/execution/PortExecution";
-import { Game, Player, Unit } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { FactoryExecution } from "@zombie-defense/engine/execution/FactoryExecution";
+import { PortExecution } from "@zombie-defense/engine/execution/PortExecution";
+import { Game, Player, Unit } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 function sig(x: number): number {

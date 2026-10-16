@@ -6,8 +6,8 @@ import {
   PlayerType,
   Quads,
   Team,
-} from "@openfront/engine-api/game/GameTypes";
-import { Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { Game } from "@zombie-defense/engine/game/Game";
 import { describe, expect, test } from "vitest";
 import { setup } from "../../util/Setup";
 

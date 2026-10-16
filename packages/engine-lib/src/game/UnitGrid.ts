@@ -1,6 +1,6 @@
-import { GameMap, TileRef } from "@openfront/engine-api/game/GameMap";
-import { PlayerID, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { UnitLike, UnitPredicate } from "@openfront/engine-api/game/ReadViews";
+import { GameMap, TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { PlayerID, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { UnitLike, UnitPredicate } from "@zombie-defense/engine-api/game/ReadViews";
 
 export class UnitGrid<U extends UnitLike = UnitLike> {
   private grid: Map<UnitType, Set<U>>[][];

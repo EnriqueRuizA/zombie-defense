@@ -1,11 +1,11 @@
-import type { TileRef } from "@openfront/engine-api/game/GameMap";
-import type { TerraNullius } from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+import type { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import type { TerraNullius } from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   SnapshotError,
   SnapshotType,
   Versioned,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import type {
   Attack,
   Execution,

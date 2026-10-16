@@ -3,10 +3,10 @@ import {
   TokenPayloadSchema,
   UserMeResponse,
   UserMeResponseSchema,
-} from "@openfront/shared/ApiSchemas";
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
-import { GameEnv } from "@openfront/shared/configuration/Env";
-import { PersistentIdSchema } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
+import { PersistentIdSchema } from "@zombie-defense/shared/WireSchemas";
 import { jwtVerify } from "jose";
 import { z } from "zod";
 import { ServerEnv } from "./ServerEnv";

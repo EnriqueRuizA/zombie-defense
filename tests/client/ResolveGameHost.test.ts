@@ -1,4 +1,4 @@
-import { ClusterConfig } from "@openfront/shared/ClusterConfig";
+import { ClusterConfig } from "@zombie-defense/shared/ClusterConfig";
 import { describe, expect, it } from "vitest";
 import { resolveGameHost } from "../../src/client/ClientEnv";
 

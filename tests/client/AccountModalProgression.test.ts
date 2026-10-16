@@ -2,8 +2,8 @@ import type {
   PublicProgress,
   Reward,
   UserMeResponse,
-} from "@openfront/shared/ApiSchemas";
-import { ProgressionConfigSchema } from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
+import { ProgressionConfigSchema } from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const getUserMeMock = vi.hoisted(() => vi.fn());

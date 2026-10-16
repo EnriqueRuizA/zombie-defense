@@ -1,5 +1,5 @@
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { GameEvent } from "@openfront/shared/EventBus";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameEvent } from "@zombie-defense/shared/EventBus";
 
 /** HUD elements (or, for "territory", the map ring) the tutorial can draw attention to. */
 export type TutorialHighlight =

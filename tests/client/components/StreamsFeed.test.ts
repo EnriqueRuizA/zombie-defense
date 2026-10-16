@@ -1,7 +1,7 @@
 import {
   StreamsFeedSchema,
   StreamsFeed as StreamsFeedType,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import streamsFallback from "../../../resources/streams.json";
 import { getStreams } from "../../../src/client/Api";

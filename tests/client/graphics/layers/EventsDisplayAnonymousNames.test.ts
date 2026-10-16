@@ -39,12 +39,12 @@ vi.mock("../../../../src/client/Utils", () => ({
   ),
   getMessageTypeClasses: vi.fn(() => ""),
 }));
-vi.mock("@openfront/engine-lib/Format", () => ({
+vi.mock("@zombie-defense/engine-lib/Format", () => ({
   renderNumber: vi.fn(),
   renderTroops: vi.fn(),
 }));
 
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { EventsDisplay } from "../../../../src/client/hud/layers/EventsDisplay";
 

@@ -4,9 +4,9 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
-import type { GameConfig } from "@openfront/engine-api/Schemas";
-import type { AnalyticsRecord } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import type { AnalyticsRecord } from "@zombie-defense/shared/WireSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("../../src/client/Api", () => ({

@@ -1,6 +1,6 @@
-import { CloseCode } from "@openfront/shared/CloseCodes";
-import { PublicGames } from "@openfront/shared/WireSchemas";
-import { decodeLobbyMessage } from "@openfront/shared/ZbinWire";
+import { CloseCode } from "@zombie-defense/shared/CloseCodes";
+import { PublicGames } from "@zombie-defense/shared/WireSchemas";
+import { decodeLobbyMessage } from "@zombie-defense/shared/ZbinWire";
 import { ClientEnv, NoServerError } from "src/client/ClientEnv";
 import { clientPlatform } from "./ClientPlatform";
 import { showInGameAlert } from "./InGameModal";

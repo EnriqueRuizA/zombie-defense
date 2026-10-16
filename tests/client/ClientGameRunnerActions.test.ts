@@ -1,6 +1,6 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { EventBus } from "@openfront/shared/EventBus";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // ClientGameRunner's left-click handling: spawn intents during the spawn

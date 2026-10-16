@@ -1,10 +1,10 @@
-import { GameMapType } from "@openfront/engine-api/game/GameTypes";
+import { GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   type PlayerGameModeFilter,
   type PlayerGameTypeFilter,
   type PublicPlayerGame,
-} from "@openfront/shared/ApiSchemas";
-import { assetUrl } from "@openfront/shared/AssetUrls";
+} from "@zombie-defense/shared/ApiSchemas";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import {
   html,
   LitElement,

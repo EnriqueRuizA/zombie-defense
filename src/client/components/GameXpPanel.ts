@@ -1,9 +1,9 @@
-import type { GameType } from "@openfront/engine-api/game/GameTypes";
+import type { GameType } from "@zombie-defense/engine-api/game/GameTypes";
 import type {
   GameXpEligible,
   GameXpResponse,
   GameXpReward,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import { html, LitElement, nothing, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { keyed } from "lit/directives/keyed.js";

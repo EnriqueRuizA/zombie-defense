@@ -1,4 +1,4 @@
-import { GameMap } from "@openfront/engine-api/game/GameMap";
+import { GameMap } from "@zombie-defense/engine-api/game/GameMap";
 import { DebugSpan } from "../../utilities/DebugSpan";
 import { PathFinder } from "../types";
 import { AStar, AStarAdapter } from "./AStar";

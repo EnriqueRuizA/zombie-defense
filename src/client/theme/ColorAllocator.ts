@@ -1,5 +1,5 @@
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { simpleHash } from "@openfront/engine-lib/Util";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import { Colord, extend } from "colord";
 import labPlugin from "colord/plugins/lab";
 import lchPlugin from "colord/plugins/lch";

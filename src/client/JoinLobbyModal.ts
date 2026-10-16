@@ -1,14 +1,14 @@
-import { GAME_ID_REGEX, GameConfig } from "@openfront/engine-api/Schemas";
-import { GameMode, GameType } from "@openfront/engine-api/game/GameTypes";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
+import { GAME_ID_REGEX, GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { GameMode, GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   ClientInfo,
   GameInfo,
   GameRecordSchema,
   LobbyInfoEvent,
   PublicGameInfo,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { html, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";

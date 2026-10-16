@@ -1,4 +1,4 @@
-import { GameID } from "@openfront/engine-api/Schemas";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
 import {
   commitsMatch,
   isCommitLike,
@@ -10,7 +10,7 @@ import {
   servesBuild,
   versionedPathForGame,
   versionMatches,
-} from "@openfront/shared/ServerList";
+} from "@zombie-defense/shared/ServerList";
 import { z } from "zod";
 import { getApiBase } from "./ApiBase";
 import { ClientEnv } from "./ClientEnv";

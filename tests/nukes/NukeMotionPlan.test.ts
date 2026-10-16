@@ -1,20 +1,20 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   UnitUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
+} from "@zombie-defense/engine-api/game/GameUpdates";
 import {
   GridPathPlan,
   unpackMotionPlans,
-} from "@openfront/engine-lib/game/MotionPlans";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { Game, Player, Unit } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-lib/game/MotionPlans";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { Game, Player, Unit } from "@zombie-defense/engine/game/Game";
 import { setup } from "../util/Setup";
 
 describe("Nuke motion plan", () => {

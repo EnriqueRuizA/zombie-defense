@@ -1,5 +1,5 @@
-import { TokenPayload, TokenPayloadSchema } from "@openfront/shared/ApiSchemas";
-import { base64urlToUuid } from "@openfront/shared/Base64";
+import { TokenPayload, TokenPayloadSchema } from "@zombie-defense/shared/ApiSchemas";
+import { base64urlToUuid } from "@zombie-defense/shared/Base64";
 import { decodeJwt } from "jose";
 import { UserSettings } from "src/client/UserSettings";
 import { z } from "zod";

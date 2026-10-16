@@ -3,14 +3,14 @@ import {
   GameMode,
   PlayerType,
   Relation,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   readVersioned,
   snapshotType,
   Versioned,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
-import { assertNever } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
+import { assertNever } from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import { Game, Player } from "../../game/Game";
 import type {

@@ -1,13 +1,13 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ALLIANCE_INDEX_PEAK_CONCURRENT,
   PlayerStats,
   TILE_INDEX_DRAWDOWN_PEAK,
   TILE_INDEX_DRAWDOWN_TROUGH,
   TILE_INDEX_PEAK,
-} from "@openfront/engine-api/StatsSchemas";
-import { Game } from "@openfront/engine/game/Game";
-import { StatsImpl } from "@openfront/engine/game/StatsImpl";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { StatsImpl } from "@zombie-defense/engine/game/StatsImpl";
 import { setup } from "./util/Setup";
 
 /** Find the first land tile on the map. */

@@ -1,7 +1,7 @@
-import { ID, isValidGameID } from "@openfront/engine-api/Schemas";
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
-import { GameEnv } from "@openfront/shared/configuration/Env";
-import { generateID, replacer } from "@openfront/shared/SharedUtil";
+import { ID, isValidGameID } from "@zombie-defense/engine-api/Schemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
+import { generateID, replacer } from "@zombie-defense/shared/SharedUtil";
 import {
   ClientMessage,
   ClientPlatformSchema,
@@ -12,15 +12,15 @@ import {
   MIN_HOSTED_LOBBY_AUTO_START_MS,
   MIN_HOSTED_LOBBY_PLAYERS,
   ServerErrorMessage,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   CreateGameInputSchema,
   isPrivateGameInput,
-} from "@openfront/shared/WorkerSchemas";
+} from "@zombie-defense/shared/WorkerSchemas";
 import {
   decodeClientMessage,
   encodeServerMessage,
-} from "@openfront/shared/ZbinWire";
+} from "@zombie-defense/shared/ZbinWire";
 import compression from "compression";
 import express, { NextFunction, Request, Response } from "express";
 import rateLimit from "express-rate-limit";

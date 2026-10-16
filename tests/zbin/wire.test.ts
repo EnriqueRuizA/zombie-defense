@@ -5,14 +5,14 @@ import {
   GameMode,
   GameType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ADMIN_BOT_CLIENT_ID,
   GameConfig,
   StampedIntent,
   Turn,
-} from "@openfront/engine-api/Schemas";
-import { replacer } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/engine-api/Schemas";
+import { replacer } from "@zombie-defense/shared/SharedUtil";
 import {
   ClientMessage,
   ClientMessageSchema,
@@ -21,7 +21,7 @@ import {
   PublicLobbyMessageSchema,
   ServerMessage,
   ServerMessageSchema,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   createGameWireContext,
   decodeClientMessage,
@@ -30,8 +30,8 @@ import {
   encodeClientMessage,
   encodeLobbyMessage,
   encodeServerMessage,
-} from "@openfront/shared/ZbinWire";
-import { ZbDecodeError } from "@openfront/zbin";
+} from "@zombie-defense/shared/ZbinWire";
+import { ZbDecodeError } from "@zombie-defense/zbin";
 import { describe, expect, it } from "vitest";
 
 const PLAYERS = [

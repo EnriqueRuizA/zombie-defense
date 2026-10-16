@@ -1,13 +1,13 @@
 // The winner-replay subprocess (see WinnerReplay.ts): receives one game's
 // start info and turns, replays them, sends back the result and exits.
-import { GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { MapManifest } from "@openfront/engine-api/game/MapFiles";
-import { replayWinner } from "@openfront/engine/WinnerReplay";
+import { GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { MapManifest } from "@zombie-defense/engine-api/game/MapFiles";
+import { replayWinner } from "@zombie-defense/engine/WinnerReplay";
 import {
   GameMapLoader,
   loadMapFiles,
   MapData,
-} from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/shared/GameMapLoader";
 import fs from "fs";
 import { readMapFile } from "./MapFiles";
 import type { ReplayRequest, ReplayResponse } from "./WinnerReplay";

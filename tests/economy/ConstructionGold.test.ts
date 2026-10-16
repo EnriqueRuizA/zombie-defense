@@ -2,10 +2,10 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "../util/Setup";
 
 describe("Construction economy", () => {

@@ -1,7 +1,7 @@
-import { AllPlayers } from "@openfront/engine-api/game/GameTypes";
-import { Emoji, flattenedEmojiTable } from "@openfront/engine-api/Schemas";
-import { TerraNulliusImpl } from "@openfront/engine-lib/game/TerraNulliusImpl";
-import { EventBus, GameEvent } from "@openfront/shared/EventBus";
+import { AllPlayers } from "@zombie-defense/engine-api/game/GameTypes";
+import { Emoji, flattenedEmojiTable } from "@zombie-defense/engine-api/Schemas";
+import { TerraNulliusImpl } from "@zombie-defense/engine-lib/game/TerraNulliusImpl";
+import { EventBus, GameEvent } from "@zombie-defense/shared/EventBus";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import {

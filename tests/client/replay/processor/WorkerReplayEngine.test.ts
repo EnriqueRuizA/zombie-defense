@@ -6,8 +6,8 @@
  * thread.
  */
 
-import { GameMapSize, GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+import { GameMapSize, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 import type {
   ReplayAppend,
   ReplayBase,
@@ -60,7 +60,7 @@ const self = Object.assign(new EventTarget(), { postMessage: vi.fn() });
 beforeAll(async () => {
   vi.stubGlobal("fetch", fetch);
   vi.stubGlobal("self", self);
-  await import("@openfront/engine/worker/Worker.worker");
+  await import("@zombie-defense/engine/worker/Worker.worker");
 });
 
 /** Connects the worker to a new channel, as LocalProcessing does. */

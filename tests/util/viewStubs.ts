@@ -11,18 +11,18 @@ import {
   PlayerType,
   Team,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   GameUpdateViewData,
   PlayerUpdate,
   UnitUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { Player } from "@openfront/engine-api/Schemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { GameMapImpl } from "@openfront/engine-lib/game/GameMapImpl";
-import { TerrainMapData } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { Player } from "@zombie-defense/engine-api/Schemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { GameMapImpl } from "@zombie-defense/engine-lib/game/GameMapImpl";
+import { TerrainMapData } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { colord } from "colord";
 import { Theme } from "../../src/client/theme/ThemeProvider";
 import { GameView } from "../../src/client/view/GameView";

@@ -1,4 +1,4 @@
-import { GameStartInfo } from "@openfront/engine-api/Schemas";
+import { GameStartInfo } from "@zombie-defense/engine-api/Schemas";
 import {
   Cell,
   GameMapSize,
@@ -8,12 +8,12 @@ import {
   Nation,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AdditionalNation,
   Nation as ManifestNation,
-} from "@openfront/engine-api/game/MapFiles";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+} from "@zombie-defense/engine-api/game/MapFiles";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 
 /**
  * Creates the nations array for a game.

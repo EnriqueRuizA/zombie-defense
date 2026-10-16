@@ -1,11 +1,11 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
 import {
   snapshotType,
   zInt,
   zRef,
   zTiles,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import type {
   SnapshotReader,

@@ -4,14 +4,14 @@ import {
   PlayerInfo,
   PlayerType,
   Tick,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { NationAllianceBehavior } from "@openfront/engine/execution/nation/NationAllianceBehavior";
-import { NationEmojiBehavior } from "@openfront/engine/execution/nation/NationEmojiBehavior";
-import { findRunawayLeader } from "@openfront/engine/execution/nation/NationUtils";
-import { AiAttackBehavior } from "@openfront/engine/execution/utils/AiAttackBehavior";
-import { AllianceRequest, Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { NationAllianceBehavior } from "@zombie-defense/engine/execution/nation/NationAllianceBehavior";
+import { NationEmojiBehavior } from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
+import { findRunawayLeader } from "@zombie-defense/engine/execution/nation/NationUtils";
+import { AiAttackBehavior } from "@zombie-defense/engine/execution/utils/AiAttackBehavior";
+import { AllianceRequest, Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 /**

@@ -1,22 +1,22 @@
-import { ClanTagSchema, UsernameSchema } from "@openfront/engine-api/Schemas";
+import { ClanTagSchema, UsernameSchema } from "@zombie-defense/engine-api/Schemas";
 import {
   LevelBadge,
   packLevelBadge,
   unpackLevelBadge,
-} from "@openfront/shared/LevelBadgeWire";
+} from "@zombie-defense/shared/LevelBadgeWire";
 import {
   ClientInfo,
   ClientInfoSchema,
   ClientJoinMessageSchema,
   ServerMessage,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   decodeClientMessage,
   decodeServerMessage,
   encodeClientMessage,
   encodeServerMessage,
-} from "@openfront/shared/ZbinWire";
-import { zb } from "@openfront/zbin";
+} from "@zombie-defense/shared/ZbinWire";
+import { zb } from "@zombie-defense/zbin";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 

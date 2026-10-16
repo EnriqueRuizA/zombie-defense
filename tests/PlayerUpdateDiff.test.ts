@@ -1,12 +1,12 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   PlayerUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameID } from "@openfront/engine-api/Schemas";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 let game: Game;

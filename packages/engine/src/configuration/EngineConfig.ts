@@ -7,18 +7,18 @@ import {
   TerraNullius,
   Tick,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PlayerLike } from "@openfront/engine-api/game/ReadViews";
-import { TeamCountConfig } from "@openfront/engine-api/Schemas";
-import { NukeType } from "@openfront/engine-api/StatsSchemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { exp, log, pow2 } from "@openfront/engine-lib/DetMath";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PlayerLike } from "@zombie-defense/engine-api/game/ReadViews";
+import { TeamCountConfig } from "@zombie-defense/engine-api/Schemas";
+import { NukeType } from "@zombie-defense/engine-api/StatsSchemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { exp, log, pow2 } from "@zombie-defense/engine-lib/DetMath";
 import {
   assertNever,
   sigmoid,
   toInt,
   within,
-} from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/Util";
 import type { EngineUnitInfo, Game, Player, Unit } from "../game/Game";
 
 export interface AttackLogicInput {

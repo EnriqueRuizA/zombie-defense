@@ -2,10 +2,10 @@ import {
   formatPlayerDisplayName,
   GameMode,
   maps,
-} from "@openfront/engine-api/game/GameTypes";
-import { ClanTagSchema, UsernameSchema } from "@openfront/engine-api/Schemas";
-import { buildAssetUrl } from "@openfront/shared/AssetPaths";
-import { GameInfo } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ClanTagSchema, UsernameSchema } from "@zombie-defense/engine-api/Schemas";
+import { buildAssetUrl } from "@zombie-defense/shared/AssetPaths";
+import { GameInfo } from "@zombie-defense/shared/WireSchemas";
 import { z } from "zod";
 import { getRuntimeAssetManifest } from "./RuntimeAssetManifest";
 import { ServerEnv } from "./ServerEnv";

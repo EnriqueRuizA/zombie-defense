@@ -1,12 +1,12 @@
-import type { HumanStatsSnapshot } from "@openfront/engine-api/game/GameTypes";
-import { GameMode, GameType } from "@openfront/engine-api/game/GameTypes";
+import type { HumanStatsSnapshot } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameMode, GameType } from "@zombie-defense/engine-api/game/GameTypes";
 import type {
   GameXpEligible,
   GameXpResponse,
   Progress,
   ProgressionConfig,
   XpRules,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import {
   applyMultipliers,
   computeXp,

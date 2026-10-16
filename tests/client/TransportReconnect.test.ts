@@ -1,10 +1,10 @@
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
-import { EventBus } from "@openfront/shared/EventBus";
-import { ServerMessage } from "@openfront/shared/WireSchemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
+import { EventBus } from "@zombie-defense/shared/EventBus";
+import { ServerMessage } from "@zombie-defense/shared/WireSchemas";
 import {
   decodeClientMessage,
   encodeServerMessage,
-} from "@openfront/shared/ZbinWire";
+} from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { testGameConfig } from "../util/Wire";
 

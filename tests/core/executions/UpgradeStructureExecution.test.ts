@@ -1,12 +1,12 @@
-import type { TileRef } from "@openfront/engine-api/game/GameMap";
+import type { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   GameType,
   MAX_UPGRADE_AMOUNT,
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { UpgradeStructureExecution } from "@openfront/engine/execution/UpgradeStructureExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { UpgradeStructureExecution } from "@zombie-defense/engine/execution/UpgradeStructureExecution";
 import { describe, expect, it } from "vitest";
 import { setup } from "../../util/Setup";
 

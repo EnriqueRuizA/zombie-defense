@@ -1,5 +1,5 @@
-import { Cell, NameViewData } from "@openfront/engine-api/game/GameTypes";
-import { calculateBoundingBox } from "@openfront/engine-lib/Util";
+import { Cell, NameViewData } from "@zombie-defense/engine-api/game/GameTypes";
+import { calculateBoundingBox } from "@zombie-defense/engine-lib/Util";
 import { Game, Player } from "./Game";
 
 export interface Point {

@@ -1,8 +1,8 @@
 import {
   HumanStatsSnapshot,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { ClientID } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
 import { Game } from "./Game";
 
 /**

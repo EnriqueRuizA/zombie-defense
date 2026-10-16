@@ -1,6 +1,6 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { Winner } from "@openfront/engine-api/Schemas";
-import { PartialGameRecord } from "@openfront/shared/WireSchemas";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { Winner } from "@zombie-defense/engine-api/Schemas";
+import { PartialGameRecord } from "@zombie-defense/shared/WireSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Client } from "../../src/server/Client";
 import {

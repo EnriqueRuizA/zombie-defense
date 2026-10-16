@@ -8,10 +8,10 @@
  * build is sent to that build's versioned shell.
  */
 
-import { Cell, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import type { GameStartInfo } from "@openfront/engine-api/Schemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { EventBus } from "@openfront/shared/EventBus";
+import { Cell, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { MapLayerController } from "../controllers/MapLayerController";

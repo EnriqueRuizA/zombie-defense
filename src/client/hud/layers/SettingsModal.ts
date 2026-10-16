@@ -1,5 +1,5 @@
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { gamePortal } from "src/client/GamePortal";

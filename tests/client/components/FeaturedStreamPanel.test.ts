@@ -1,4 +1,4 @@
-import type { LiveStream, StreamsFeed } from "@openfront/shared/ApiSchemas";
+import type { LiveStream, StreamsFeed } from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { streamsFeed } from "../../../src/client/StreamsFeed";
 

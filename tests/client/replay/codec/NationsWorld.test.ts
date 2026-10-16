@@ -12,10 +12,10 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
-import { RecomputeRailClusterExecution } from "@openfront/engine/execution/RecomputeRailClusterExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
+import { RecomputeRailClusterExecution } from "@zombie-defense/engine/execution/RecomputeRailClusterExecution";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

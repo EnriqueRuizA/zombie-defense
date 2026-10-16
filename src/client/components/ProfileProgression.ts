@@ -3,7 +3,7 @@ import type {
   PublicProgress,
   Reward,
   TrackFlare,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import { html, LitElement, nothing, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { claimReward, getUserMe, invalidateUserMe } from "../Api";

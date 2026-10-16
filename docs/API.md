@@ -246,17 +246,17 @@ curl "https://api.openfront.io/public/players/recently-deleted?since=2026-09-14T
 
 ### Verify Account Ownership (Identity Tokens)
 
-Third-party sites can let a player prove which OpenFront account they own. The
+Third-party sites can let a player prove which Zombie Defense account they own. The
 player picks your site under **Account settings → Link to a third-party site**,
 generates a token, and pastes it into your site. You check the token, link the
 returned `publicId` to your user once, and discard the token.
 
 Tokens are only accepted by the site they were generated for (the JWT `aud`
 claim is your domain), expire after 10 minutes, and carry no identity other
-than the player's public ID. They cannot be used to log in to OpenFront.
+than the player's public ID. They cannot be used to log in to Zombie Defense.
 
 Supported sites: `ofstats.io`, `trackerfront.io`. To add your site, ask the
-OpenFront team. Sites are managed from the admin panel, so no deploy is
+Zombie Defense team. Sites are managed from the admin panel, so no deploy is
 needed; a new site appears in the game within a few minutes.
 
 You can check a token in either of two ways.

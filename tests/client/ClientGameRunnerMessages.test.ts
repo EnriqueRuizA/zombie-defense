@@ -1,5 +1,5 @@
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
-import { EventBus } from "@openfront/shared/EventBus";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { capturePagePin, resetPagePinForTests } from "../../src/client/PagePin";
 

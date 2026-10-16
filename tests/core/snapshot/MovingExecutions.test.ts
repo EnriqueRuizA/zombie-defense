@@ -2,16 +2,16 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { BoatRetreatExecution } from "@openfront/engine/execution/BoatRetreatExecution";
-import { FactoryExecution } from "@openfront/engine/execution/FactoryExecution";
-import { RetreatExecution } from "@openfront/engine/execution/RetreatExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { TradeShipExecution } from "@openfront/engine/execution/TradeShipExecution";
-import { TransportShipExecution } from "@openfront/engine/execution/TransportShipExecution";
-import { WarshipExecution } from "@openfront/engine/execution/WarshipExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { BoatRetreatExecution } from "@zombie-defense/engine/execution/BoatRetreatExecution";
+import { FactoryExecution } from "@zombie-defense/engine/execution/FactoryExecution";
+import { RetreatExecution } from "@zombie-defense/engine/execution/RetreatExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { TradeShipExecution } from "@zombie-defense/engine/execution/TradeShipExecution";
+import { TransportShipExecution } from "@zombie-defense/engine/execution/TransportShipExecution";
+import { WarshipExecution } from "@zombie-defense/engine/execution/WarshipExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "../../util/Setup";
 import { expectSnapshotRoundTrip } from "../../util/Snapshot";
 import { executeTicks } from "../../util/utils";

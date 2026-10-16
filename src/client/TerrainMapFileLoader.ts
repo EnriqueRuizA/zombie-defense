@@ -1,11 +1,11 @@
-import { GameMapSize, GameMapType } from "@openfront/engine-api/game/GameTypes";
+import { GameMapSize, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   loadTerrainMap,
   TerrainMapData,
-} from "@openfront/engine-lib/game/TerrainMapLoader";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { FetchGameMapLoader } from "@openfront/shared/FetchGameMapLoader";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { FetchGameMapLoader } from "@zombie-defense/shared/FetchGameMapLoader";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 
 export const terrainMapFileLoader = new FetchGameMapLoader((path) =>
   assetUrl(`maps/${path}`),

@@ -1,5 +1,5 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { Game } from "@openfront/engine/game/Game";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { Game } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 // Live leaderboard gold-rate columns ("Ship Trade Gold/min", "Train Trade

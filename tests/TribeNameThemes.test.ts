@@ -1,7 +1,7 @@
-import { GameMapType, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { resolveTribeNameData } from "@openfront/engine-lib/execution/utils/TribeNames";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { createRandomName } from "@openfront/shared/SharedUtil";
+import { GameMapType, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { resolveTribeNameData } from "@zombie-defense/engine-lib/execution/utils/TribeNames";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { createRandomName } from "@zombie-defense/shared/SharedUtil";
 
 describe("resolveTribeNameData", () => {
   test("returns default theme when called with no arguments", () => {

@@ -7,11 +7,11 @@ import {
   GameMode,
   GameType,
   TeamGameSpawnAreas,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { GameMapImpl } from "@openfront/engine-lib/game/GameMapImpl";
-import { Game } from "@openfront/engine/game/Game";
-import { createGame as createGameImpl } from "@openfront/engine/game/GameImpl";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { GameMapImpl } from "@zombie-defense/engine-lib/game/GameMapImpl";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { createGame as createGameImpl } from "@zombie-defense/engine/game/GameImpl";
 import { TestConfig } from "../../util/TestConfig";
 
 export const W = "W"; // Water

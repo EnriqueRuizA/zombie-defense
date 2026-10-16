@@ -2,9 +2,9 @@ import {
   GameMode,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { MarkDisconnectedExecution } from "@openfront/engine/execution/MarkDisconnectedExecution";
-import { GameImpl } from "@openfront/engine/game/GameImpl";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { MarkDisconnectedExecution } from "@zombie-defense/engine/execution/MarkDisconnectedExecution";
+import { GameImpl } from "@zombie-defense/engine/game/GameImpl";
 import { describe, expect, test } from "vitest";
 import { setup } from "../../util/Setup";
 

@@ -1,5 +1,5 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { GameConfig, Intent } from "@openfront/engine-api/Schemas";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig, Intent } from "@zombie-defense/engine-api/Schemas";
 import { describe, expect, it } from "vitest";
 import {
   authorizeIntent,

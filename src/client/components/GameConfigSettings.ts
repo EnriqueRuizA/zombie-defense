@@ -7,12 +7,12 @@ import {
   Quads,
   Trios,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { TeamCountConfig } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { TeamCountConfig } from "@zombie-defense/engine-api/Schemas";
 import {
   DOOMSDAY_CLOCK_SPEEDS,
   DoomsdayClockSpeed,
-} from "@openfront/engine-lib/game/DoomsdayClock";
+} from "@zombie-defense/engine-lib/game/DoomsdayClock";
 import {
   LitElement,
   SVGTemplateResult,
