@@ -464,9 +464,11 @@ export class BuildPreviewController implements Controller {
       case UnitType.Factory:
         rangeRadius = this.game.config().trainStationMaxRange();
         break;
-      case UnitType.DefensePost:
-        rangeRadius = this.game.config().defensePostRange();
+      case UnitType.DefensePost: {
+        const level = this.resolveGhostRangeLevel(u) ?? 1;
+        rangeRadius = this.game.config().defensePostRange(level);
         break;
+      }
     }
     let radiusTileX = this.game.x(placementTile);
     let radiusTileY = this.game.y(placementTile);
@@ -673,13 +675,19 @@ export class BuildPreviewController implements Controller {
   private resolveGhostRangeLevel(
     buildableUnit: BuildableUnit,
   ): number | undefined {
-    if (buildableUnit.type !== UnitType.SAMLauncher) return undefined;
+    if (
+      buildableUnit.type !== UnitType.SAMLauncher &&
+      buildableUnit.type !== UnitType.DefensePost
+    )
+      return undefined;
     if (buildableUnit.canUpgrade !== false) {
       const existing = this.game.unit(buildableUnit.canUpgrade);
       if (existing) {
         return existing.level() + 1;
       } else {
-        console.warn("Failed to find existing SAMLauncher for upgrade");
+        console.warn(
+          `Failed to find existing ${buildableUnit.type} for upgrade`,
+        );
       }
     }
     return 1;

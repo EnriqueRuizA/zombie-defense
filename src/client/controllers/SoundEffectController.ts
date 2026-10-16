@@ -29,6 +29,11 @@ const TRAIN_STATION_SOUND_INTERVAL_TICKS = 10;
 // rare enough that the scan costs nothing.
 const TRAIN_STATION_SWEEP_INTERVAL_TICKS = 100;
 
+// Defense-post volleys re-emit the post's Unit update on the existing
+// channel (no new wire, no DisplayEvent); at most one volley cue per
+// interval so a multi-post line does not stack cues and evict others.
+const DEFENSE_VOLLEY_SOUND_INTERVAL_TICKS = 10;
+
 // Structures a train station can be attached to (see TrainStationExecution).
 const STATION_CAPABLE_TYPES = new Set<UnitType>([
   UnitType.City,
@@ -46,9 +51,11 @@ export class SoundEffectController implements Controller {
   private lastMirvHitSoundTick = -Infinity;
   private lastNukeWarningSoundTick = -Infinity;
   private lastTrainStationSoundTick = -Infinity;
-  // A train station is a flag on an existing structure, not a unit — play the
-  // build sound on the false→true edge only, so structures that already have
-  // one when first seen (e.g. joining mid-game) stay silent.
+  private lastDefenseVolleySoundTick = -Infinity;
+  // Per-post volley signature (level|construction|owner), mirroring
+  // extractDefenseVolleyRings: a volley touch changes no visible state, so an
+  // update with an unchanged signature (and not first sight) is a volley.
+  private readonly postVolleySigs = new Map<number, string>();
   private hadTrainStation = new Map<number, boolean>();
   private lastTrainStationSweepTick = -Infinity;
 
@@ -76,11 +83,17 @@ export class SoundEffectController implements Controller {
 
     this.pruneTrainStations();
 
+    // One evaluation per post: a tick carrying both a state change (upgrade,
+    // construction finish, capture) and a volley touch must not cue.
+    const volleyPosts = new Set<number>();
+
     for (const u of updates[GameUpdateType.Unit] ?? []) {
       const unit = this.game.unit(u.id);
       if (unit === undefined) continue;
       this.handleUnit(unit);
+      if (u.unitType === UnitType.DefensePost) volleyPosts.add(u.id);
     }
+    this.handleDefenseVolleys(volleyPosts);
 
     if ((updates[GameUpdateType.SpawnPhaseEnd] ?? []).length > 0) {
       this.emit("game-start");
@@ -131,6 +144,38 @@ export class SoundEffectController implements Controller {
       case UnitType.HydrogenBomb:
         this.onNukeDetonation(unit, "hydrogen-hit");
         break;
+    }
+  }
+
+  /**
+   * R5/D6 volley cue (spec: existing sound, no new wire, no DisplayEvent).
+   * A DefensePost Unit update whose signature is unchanged since the previous
+   * tick is a volley touch. Only the local player's own posts cue, throttled
+   * to one per interval. Reuses the existing "conquered" battle cue — no new
+   * asset per the spec freeze.
+   */
+  private handleDefenseVolleys(postIds: ReadonlySet<number>): void {
+    if (postIds.size === 0) return;
+    const myPlayer = this.game.myPlayer();
+    for (const id of postIds) {
+      const unit = this.game.unit(id);
+      if (unit === undefined) continue;
+      const st = unit.state;
+      const sig = `${st.level}|${st.underConstruction ? 1 : 0}|${st.ownerID}`;
+      const prev = this.postVolleySigs.get(id);
+      this.postVolleySigs.set(id, sig);
+      if (prev === undefined || prev !== sig) continue;
+      if (!unit.isActive() || unit.isUnderConstruction()) continue;
+      if (myPlayer === null || unit.owner() !== myPlayer) continue;
+      const tick = this.game.ticks();
+      if (
+        tick - this.lastDefenseVolleySoundTick <
+        DEFENSE_VOLLEY_SOUND_INTERVAL_TICKS
+      ) {
+        continue;
+      }
+      this.lastDefenseVolleySoundTick = tick;
+      this.emit("conquered");
     }
   }
 

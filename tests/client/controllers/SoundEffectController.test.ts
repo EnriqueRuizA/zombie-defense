@@ -28,11 +28,18 @@ describe("SoundEffectController", () => {
     };
   }
 
-  function tickWithUnits(...us: Array<{ id: () => number }>) {
+  function tickWithUnits(
+    ...us: Array<{ id: () => number; type: () => UnitType }>
+  ) {
     tick++;
     units = new Map(us.map((u) => [u.id(), u]));
     game.updatesSinceLastTick = () => ({
-      [GameUpdateType.Unit]: us.map((u) => ({ id: u.id() })),
+      // R5/D6: volley detection keys off u.unitType, so the harness must
+      // carry it (first sight records the post signature from here).
+      [GameUpdateType.Unit]: us.map((u) => ({
+        id: u.id(),
+        unitType: u.type(),
+      })),
     });
     controller.tick();
   }
@@ -295,5 +302,79 @@ describe("SoundEffectController", () => {
     };
     tickWithUnits(city);
     expect(played).toEqual([]);
+  });
+
+  // R5/D6: volleys re-emit the post's Unit update on the existing channel.
+  // First sight records the signature and stays silent; an unchanged
+  // signature cues the existing battle sound for my own posts only.
+  function makeVolleyPost(id: number, owner: object, state: any) {
+    return {
+      id: () => id,
+      type: () => UnitType.DefensePost,
+      isActive: () => true,
+      reachedTarget: () => false,
+      createdAt: () => 0,
+      owner: () => owner,
+      isUnderConstruction: () => state.underConstruction,
+      state,
+    };
+  }
+
+  function volleyTick(...ids: number[]) {
+    tick++;
+    game.updatesSinceLastTick = () => ({
+      [GameUpdateType.Unit]: ids.map((id) => ({
+        id,
+        unitType: UnitType.DefensePost,
+      })),
+    });
+    controller.tick();
+  }
+
+  it("cues my own post volleys once per interval, silent for others", () => {
+    const me = {};
+    game.myPlayer = () => me;
+    game.inSpawnPhase = () => false;
+    const mine = makeVolleyPost(1, me, {
+      level: 1,
+      underConstruction: false,
+      ownerID: 1,
+    });
+    const theirs = makeVolleyPost(2, {}, {
+      level: 1,
+      underConstruction: false,
+      ownerID: 2,
+    });
+    tickWithUnits(mine, theirs); // first sight: silent
+    expect(played).toEqual([]);
+
+    volleyTick(1, 2); // both volley: only mine cues
+    expect(played).toEqual(["conquered"]);
+    volleyTick(1); // inside the throttle interval: silent
+    expect(played).toEqual(["conquered"]);
+
+    tick += 10;
+    volleyTick(1); // interval passed: cues again
+    expect(played).toEqual(["conquered", "conquered"]);
+  });
+
+  it("stays silent on post upgrades, then cues again once steady", () => {
+    const me = {};
+    game.myPlayer = () => me;
+    game.inSpawnPhase = () => false;
+    const state = { level: 1, underConstruction: false, ownerID: 1 };
+    const post = makeVolleyPost(1, me, state);
+    tickWithUnits(post);
+    volleyTick(1);
+    expect(played).toEqual(["conquered"]);
+
+    state.level = 2; // upgrade tick carries a state change: silent
+    volleyTick(1);
+    expect(played).toEqual(["conquered"]);
+    volleyTick(1); // steady at level 2 — but still throttled
+    expect(played).toEqual(["conquered"]);
+    tick += 10;
+    volleyTick(1);
+    expect(played).toEqual(["conquered", "conquered"]);
   });
 });

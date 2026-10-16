@@ -36,6 +36,17 @@ export interface AttackLogicInput {
   } | null;
   /** A defense post owned by the defender is in range of the tile. */
   defenderHasDefensePost: boolean;
+  /**
+   * Highest covering post level (0 when none). Absent on old records —
+   * attackLogic treats a missing level as 1 to preserve legacy numbers.
+   */
+  defenderDefensePostLevel?: number;
+  /**
+   * The attacker is disconnected and on the defender's team (R4.5, D2):
+   * silences the passive channel just like isDisconnectedTeammate.
+   * Optional so older constructed inputs keep working.
+   */
+  attackerIsDisconnectedTeammate?: boolean;
   /** Fraction of land tiles with fallout, or null if the tile has no fallout. */
   falloutRatio: number | null;
   /** Tiles on the attack front this tick (plus jitter); fixed for the tick. */
@@ -136,14 +147,6 @@ export class EngineConfig extends Config {
     // falloutRatio is between 0 and 1
     // So defense modifier is between [5, 2.5]
     return 5 - falloutRatio * 2;
-  }
-
-  defensePostDefenseBonus(): number {
-    return 5;
-  }
-
-  defensePostSpeedBonus(): number {
-    return 3;
   }
 
   playerTeams(): TeamCountConfig {
@@ -498,9 +501,16 @@ export class EngineConfig extends Config {
     const { attackTroops, attacker, defender } = input;
     let { mag, tileCost } = terrainAttackBase(input.terrain);
 
-    if (defender !== null && input.defenderHasDefensePost) {
-      mag *= this.defensePostDefenseBonus();
-      tileCost *= this.defensePostSpeedBonus();
+    // R4.6: a disabled DefensePost silences the passive channel too — tiles
+    // behave as if no post covered them (D3).
+    if (
+      defender !== null &&
+      input.defenderHasDefensePost &&
+      !this.isUnitDisabled(UnitType.DefensePost)
+    ) {
+      const postLevel = input.defenderDefensePostLevel ?? 1;
+      mag *= this.defensePostDefenseBonus(postLevel);
+      tileCost *= this.defensePostSpeedBonus(postLevel);
     }
     if (input.falloutRatio !== null) {
       const fallout = this.falloutDefenseModifier(input.falloutRatio);
@@ -522,8 +532,8 @@ export class EngineConfig extends Config {
       };
     }
 
-    if (defender.isDisconnectedTeammate) {
-      // No troop loss if defender is disconnected and on same team
+    if (defender.isDisconnectedTeammate || input.attackerIsDisconnectedTeammate) {
+      // No troop loss if either side is a disconnected teammate of the other
       mag = 0;
     }
     if (
@@ -782,15 +792,51 @@ export class EngineConfig extends Config {
     return 25;
   }
 
-  defensePostShellAttackRate(): number {
-    return 100;
+  /**
+   * Legacy alias kept for wire/save compat: the per-level cadence lives in
+   * Config.defensePostAttackRate(level). Defaults to the Nv1 value.
+   */
+  defensePostShellAttackRate(level: number = 1): number {
+    return this.defensePostAttackRate(level);
   }
 
   safeFromPiratesCooldownMax(): number {
     return 20;
   }
 
+  /**
+   * Scan radius used when looking for covering defense posts. It bounds the
+   * level tables (defensePostRangeForLevel caps at this value), so any post
+   * whose level-range covers the tile is always found by the scan.
+   */
   defensePostTargettingRange(): number {
     return 75;
+  }
+
+  /** Ticks a defense post upgrade takes to reach its new range (SAM-style). */
+  defensePostUpgradeDuration(): number {
+    return 45;
+  }
+
+  /**
+   * Effective post range, interpolating from the old level's range to the new
+   * one while an upgrade is in flight (mirrors dynamicSamRange). Upgrade
+   * duration is 45 ticks (spec v1.1 §R4.9); the result is never 0 — invalid
+   * levels fall back to Nv1 via defensePostRange and the interpolation is
+   * clamped to a minimum of 1 (D8).
+   */
+  dynamicDefensePostRange(post: Unit, currentTick: number): number {
+    const state = post.defensePostUpgradeState();
+    if (state === undefined || state.upgradeStartTick === undefined) {
+      return Math.max(1, this.defensePostRange(post.level()));
+    }
+    const duration = state.duration ?? this.defensePostUpgradeDuration();
+    const elapsed = currentTick - state.upgradeStartTick;
+    if (elapsed >= duration) {
+      return Math.max(1, this.defensePostRange(state.targetLevel));
+    }
+    const targetRange = this.defensePostRange(state.targetLevel);
+    const diff = targetRange - state.startRange;
+    return Math.max(1, state.startRange + (diff * elapsed) / duration);
   }
 }

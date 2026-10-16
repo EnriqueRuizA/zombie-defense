@@ -84,6 +84,111 @@ const OVERTIME_DEFAULTS = {
   dropPercentPerMinute: 2,
 };
 
+/**
+ * Defense Post per-level tuning (spec v1.1 §R3/R4.9, integer-only so the
+ * engine stays bit-identical): rational-style range growth like SAM but
+ * short-range for land defense, linear damage, decreasing fire interval.
+ * Level 1 matches the legacy fixed values exactly (range 30, Shell damage
+ * 250, rate 100, 5x defense, 3x slow), so Nv1 behavior is unchanged.
+ * Full table: Nv1 30/250/100/5x/3x → Nv5 56/560/50/9x/5x. Invalid levels
+ * (<1, non-integer) fall back to Nv1 so range/damage/rate are never 0 (D8).
+ */
+function normalizeDefensePostLevel(level: number): number {
+  if (!Number.isInteger(level) || level < 1) return 1;
+  return level;
+}
+
+export function defensePostRangeForLevel(level: number): number {
+  switch (normalizeDefensePostLevel(level)) {
+    case 1:
+      return 30;
+    case 2:
+      return 38;
+    case 3:
+      return 45;
+    case 4:
+      return 51;
+    case 5:
+      return 56;
+    default:
+      // Linear tail past the tuned curve, capped at the passive scan radius
+      // (defensePostTargettingRange = 75) so passive scans stay bounded.
+      return Math.min(75, 56 + (level - 5) * 2);
+  }
+}
+
+/** Autonomous ground-attrition damage per volley, by post level. */
+export function defensePostDamageForLevel(level: number): number {
+  switch (normalizeDefensePostLevel(level)) {
+    case 1:
+      return 250;
+    case 2:
+      return 320;
+    case 3:
+      return 400;
+    case 4:
+      return 480;
+    case 5:
+      return 560;
+    default:
+      return 560 + (level - 5) * 80;
+  }
+}
+
+/** Ticks between autonomous volleys, by post level. */
+export function defensePostAttackRateForLevel(level: number): number {
+  switch (normalizeDefensePostLevel(level)) {
+    case 1:
+      return 100;
+    case 2:
+      return 85;
+    case 3:
+      return 70;
+    case 4:
+      return 60;
+    case 5:
+      return 50;
+    default:
+      return Math.max(20, 50 - (level - 5) * 5);
+  }
+}
+
+/** Passive troop-loss multiplier (mag) vs attacks into covered tiles. */
+export function defensePostDefenseBonusForLevel(level: number): number {
+  switch (normalizeDefensePostLevel(level)) {
+    case 1:
+      return 5;
+    case 2:
+      return 6;
+    case 3:
+      return 7;
+    case 4:
+      return 8;
+    case 5:
+      return 9;
+    default:
+      return 9 + (level - 5);
+  }
+}
+
+/** Passive conquest slowdown multiplier (tileCost) for covered tiles. */
+export function defensePostSpeedBonusForLevel(level: number): number {
+  switch (normalizeDefensePostLevel(level)) {
+    case 1:
+      return 3;
+    case 2:
+      return 3.5;
+    case 3:
+      return 4;
+    case 4:
+      return 4.5;
+    case 5:
+      return 5;
+    default:
+      return 5 + (level - 5) * 0.5;
+  }
+}
+
 export class Config {
   private unitInfoCache = new Map<UnitType, UnitInfo>();
   constructor(
@@ -172,8 +277,28 @@ export class Config {
     return 90;
   }
 
-  defensePostRange(): number {
-    return 30;
+  defensePostRange(level: number = 1): number {
+    return defensePostRangeForLevel(level);
+  }
+
+  /** Autonomous volley damage vs enemy land-attack stacks, by post level. */
+  defensePostDamage(level: number = 1): number {
+    return defensePostDamageForLevel(level);
+  }
+
+  /** Ticks between autonomous volleys, by post level. */
+  defensePostAttackRate(level: number = 1): number {
+    return defensePostAttackRateForLevel(level);
+  }
+
+  /** Passive mag multiplier for tiles covered by a post, by post level. */
+  defensePostDefenseBonus(level: number = 1): number {
+    return defensePostDefenseBonusForLevel(level);
+  }
+
+  /** Passive tileCost multiplier for tiles covered by a post, by post level. */
+  defensePostSpeedBonus(level: number = 1): number {
+    return defensePostSpeedBonusForLevel(level);
   }
 
   isUnitDisabled(unitType: UnitType): boolean {
@@ -230,7 +355,10 @@ export class Config {
         };
         break;
       case UnitType.DefensePost:
-        info = { constructionDuration: this.instantBuild() ? 0 : 5 * 10 };
+        info = {
+          constructionDuration: this.instantBuild() ? 0 : 5 * 10,
+          upgradable: true,
+        };
         break;
       case UnitType.SAMLauncher:
         info = {

@@ -362,18 +362,10 @@ export class AttackExecution implements Execution {
     borderSize: number,
   ): AttackLogicInput {
     const defender = this.target.isPlayer() ? this.target : null;
-    // Same test as scanning nearbyUnits() for a post owned by the defender
-    // (active, not under construction, within range), without building a
-    // result array per conquered tile — this runs for every tile of every
-    // attack on the map.
-    const defenderHasDefensePost =
-      defender !== null &&
-      this.mg.hasUnitNearby(
-        tile,
-        this.mg.config().defensePostRange(),
-        UnitType.DefensePost,
-        defender.id(),
-      );
+    const defenderDefensePostLevel =
+      defender === null
+        ? 0
+        : this.maxCoveringDefensePostLevel(tile, defender);
     return {
       terrain: this.map.terrainType(tile),
       attackTroops,
@@ -392,12 +384,61 @@ export class AttackExecution implements Execution {
               isDisconnectedTeammate:
                 defender.isDisconnected() && this._owner.isOnSameTeam(defender),
             },
-      defenderHasDefensePost,
+      defenderHasDefensePost: defenderDefensePostLevel > 0,
+      defenderDefensePostLevel,
+      // R4.5 (D2): a disconnected attacker on the defender's team must not
+      // be punished by the passive channel either.
+      attackerIsDisconnectedTeammate:
+        defender !== null &&
+        this._owner.isDisconnected() &&
+        this._owner.isOnSameTeam(defender),
       falloutRatio: this.mg.hasFallout(tile)
         ? this.mg.numTilesWithFallout() / this.mg.numLandTiles()
         : null,
       borderSize,
     };
+  }
+
+  /**
+   * Highest level among the defender's active, fully-built posts whose
+   * (level-scaled, upgrade-interpolated) range covers `tile`. Starts with the
+   * cheap boolean grid probe — this runs for every tile of every attack —
+   * and only builds the unit list when a post is actually near. R4.6 (D3):
+   * a disabled DefensePost covers nothing, and disconnected-team and
+   * diplomacy filtering stays in attackLogic's isDisconnectedTeammate input.
+   */
+  private maxCoveringDefensePostLevel(tile: TileRef, defender: Player): number {
+    const config = this.mg.config();
+    // R4.6 (D3): disabled posts silence the passive channel — no cover.
+    if (config.isUnitDisabled(UnitType.DefensePost)) {
+      return 0;
+    }
+    const scan = config.defensePostTargettingRange();
+    if (
+      !this.mg.hasUnitNearby(tile, scan, UnitType.DefensePost, defender.id())
+    ) {
+      return 0;
+    }
+    const now = this.mg.ticks();
+    let best = 0;
+    for (const { unit, distSquared } of this.mg.nearbyUnits(
+      tile,
+      scan,
+      UnitType.DefensePost,
+    )) {
+      if (
+        unit.owner() !== defender ||
+        !unit.isActive() ||
+        unit.isUnderConstruction()
+      ) {
+        continue;
+      }
+      const range = config.dynamicDefensePostRange(unit, now);
+      if (distSquared <= range * range && unit.level() > best) {
+        best = unit.level();
+      }
+    }
+    return best;
   }
 
   private rejectIncomingAllianceRequests(target: Player) {

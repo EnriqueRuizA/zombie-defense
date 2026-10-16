@@ -82,6 +82,7 @@ Using AI tools is fine — but you **MUST** understand the code you are submitti
   npm run dev
   ```
   This starts the dev server and the game server, and opens your browser.
+- **Easiest on Windows**: double-click `Iniciar-Juego.cmd` in the repo root, or run `npm run dev:simple`. It checks the Node/npm versions from `package.json` (`engines`), runs `npm run inst` if `node_modules` is missing, verifies the dev ports (client 9000, master 3000, workers 3001/3002) are free, then starts `npm run dev` and opens the browser (skip with `$env:SKIP_BROWSER_OPEN="true"`).
 - **Client Only**:
   ```bash
   npm run start:client

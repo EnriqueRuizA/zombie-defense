@@ -4,6 +4,7 @@ import {
   AllPlayers,
   BuildableUnit,
   Cell,
+  DefensePostUpgradeState,
   EmojiMessage,
   GameUpdates,
   Gold,
@@ -279,6 +280,8 @@ export interface Unit extends UnitLike {
   isInCooldown(): boolean;
   missileTimerQueue(): number[];
   samLauncherState(): SamLauncherState | undefined;
+  /** Mid-upgrade range interpolation state for Defense Posts (SAM-style). */
+  defensePostUpgradeState(): DefensePostUpgradeState | undefined;
 
   // Trade Ships
   setSafeFromPirates(): void; // Only for trade ships

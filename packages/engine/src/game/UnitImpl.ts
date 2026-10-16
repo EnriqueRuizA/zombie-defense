@@ -1,5 +1,6 @@
 import { TileRef } from "@openfront/engine-api/game/GameMap";
 import {
+  DefensePostUpgradeState,
   MessageType,
   NukeState,
   SamLauncherState,
@@ -64,6 +65,7 @@ export class UnitImpl implements Unit {
   // Nuke only
   private _deletionAt: number | null = null;
   private _samLauncherState: SamLauncherState | undefined;
+  private _defensePostUpgradeState: DefensePostUpgradeState | undefined;
 
   constructor(
     private _type: UnitType,
@@ -576,6 +578,10 @@ export class UnitImpl implements Unit {
     return this._samLauncherState;
   }
 
+  defensePostUpgradeState(): DefensePostUpgradeState | undefined {
+    return this._defensePostUpgradeState;
+  }
+
   reloadMissile(): void {
     this._missileTimerQueue.shift();
     this.mg.addUpdate(this.toUpdate());
@@ -746,6 +752,18 @@ export class UnitImpl implements Unit {
         duration: this.mg.config().samUpgradeDuration(),
       };
     }
+    if (this._type === UnitType.DefensePost) {
+      const currentTick = this.mg.ticks();
+      const currentRange = this.mg
+        .config()
+        .dynamicDefensePostRange(this, currentTick);
+      this._defensePostUpgradeState = {
+        upgradeStartTick: currentTick,
+        startRange: currentRange,
+        targetLevel: this._level + 1,
+        duration: this.mg.config().defensePostUpgradeDuration(),
+      };
+    }
     this._level++;
     // unitCount()/unitsOwned() are level-weighted and memoised on these versions
     this.mg.bumpUnitsVersion();
@@ -763,6 +781,9 @@ export class UnitImpl implements Unit {
     }
     if (this._type === UnitType.SAMLauncher) {
       this._samLauncherState = undefined;
+    }
+    if (this._type === UnitType.DefensePost) {
+      this._defensePostUpgradeState = undefined;
     }
     if (this._level <= 0) {
       this.delete(true, destroyer);
@@ -856,6 +877,14 @@ export class UnitImpl implements Unit {
             duration: this._samLauncherState.duration,
           }
         : null,
+      defensePostUpgradeState: this._defensePostUpgradeState
+        ? {
+            upgradeStartTick: this._defensePostUpgradeState.upgradeStartTick,
+            startRange: this._defensePostUpgradeState.startRange,
+            targetLevel: this._defensePostUpgradeState.targetLevel,
+            duration: this._defensePostUpgradeState.duration,
+          }
+        : null,
     };
   }
 
@@ -906,12 +935,15 @@ export class UnitImpl implements Unit {
     this._samLauncherState = s.samLauncherState
       ? { ...s.samLauncherState }
       : undefined;
+    this._defensePostUpgradeState = s.defensePostUpgradeState
+      ? { ...s.defensePostUpgradeState }
+      : undefined;
   }
 }
 
 export const UnitSnapshot = snapshotType({
   name: "Unit",
-  version: 1,
+  version: 2,
   schema: z.object({
     id: zInt(),
     type: UnitTypeSchema,
@@ -968,6 +1000,18 @@ export const UnitSnapshot = snapshotType({
         duration: zInt(),
       })
       .nullable(),
+    defensePostUpgradeState: z
+      .object({
+        upgradeStartTick: zInt().optional(),
+        startRange: zNum(),
+        targetLevel: zInt(),
+        duration: zInt(),
+      })
+      .nullable(),
   }),
+  migrations: {
+    // v1 posts had no upgrade interpolation state (range was a fixed 30).
+    1: (d) => ({ ...d, defensePostUpgradeState: null }),
+  },
 });
 export type UnitState = z.infer<typeof UnitSnapshot.schema>;

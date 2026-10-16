@@ -11,6 +11,7 @@
 
 import type { MapLayer } from "@openfront/engine-api/game/MapFiles";
 import type { Config } from "@openfront/engine-lib/configuration/Config";
+import { defensePostRangeForLevel } from "@openfront/engine-lib/configuration/Config";
 import { translateText } from "../../Utils";
 import type { SpiralRibbon } from "../frame/SpiralTrails";
 import type {
@@ -954,7 +955,8 @@ export class GPURenderer {
     this.structureLevelPass.updateStructures(units);
     this.samRadiusPass.updateStructures(units);
     this.unitPass.setStructures(units);
-    const posts: { x: number; y: number; ownerID: number }[] = [];
+    const posts: { x: number; y: number; ownerID: number; range: number }[] =
+      [];
     const w = this.mapW;
     for (const u of units.values()) {
       if (u.unitType === "Defense Post" && !u.underConstruction) {
@@ -962,6 +964,7 @@ export class GPURenderer {
           x: u.pos % w,
           y: (u.pos - (u.pos % w)) / w,
           ownerID: u.ownerID,
+          range: defensePostRangeForLevel(u.level),
         });
       }
     }

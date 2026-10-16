@@ -27,6 +27,7 @@ import { UnitGrid } from "@openfront/engine-lib/game/UnitGrid";
 import { PlayerCosmetics, WirePlayer } from "@openfront/shared/WireSchemas";
 import { computeAllianceClusters } from "../render/frame/derive/AllianceClusters";
 import { extractAttackRings } from "../render/frame/derive/AttackRings";
+import { extractDefenseVolleyRings } from "../render/frame/derive/DefenseVolleyRings";
 import { extractNukeTelegraphs } from "../render/frame/derive/NukeTelegraphs";
 import { computePlayerStatus } from "../render/frame/derive/PlayerStatus";
 import { buildRelationMatrix } from "../render/frame/derive/RelationMatrix";
@@ -118,6 +119,12 @@ export class GameView implements GameLike {
   private _relationsDirty = true;
   /** Alliance clusters: allies changed, or a player was added. */
   private _clustersDirty = true;
+  /**
+   * Per-post volley signature map for the R5 1-tick pulse
+   * (extractDefenseVolleyRings). Long-lived across ticks; first sight of a
+   * post only records, never rings.
+   */
+  private readonly postVolleySigs = new Map<number, string>();
 
   private unitGrid: UnitGrid<UnitView>;
   private readonly motion = new MotionPlanResolver();
@@ -564,6 +571,15 @@ export class GameView implements GameLike {
           this._myPlayer.smallID(),
         )
       : [];
+    // R5: defense-post volley pulse — 1-tick rings derived from the volley
+    // Unit touches on the existing channel (no new wire, no DisplayEvent).
+    const volleys = extractDefenseVolleyRings(
+      gu.updates[GameUpdateType.Unit] ?? [],
+      this._unitStates,
+      this.postVolleySigs,
+      this._map.width(),
+    );
+    if (volleys.length > 0) f.attackRings = [...f.attackRings, ...volleys];
     f.structuresDirty = this._structuresDirty;
 
     // First populate: signal "full upload required" by nulling changedTiles.

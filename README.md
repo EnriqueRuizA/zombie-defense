@@ -87,6 +87,16 @@ This will:
 - Launch the game server with development settings
 - Open the game in your default browser (to disable this behavior, set `SKIP_BROWSER_OPEN=true` in your environment)
 
+### Easiest on Windows (double-click)
+
+On Windows, double-click `Iniciar-Juego.cmd` in the repo root, or run:
+
+```powershell
+npm run dev:simple
+```
+
+It checks the Node/npm versions, installs dependencies with `npm run inst` if `node_modules` is missing, verifies the dev ports are free, then starts `npm run dev` and opens `http://localhost:9000/` in your browser. To skip opening the browser: `$env:SKIP_BROWSER_OPEN="true"; npm run dev:simple`.
+
 ### Client Only
 
 To run just the client with hot reloading:

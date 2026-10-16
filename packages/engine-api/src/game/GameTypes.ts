@@ -47,6 +47,19 @@ export type SamLauncherState = {
   duration: number;
 };
 
+/**
+ * Mid-upgrade interpolation state for Defense Posts (mirrors
+ * SamLauncherState): while a post gains a level its effective range blends
+ * from the old level's range to the new one over `duration` ticks. Pure data,
+ * part of the unit snapshot.
+ */
+export type DefensePostUpgradeState = {
+  upgradeStartTick?: number;
+  startRange: number;
+  targetLevel: number;
+  duration: number;
+};
+
 export const AllPlayers = "AllPlayers" as const;
 
 // export type GameUpdates = Record<GameUpdateType, GameUpdate[]>;

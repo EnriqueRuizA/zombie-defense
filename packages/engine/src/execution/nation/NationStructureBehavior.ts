@@ -345,7 +345,7 @@ export class NationStructureBehavior {
       allowed = Math.ceil(ratio / DEFENSE_POST_RATIO_PER_POST);
     }
 
-    const range = this.game.config().defensePostRange();
+    const range = this.game.config().defensePostRange(1);
     const scaledRatio =
       difficulty === Difficulty.Medium
         ? 0
@@ -403,7 +403,7 @@ export class NationStructureBehavior {
     }
     if (threats.size === 0) return false;
 
-    const range = config.defensePostRange();
+    const range = config.defensePostRange(1);
     const frontTiles = this.borderTilesFacing(threats);
     if (
       this.countDefensePostsNearFront(frontTiles, range * 1.5, threats.size) >=
@@ -424,6 +424,14 @@ export class NationStructureBehavior {
     maxDist: number,
   ): boolean {
     const player = this.player;
+    // A post already covering the front hits harder upgraded than doubled:
+    // prefer one level on the nearest covering post over a new placement.
+    // C10b/D4: the upgrade arm runs first and is gated by the UPGRADE cost
+    // (canUpgradeUnit checks gold against the upgrade cost), not by the
+    // BUILD cost gate below.
+    if (this.maybeUpgradeDefensePostInstead(frontTiles)) {
+      return true;
+    }
     if (player.gold() < this.cost(UnitType.DefensePost)) return false;
     const tile = this.findDefensePostTile(frontTiles, minDist, maxDist);
     if (tile === null) return false;
@@ -431,6 +439,48 @@ export class NationStructureBehavior {
       new ConstructionExecution(player, UnitType.DefensePost, tile),
     );
     return true;
+  }
+
+  /**
+   * Upgrades the nearest upgradable post already covering the front instead
+   * of building a new one (SAM-style upgrade-instead, same generic
+   * UpgradeStructureExecution path and cost curve as manual upgrades, C10b).
+   * Coverage uses each post's own dynamic level range
+   * (dynamicDefensePostRange), not the placement maxDist band (D4).
+   * Deterministic: scans insertion order, keeps the closest, ties break by
+   * lowest unit id.
+   */
+  private maybeUpgradeDefensePostInstead(frontTiles: TileRef[]): boolean {
+    if (frontTiles.length === 0) return false;
+    const game = this.game;
+    const config = game.config();
+    const now = game.ticks();
+    let best: Unit | null = null;
+    let bestDistSquared = Infinity;
+    for (const post of this.player.units(UnitType.DefensePost)) {
+      // canUpgradeUnit also gates gold against the UPGRADE cost (D4).
+      if (!this.player.canUpgradeUnit(post)) continue;
+      const range = config.dynamicDefensePostRange(post, now);
+      const rangeSquared = range * range;
+      let nearestSquared = Infinity;
+      for (const frontTile of frontTiles) {
+        nearestSquared = Math.min(
+          nearestSquared,
+          game.euclideanDistSquared(post.tile(), frontTile),
+        );
+        if (nearestSquared === 0) break;
+      }
+      if (nearestSquared > rangeSquared) continue;
+      if (
+        best === null ||
+        nearestSquared < bestDistSquared ||
+        (nearestSquared === bestDistSquared && post.id() < best.id())
+      ) {
+        best = post;
+        bestDistSquared = nearestSquared;
+      }
+    }
+    return this.upgradeStructure(best);
   }
 
   private defensePostNeeded(): boolean {
@@ -532,7 +582,8 @@ export class NationStructureBehavior {
     const game = this.game;
     const player = this.player;
 
-    const spreadRangeSquared = (game.config().defensePostRange() * 1.5) ** 2;
+    const spreadRangeSquared =
+      (game.config().defensePostRange(1) * 1.5) ** 2;
     const existingDPTiles = player
       .units(UnitType.DefensePost)
       .map((u) => u.tile());

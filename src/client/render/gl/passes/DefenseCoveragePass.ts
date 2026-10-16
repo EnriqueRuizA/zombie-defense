@@ -36,8 +36,11 @@ import coverageVertSrc from "../shaders/defense-coverage/defense-coverage.vert.g
 import { createProgram, createTexture2D, shaderSrc } from "../utils/GlUtils";
 import { TILE_DEFINES } from "../utils/TileCodec";
 
-/** Per-instance data (3 floats): tileX, tileY, ownerID. */
-const FLOATS_PER_INSTANCE = 3;
+/** Per-instance data (4 floats): tileX, tileY, ownerID, range. */
+const FLOATS_PER_INSTANCE = 4;
+
+/** Range value meaning "fall back to the mapOverlay.defensePostRange uniform". */
+const RANGE_FALLBACK = 0;
 
 /**
  * Tile block size for incremental scissored re-stamping. ~2× the post diameter
@@ -153,13 +156,15 @@ export class DefenseCoveragePass {
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     gl.bindBuffer(gl.ARRAY_BUFFER, instGlBuf);
     gl.enableVertexAttribArray(1);
-    gl.vertexAttribPointer(1, 3, gl.FLOAT, false, FLOATS_PER_INSTANCE * 4, 0);
+    gl.vertexAttribPointer(1, 4, gl.FLOAT, false, FLOATS_PER_INSTANCE * 4, 0);
     gl.vertexAttribDivisor(1, 1);
     gl.bindVertexArray(null);
   }
 
-  /** Replace the set of defense posts. No cap. */
-  updateDefensePosts(posts: { x: number; y: number; ownerID: number }[]): void {
+  /** Replace the set of defense posts. No cap. Missing range falls back to the configured L1 range. */
+  updateDefensePosts(
+    posts: { x: number; y: number; ownerID: number; range?: number }[],
+  ): void {
     this.count = posts.length;
     this.instanceBuf.ensureCapacity(posts.length);
     const f = this.instanceBuf.float32;
@@ -169,6 +174,7 @@ export class DefenseCoveragePass {
       f[off] = p.x;
       f[off + 1] = p.y;
       f[off + 2] = p.ownerID;
+      f[off + 3] = p.range ?? RANGE_FALLBACK;
     }
     if (posts.length > 0) {
       const gl = this.gl;

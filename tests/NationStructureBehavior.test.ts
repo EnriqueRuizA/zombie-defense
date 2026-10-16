@@ -347,7 +347,10 @@ describe("NationStructureBehavior.tryBuildDefensePost", () => {
         gameConfig: () => ({ difficulty }),
         isUnitDisabled: () => false,
         defensePostRange: () => 30,
+        // D4: the upgrade-instead arm reads each post's dynamic level range.
+        dynamicDefensePostRange: () => 30,
       }),
+      ticks: () => 0,
       unitInfo: () => ({ cost: () => 0n }),
       euclideanDistSquared: () => Number.MAX_VALUE,
     };
