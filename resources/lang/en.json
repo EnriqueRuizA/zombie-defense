@@ -17,7 +17,7 @@
     "delete_account_confirm_button": "Permanently Delete",
     "delete_account_confirm_word": "DELETE",
     "delete_account_desc": "Permanently delete your account and all of its data.",
-    "delete_account_failed": "Delete failed, please contact support at support@openfront.io",
+    "delete_account_failed": "Delete failed, please contact support at support@zombie-defense.example",
     "delete_account_rate_limited": "Account deletion is temporarily unavailable, please try again later.",
     "delete_account_scheduled": "Your account will be deleted in 24 hours. If you change your mind, please contact support to cancel.",
     "delete_account_title": "Delete account",
@@ -1432,7 +1432,7 @@
   "main": {
     "account": "Account",
     "clans": "Clans",
-    "copyright": "© OpenFront™ and Contributors",
+    "copyright": "© Zombie Defense and Contributors",
     "create": "Create Lobby",
     "discord_avatar_alt": "Discord profile avatar",
     "github": "GitHub",

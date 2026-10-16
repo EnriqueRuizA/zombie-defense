@@ -29,10 +29,15 @@ OpenFront source code is licensed under the **GNU Affero General Public License 
 
 Current copyright notices appear in:
 
-- Footer: "© OpenFront and Contributors"
-- Loading screen: "© OpenFront and Contributors"
+<!-- MARKER (O4/D2): notices de copyright retiradas temporalmente para el
+     sandbox no comercial (sign-off D2 + D3). Footer y loading screen ya no
+     muestran el copyright upstream: el footer perdió su span de copyright
+     (Footer.ts) y la clave main.copyright se neutralizó en
+     resources/lang/en.json. Texto previo exacto y tabla de retiradas:
+     docs/LEGAL-SANDBOX.md. Re-add por branch de miembro:
+       git checkout 7160185 -- README.md -->
 
-Modified versions must preserve these notices in reasonably visible locations.
+- Notices retiradas temporalmente (O4/D2): footer y loading screen.
 
 See the [LICENSE](LICENSE) for complete requirements.
 

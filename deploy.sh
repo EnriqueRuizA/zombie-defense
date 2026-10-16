@@ -263,6 +263,10 @@ fi
 
 # Configuration
 UPDATE_SCRIPT="./update.sh" # Path to your update script
+# Propuesta (O4/D2): usuario y nombres de script de despliegue siguen siendo
+# los upstream (REMOTE_USER, update-openfront-*.sh) por funcionalidad: NO se
+# cambian en O4 legales salvo este comentario. Marca pendiente, ver
+# docs/LEGAL-SANDBOX.md.
 REMOTE_USER="openfront"
 REMOTE_UPDATE_PATH="/home/$REMOTE_USER"
 # Randomize the remote script name so concurrent deployments (different

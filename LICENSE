@@ -664,15 +664,24 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 Copyright Preservation Requirement (Section 7(b)):
 
-OpenFront displays copyright notices in the footer and on the 
+Zombie Defense displays copyright notices in the footer and on the 
 loading screen. Modified versions must preserve the copyright 
-notice "© OpenFront and Contributors" in reasonably 
+notice "© Zombie Defense" in reasonably 
 visible locations such as the footer, loading screen, splash screen,
 or main menu.
 
 Prohibition of Misrepresentation (Section 7(c)):
 
 Modified versions may not misrepresent their origin or 
-relationship to the OpenFront project. Modified versions must 
-not use "OpenFront" as their primary title or imply official 
+relationship to the Zombie Defense project. Modified versions must 
+not use "Zombie Defense" as their primary title or imply official 
 endorsement without permission.
+
+--- MARKER (O4/D2): notice legal retirada temporalmente ---
+La notice legal upstream anterior de este bloque (copyright en footer/loading
+y referencias al proyecto upstream) se retiró para el sandbox no comercial
+(sign-off D2 + D3). Texto previo exacto y tabla de retiradas:
+docs/LEGAL-SANDBOX.md. El texto AGPL v3 de arriba (lineas 1-662) no se ha
+modificado. Re-add por branch de miembro:
+  git checkout 7160185 -- LICENSE
+-------------------------------------------
