@@ -68,11 +68,11 @@ function Fail([string]$Cause, [string]$Fix) {
   exit 1
 }
 
-function Test-PortFree([string]$Host, [int]$Port) {
+function Test-PortFree([string]$TargetHost, [int]$Port) {
   $client = $null
   try {
     $client = New-Object Net.Sockets.TcpClient
-    $iar = $client.BeginConnect($Host, $Port, $null, $null)
+    $iar = $client.BeginConnect($TargetHost, $Port, $null, $null)
     # localhost responde de inmediato; 500 ms bastan y no ralentizan el arranque.
     $connected = $iar.AsyncWaitHandle.WaitOne(500)
     if ($connected -and $client.Connected) {
