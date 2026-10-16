@@ -107,7 +107,7 @@ On Windows, double-click `Iniciar-Juego.cmd` in the repo root, or run:
 npm run dev:simple
 ```
 
-It checks the Node/npm versions, installs dependencies with `npm run inst` if `node_modules` is missing, verifies the dev ports are free, then starts `npm run dev` and opens `http://localhost:9000/` in your browser. To skip opening the browser: `$env:SKIP_BROWSER_OPEN="true"; npm run dev:simple`.
+It checks the Node/npm versions from `engines` (Node never auto-updates: fix it manually; npm below the range auto-updates with `npm install --global --ignore-scripts npm@12.1.0` and re-checks), installs dependencies with `npm run inst` when `node_modules` is missing, `package-lock.json` is newer, or workspace symlinks are broken, verifies the dev ports are free (client URL always explicit `server.port`, never auto-changed), then starts `npm run dev` and opens `http://localhost:9000/` in your browser. To skip opening the browser: `$env:SKIP_BROWSER_OPEN="true"; npm run dev:simple`.
 
 ### Client Only
 
