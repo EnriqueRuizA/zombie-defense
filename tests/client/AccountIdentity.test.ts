@@ -1,4 +1,4 @@
-import { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { describe, expect, it } from "vitest";
 import {
   hasLinkedIdentity,

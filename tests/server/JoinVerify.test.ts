@@ -1,4 +1,4 @@
-import type { TokenPayload } from "@openfront/shared/ApiSchemas";
+import type { TokenPayload } from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   isSteamAuthenticated,

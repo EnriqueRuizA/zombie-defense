@@ -38,17 +38,17 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   GameUpdateViewData,
   HashUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameConfig, GameStartInfo } from "@openfront/engine-api/Schemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { loadTerrainMap } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { createGameRunner } from "@openfront/engine/GameRunner";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameConfig, GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { loadTerrainMap } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { createGameRunner } from "@zombie-defense/engine/GameRunner";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

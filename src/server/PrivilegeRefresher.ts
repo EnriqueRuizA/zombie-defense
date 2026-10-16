@@ -1,5 +1,5 @@
-import { ReservedClanTagsResponseSchema } from "@openfront/shared/ClanApiSchemas";
-import { CosmeticsSchema } from "@openfront/shared/CosmeticSchemas";
+import { ReservedClanTagsResponseSchema } from "@zombie-defense/shared/ClanApiSchemas";
+import { CosmeticsSchema } from "@zombie-defense/shared/CosmeticSchemas";
 import { base64url } from "jose";
 import { Logger } from "winston";
 import { startPolling } from "./PollingLoop";

@@ -1,5 +1,5 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import { Game } from "../game/Game";
 import { PathFinder } from "./types";
 

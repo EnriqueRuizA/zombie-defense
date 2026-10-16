@@ -7,13 +7,13 @@ import {
   Nation,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { MapManifest } from "@openfront/engine-api/game/MapFiles";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { genTerrainFromBin } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { Game } from "@openfront/engine/game/Game";
-import { createGame } from "@openfront/engine/game/GameImpl";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { MapManifest } from "@zombie-defense/engine-api/game/MapFiles";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { genTerrainFromBin } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { createGame } from "@zombie-defense/engine/game/GameImpl";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

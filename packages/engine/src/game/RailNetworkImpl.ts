@@ -1,11 +1,11 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
 import {
   snapshotType,
   zInt,
   zRef,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { PathFinding } from "../pathfinding/PathFinder";
 import type {

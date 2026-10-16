@@ -42,7 +42,7 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import { JoinLobbyModal } from "../../src/client/JoinLobbyModal";
 import { UserSettings } from "../../src/client/UserSettings";
 

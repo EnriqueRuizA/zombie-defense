@@ -1,11 +1,11 @@
 import {
   GameMode,
   HumansVsNations,
-} from "@openfront/engine-api/game/GameTypes";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
-import type { LevelBadge } from "@openfront/shared/LevelBadgeWire";
-import { packLevelBadge } from "@openfront/shared/LevelBadgeWire";
-import type { ClientInfo } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
+import type { LevelBadge } from "@zombie-defense/shared/LevelBadgeWire";
+import { packLevelBadge } from "@zombie-defense/shared/LevelBadgeWire";
+import type { ClientInfo } from "@zombie-defense/shared/WireSchemas";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import "../../../src/client/components/LobbyPlayerView";
 import type { LobbyTeamView } from "../../../src/client/components/LobbyPlayerView";

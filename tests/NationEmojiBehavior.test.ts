@@ -1,9 +1,9 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   EMOJI_CLOWN,
   NationEmojiBehavior,
-} from "@openfront/engine/execution/nation/NationEmojiBehavior";
+} from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
 import { setup } from "./util/Setup";
 
 describe("Nation emojis", () => {

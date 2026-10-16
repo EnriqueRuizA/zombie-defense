@@ -700,7 +700,7 @@ one kind of page only: one that names no server of its own.
 Without that rule, one deploy that fails to register strands every visitor.
 On `main.openfront.dev` the list carried no server on the page's build and a
 `latest` that was a different commit; the lobby socket raised "a new version
-of OpenFront is available", the reload re-served the same page from the same
+of Zombie Defense is available", the reload re-served the same page from the same
 server, and it prompted again — forever. That was OPE-430.
 
 A server-rendered page is not left behind by this, because it does not need

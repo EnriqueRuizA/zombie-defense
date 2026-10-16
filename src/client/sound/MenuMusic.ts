@@ -1,4 +1,4 @@
-import { assetUrl } from "@openfront/shared/AssetUrls";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { Howl } from "howler";
 import { AudioMixer, streamsMusic } from "./AudioMixer";
 

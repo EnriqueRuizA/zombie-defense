@@ -29,17 +29,17 @@ import {
   PlayerType,
   TerrainType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
 import {
   DefensePostExecution,
   DefensePostExecutionSnapshot,
-} from "@openfront/engine/execution/DefensePostExecution";
-import { UpgradeStructureExecution } from "@openfront/engine/execution/UpgradeStructureExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { UnitSnapshot } from "@openfront/engine/game/UnitImpl";
+} from "@zombie-defense/engine/execution/DefensePostExecution";
+import { UpgradeStructureExecution } from "@zombie-defense/engine/execution/UpgradeStructureExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { UnitSnapshot } from "@zombie-defense/engine/game/UnitImpl";
 import { setup } from "../../util/Setup";
 import { expectSnapshotRoundTrip } from "../../util/Snapshot";
 import { executeTicks } from "../../util/utils";

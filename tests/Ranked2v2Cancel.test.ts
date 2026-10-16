@@ -3,14 +3,14 @@ import {
   PlayerInfo,
   PlayerType,
   RankedType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   WinUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { WinCheckExecution } from "@openfront/engine/execution/WinCheckExecution";
-import { Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { WinCheckExecution } from "@zombie-defense/engine/execution/WinCheckExecution";
+import { Game } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 async function setupTeamGame(config: Partial<GameConfig>): Promise<Game> {

@@ -1,10 +1,10 @@
-import { Tick, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { NukeMagnitude } from "@openfront/engine-lib/configuration/Config";
+import { Tick, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { NukeMagnitude } from "@zombie-defense/engine-lib/configuration/Config";
 import {
   AttackLogicInput,
   AttackLogicResult,
   EngineConfig,
-} from "@openfront/engine/configuration/EngineConfig";
+} from "@zombie-defense/engine/configuration/EngineConfig";
 
 export class TestConfig extends EngineConfig {
   private _proximityBonusPortsNb: number = 0;

@@ -15,4 +15,3 @@ helm-charts
 coverage*
 tests/
 scripts/replay/
-scripts/split-packages/

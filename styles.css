@@ -37,7 +37,7 @@ ul { padding-left:18px; margin:6px 0; } li { margin:5px 0; }
 #ov-title.win { color:#4ade80; } #ov-title.lose { color:#f87171; }
 #ov-stats { background:#0e1530; border:1px solid var(--line); padding:12px; border-radius:8px; max-width:90%; white-space:pre-wrap; font-size:13px; }
 footer { padding:10px 14px; color:var(--mut); font-size:12px; border-top:1px solid var(--line); }
-/* Paridad OpenFront: economía + temporizador + leaderboard */
+/* Paridad Zombie Defense: economía + temporizador + leaderboard */
 .econ { display:flex; gap:12px; align-items:center; font-size:13px; color:var(--mut); flex-wrap:wrap; }
 .econ b { color:var(--txt); }
 #btn-pause { padding:4px 10px; }

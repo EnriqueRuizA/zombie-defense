@@ -1,7 +1,7 @@
-import { GameMapType, GameMode } from "@openfront/engine-api/game/GameTypes";
-import type { GameConfig } from "@openfront/engine-api/Schemas";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
-import type { PublicGameInfo } from "@openfront/shared/WireSchemas";
+import { GameMapType, GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
+import type { PublicGameInfo } from "@zombie-defense/shared/WireSchemas";
 import { render } from "lit";
 import { describe, expect, it, vi } from "vitest";
 

@@ -1,6 +1,6 @@
-import { GameMap, TileRef } from "@openfront/engine-api/game/GameMap";
-import { Cell } from "@openfront/engine-api/game/GameTypes";
-import { UnitLike } from "@openfront/engine-api/game/ReadViews";
+import { GameMap, TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { Cell } from "@zombie-defense/engine-api/game/GameTypes";
+import { UnitLike } from "@zombie-defense/engine-api/game/ReadViews";
 import { exp } from "./DetMath";
 import { TileSet } from "./game/TileSet";
 

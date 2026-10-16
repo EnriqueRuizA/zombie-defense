@@ -5,8 +5,8 @@
  * LocalProcessing.ts.
  */
 
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { FetchGameMapLoader } from "@openfront/shared/FetchGameMapLoader";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { FetchGameMapLoader } from "@zombie-defense/shared/FetchGameMapLoader";
 import { gzipInBrowser } from "./BrowserGzip";
 import {
   processGameRecord,

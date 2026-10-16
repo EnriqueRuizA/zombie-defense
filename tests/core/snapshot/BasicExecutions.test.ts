@@ -4,32 +4,32 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { AllianceExtensionExecution } from "@openfront/engine/execution/alliance/AllianceExtensionExecution";
-import { AllianceRejectExecution } from "@openfront/engine/execution/alliance/AllianceRejectExecution";
-import { AllianceRequestExecution } from "@openfront/engine/execution/alliance/AllianceRequestExecution";
-import { BreakAllianceExecution } from "@openfront/engine/execution/alliance/BreakAllianceExecution";
-import { BoatRetreatExecution } from "@openfront/engine/execution/BoatRetreatExecution";
-import { CityExecution } from "@openfront/engine/execution/CityExecution";
-import { DefensePostExecution } from "@openfront/engine/execution/DefensePostExecution";
-import { DeleteUnitExecution } from "@openfront/engine/execution/DeleteUnitExecution";
-import { DonateGoldExecution } from "@openfront/engine/execution/DonateGoldExecution";
-import { DonateTroopsExecution } from "@openfront/engine/execution/DonateTroopExecution";
-import { EmbargoAllExecution } from "@openfront/engine/execution/EmbargoAllExecution";
-import { EmbargoExecution } from "@openfront/engine/execution/EmbargoExecution";
-import { EmojiExecution } from "@openfront/engine/execution/EmojiExecution";
-import { FactoryExecution } from "@openfront/engine/execution/FactoryExecution";
-import { MarkDisconnectedExecution } from "@openfront/engine/execution/MarkDisconnectedExecution";
-import { MissileSiloExecution } from "@openfront/engine/execution/MissileSiloExecution";
-import { MoveWarshipExecution } from "@openfront/engine/execution/MoveWarshipExecution";
-import { PauseExecution } from "@openfront/engine/execution/PauseExecution";
-import { PlayerExecution } from "@openfront/engine/execution/PlayerExecution";
-import { QuickChatExecution } from "@openfront/engine/execution/QuickChatExecution";
-import { RetreatExecution } from "@openfront/engine/execution/RetreatExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { TargetPlayerExecution } from "@openfront/engine/execution/TargetPlayerExecution";
-import { UpgradeStructureExecution } from "@openfront/engine/execution/UpgradeStructureExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { AllianceExtensionExecution } from "@zombie-defense/engine/execution/alliance/AllianceExtensionExecution";
+import { AllianceRejectExecution } from "@zombie-defense/engine/execution/alliance/AllianceRejectExecution";
+import { AllianceRequestExecution } from "@zombie-defense/engine/execution/alliance/AllianceRequestExecution";
+import { BreakAllianceExecution } from "@zombie-defense/engine/execution/alliance/BreakAllianceExecution";
+import { BoatRetreatExecution } from "@zombie-defense/engine/execution/BoatRetreatExecution";
+import { CityExecution } from "@zombie-defense/engine/execution/CityExecution";
+import { DefensePostExecution } from "@zombie-defense/engine/execution/DefensePostExecution";
+import { DeleteUnitExecution } from "@zombie-defense/engine/execution/DeleteUnitExecution";
+import { DonateGoldExecution } from "@zombie-defense/engine/execution/DonateGoldExecution";
+import { DonateTroopsExecution } from "@zombie-defense/engine/execution/DonateTroopExecution";
+import { EmbargoAllExecution } from "@zombie-defense/engine/execution/EmbargoAllExecution";
+import { EmbargoExecution } from "@zombie-defense/engine/execution/EmbargoExecution";
+import { EmojiExecution } from "@zombie-defense/engine/execution/EmojiExecution";
+import { FactoryExecution } from "@zombie-defense/engine/execution/FactoryExecution";
+import { MarkDisconnectedExecution } from "@zombie-defense/engine/execution/MarkDisconnectedExecution";
+import { MissileSiloExecution } from "@zombie-defense/engine/execution/MissileSiloExecution";
+import { MoveWarshipExecution } from "@zombie-defense/engine/execution/MoveWarshipExecution";
+import { PauseExecution } from "@zombie-defense/engine/execution/PauseExecution";
+import { PlayerExecution } from "@zombie-defense/engine/execution/PlayerExecution";
+import { QuickChatExecution } from "@zombie-defense/engine/execution/QuickChatExecution";
+import { RetreatExecution } from "@zombie-defense/engine/execution/RetreatExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { TargetPlayerExecution } from "@zombie-defense/engine/execution/TargetPlayerExecution";
+import { UpgradeStructureExecution } from "@zombie-defense/engine/execution/UpgradeStructureExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "../../util/Setup";
 import { expectSnapshotRoundTrip } from "../../util/Snapshot";
 

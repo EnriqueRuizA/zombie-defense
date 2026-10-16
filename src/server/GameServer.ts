@@ -6,8 +6,8 @@ import {
   PlayerType,
   RANKED_FFA_MIN_PLAYERS,
   RankedType,
-} from "@openfront/engine-api/game/GameTypes";
-import { maps } from "@openfront/engine-api/game/Maps.gen";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { maps } from "@zombie-defense/engine-api/game/Maps.gen";
 import {
   AllPlayersStats,
   ClientID,
@@ -20,15 +20,15 @@ import {
   Tribe,
   Turn,
   Winner,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 import {
   assignTeamsLobbyPreview,
   resolveTeamsList,
-} from "@openfront/engine-lib/game/TeamAssignment";
-import { isAdminRole } from "@openfront/shared/ApiSchemas";
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
-import { GameEnv } from "@openfront/shared/configuration/Env";
-import { createPartialGameRecord } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/engine-lib/game/TeamAssignment";
+import { isAdminRole } from "@zombie-defense/shared/ApiSchemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
+import { createPartialGameRecord } from "@zombie-defense/shared/SharedUtil";
 import {
   ClientMessage,
   ClientReportMessage,
@@ -52,12 +52,12 @@ import {
   ServerTurnMessage,
   WireGameStartInfo,
   WireGameStartInfoSchema,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   createGameWireContext,
   encodeServerMessage,
-} from "@openfront/shared/ZbinWire";
-import { ZbContext } from "@openfront/zbin";
+} from "@zombie-defense/shared/ZbinWire";
+import { ZbContext } from "@zombie-defense/zbin";
 import { createHash, randomBytes } from "crypto";
 import ipAnonymize from "ip-anonymize";
 import { Logger } from "winston";

@@ -2,7 +2,7 @@ import {
   ClanTagSchema,
   RENDERABLE_NAME_CHARS,
   UsernameSchema,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 import { z } from "zod";
 import { translateText } from "../Utils";
 

@@ -1,13 +1,13 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { MessageType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { renderNumber } from "@openfront/engine-lib/Format";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { MessageType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { renderNumber } from "@zombie-defense/engine-lib/Format";
 import {
   zInt,
   zPlayerRef,
   zRef,
   zTile,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
-import { findClosestBy } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
+import { findClosestBy } from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import { Execution, Game, Player, Unit } from "../game/Game";
 import { WaterPathFinder } from "../pathfinding/PathFinder";

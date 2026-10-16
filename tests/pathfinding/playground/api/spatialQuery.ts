@@ -1,7 +1,7 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { PathFinding } from "@openfront/engine/pathfinding/PathFinder";
-import { SpatialQuery } from "@openfront/engine/pathfinding/spatial/SpatialQuery";
-import { DebugSpan } from "@openfront/engine/utilities/DebugSpan";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { PathFinding } from "@zombie-defense/engine/pathfinding/PathFinder";
+import { SpatialQuery } from "@zombie-defense/engine/pathfinding/spatial/SpatialQuery";
+import { DebugSpan } from "@zombie-defense/engine/utilities/DebugSpan";
 import { loadMap } from "./maps.js";
 
 export interface SpatialQueryResult {

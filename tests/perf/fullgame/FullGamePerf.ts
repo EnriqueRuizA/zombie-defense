@@ -38,21 +38,21 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   HashUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameConfig, GameStartInfo } from "@openfront/engine-api/Schemas";
-import { loadTerrainMap } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { simpleHash } from "@openfront/engine-lib/Util";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { Executor } from "@openfront/engine/execution/ExecutionManager";
-import { createGame } from "@openfront/engine/game/GameImpl";
-import { createNationsForGame } from "@openfront/engine/game/NationCreation";
-import { GameRunner } from "@openfront/engine/GameRunner";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameConfig, GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { loadTerrainMap } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { Executor } from "@zombie-defense/engine/execution/ExecutionManager";
+import { createGame } from "@zombie-defense/engine/game/GameImpl";
+import { createNationsForGame } from "@zombie-defense/engine/game/NationCreation";
+import { GameRunner } from "@zombie-defense/engine/GameRunner";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 import fs from "fs";
 import v8 from "node:v8";
 import path from "path";

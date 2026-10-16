@@ -10,12 +10,12 @@
 // `groupToken: undefined` for every singleplayer game, and a strip that only
 // exists as a line inside a console.log call is a strip nothing defends.
 
-import { GameMode, GameType } from "@openfront/engine-api/game/GameTypes";
-import type { GameConfig } from "@openfront/engine-api/Schemas";
+import { GameMode, GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import type {
   ServerMessage,
   ServerStartGameMessage,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import type { PresencePayload } from "./DesktopPresence";
 
 // The token this server message carries, if it carries one.

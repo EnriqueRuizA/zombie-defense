@@ -1,10 +1,10 @@
-import { GameMapSize, GameMapType } from "@openfront/engine-api/game/GameTypes";
+import { GameMapSize, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ArchivedPlayerStatsSchema,
   PlayerStatsSchema,
-} from "@openfront/engine-api/StatsSchemas";
-import { LOBBY_LABEL_MAX } from "@openfront/engine-lib/Util";
-import { zb } from "@openfront/zbin";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { LOBBY_LABEL_MAX } from "@zombie-defense/engine-lib/Util";
+import { zb } from "@zombie-defense/zbin";
 import { z } from "zod";
 import {
   ColorPaletteSchema,
@@ -27,7 +27,7 @@ import {
   TurnSchema,
   UsernameSchema,
   WinnerSchema,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 
 export type ClientMessage =
   | ClientSendWinnerMessage

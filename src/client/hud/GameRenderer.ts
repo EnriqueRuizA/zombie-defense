@@ -1,4 +1,4 @@
-import { EventBus } from "@openfront/shared/EventBus";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { Controller } from "../Controller";
 import { AmbienceController } from "../controllers/AmbienceController";
 import { AttackingTroopsController } from "../controllers/AttackingTroopsController";

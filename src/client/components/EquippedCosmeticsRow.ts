@@ -1,10 +1,10 @@
-import { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import {
   Cosmetics,
   Effect,
   isNukeExplosionEffect,
-} from "@openfront/shared/CosmeticSchemas";
-import { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
+import { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { html, LitElement, nothing, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { getUserMe } from "../Api";

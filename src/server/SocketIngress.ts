@@ -1,11 +1,11 @@
-import { ClientID } from "@openfront/engine-api/Schemas";
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
 import {
   ClientMessage,
   ClientMessageSchema,
-} from "@openfront/shared/WireSchemas";
-import { decodeClientMessageUnvalidated } from "@openfront/shared/ZbinWire";
-import { ZbContext } from "@openfront/zbin";
+} from "@zombie-defense/shared/WireSchemas";
+import { decodeClientMessageUnvalidated } from "@zombie-defense/shared/ZbinWire";
+import { ZbContext } from "@zombie-defense/zbin";
 import { Logger } from "winston";
 import { z } from "zod";
 import { Client } from "./Client";

@@ -1,20 +1,20 @@
-import { GameMap } from "@openfront/engine-api/game/GameMap";
+import { GameMap } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Nation,
   TeamGameSpawnAreas,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig, GameConfigSchema } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig, GameConfigSchema } from "@zombie-defense/engine-api/Schemas";
 import {
   GameMapImpl,
   GameMapSnapshot,
-} from "@openfront/engine-lib/game/GameMapImpl";
+} from "@zombie-defense/engine-lib/game/GameMapImpl";
 import {
   readVersioned,
   SnapshotError,
   SnapshotType,
   Versioned,
   VersionedSchema,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { EngineConfig } from "../configuration/EngineConfig";
 import { AllianceImpl, AllianceSnapshot } from "../game/AllianceImpl";

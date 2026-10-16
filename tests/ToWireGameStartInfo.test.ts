@@ -1,6 +1,6 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { GameStartInfo } from "@openfront/engine-api/Schemas";
-import { toWireGameStartInfo } from "@openfront/shared/SharedUtil";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { toWireGameStartInfo } from "@zombie-defense/shared/SharedUtil";
 import { describe, expect, it } from "vitest";
 
 function startInfo(config: Record<string, unknown>): GameStartInfo {

@@ -1,4 +1,4 @@
-import { EventBus } from "@openfront/shared/EventBus";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   InputHandler,
   ZOOM_DELTA_DIVISOR,

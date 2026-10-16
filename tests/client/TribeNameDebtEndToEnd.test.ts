@@ -53,7 +53,7 @@ vi.mock("../../src/client/Utils", async (importOriginal) => ({
     vars ? `${key}:${JSON.stringify(vars)}` : key,
 }));
 
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { ClientEnv } from "../../src/client/ClientEnv";
 import "../../src/client/components/TribesPanel";
 import type { TribesPanel } from "../../src/client/components/TribesPanel";

@@ -6,11 +6,11 @@ import {
   PlayerType,
   Quads,
   Trios,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   assignTeams,
   resolveTeamsList,
-} from "@openfront/engine-lib/game/TeamAssignment";
+} from "@zombie-defense/engine-lib/game/TeamAssignment";
 
 const teams = [ColoredTeams.Red, ColoredTeams.Blue];
 

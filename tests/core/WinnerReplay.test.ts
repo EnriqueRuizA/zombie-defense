@@ -1,12 +1,12 @@
-import { GameMapSize, RankedType } from "@openfront/engine-api/game/GameTypes";
+import { GameMapSize, RankedType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   WinUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameStartInfo, Turn } from "@openfront/engine-api/Schemas";
-import { createGameRunner } from "@openfront/engine/GameRunner";
-import { replayWinner } from "@openfront/engine/WinnerReplay";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameStartInfo, Turn } from "@zombie-defense/engine-api/Schemas";
+import { createGameRunner } from "@zombie-defense/engine/GameRunner";
+import { replayWinner } from "@zombie-defense/engine/WinnerReplay";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 import { describe, expect, it } from "vitest";
 import { scriptedGameStart, TestDataMapLoader } from "../util/ScriptedGame";
 

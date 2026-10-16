@@ -1,4 +1,4 @@
-import { Tribe, TribeSchema } from "@openfront/engine-api/Schemas";
+import { Tribe, TribeSchema } from "@zombie-defense/engine-api/Schemas";
 import { z } from "zod";
 import { ServerEnv } from "./ServerEnv";
 

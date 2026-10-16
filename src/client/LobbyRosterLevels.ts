@@ -1,6 +1,6 @@
-import { ClientID, GameID } from "@openfront/engine-api/Schemas";
-import { LevelBadge, unpackLevelBadge } from "@openfront/shared/LevelBadgeWire";
-import { ClientInfo } from "@openfront/shared/WireSchemas";
+import { ClientID, GameID } from "@zombie-defense/engine-api/Schemas";
+import { LevelBadge, unpackLevelBadge } from "@zombie-defense/shared/LevelBadgeWire";
+import { ClientInfo } from "@zombie-defense/shared/WireSchemas";
 import {
   ownHiddenLevelBadge,
   refreshOwnHiddenLevelBadge,

@@ -5,7 +5,7 @@ import type {
   LogLevel,
   TransportItem,
 } from "@grafana/faro-web-sdk";
-import { GameEnv } from "@openfront/shared/configuration/Env";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
 import { ClientEnv } from "./ClientEnv";
 import { clientPlatform } from "./ClientPlatform";
 

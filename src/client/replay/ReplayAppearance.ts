@@ -9,11 +9,11 @@
  * again when those change.
  */
 
-import { assetUrl } from "@openfront/shared/AssetUrls";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import type {
   PlayerCosmetics,
   WireGameStartInfo,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { fetchCosmetics, getCachedCosmetics } from "../Cosmetics";
 import type { MapRenderer } from "../render/gl";
 import type { SpiralSink } from "../render/gl/utils/PlayerPalette";

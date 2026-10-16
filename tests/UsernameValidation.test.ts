@@ -1,7 +1,7 @@
 import {
   RENDERABLE_NAME_CHAR_RE,
   UsernameSchema,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 import { readFileSync } from "fs";
 import { describe, expect, it } from "vitest";
 import {

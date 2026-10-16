@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { GameEnv, parseGameEnv } from "@openfront/shared/configuration/Env";
+import { GameEnv, parseGameEnv } from "@zombie-defense/shared/configuration/Env";
 import { ClientEnv } from "src/client/ClientEnv";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 

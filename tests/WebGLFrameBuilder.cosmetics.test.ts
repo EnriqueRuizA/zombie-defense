@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+import type { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { colord } from "colord";
 import { describe, expect, it } from "vitest";
 import { WebGLFrameBuilder } from "../src/client/WebGLFrameBuilder";

@@ -1,4 +1,4 @@
-import { normalizeAssetPath } from "@openfront/shared/AssetPaths";
+import { normalizeAssetPath } from "@zombie-defense/shared/AssetPaths";
 import fs from "fs/promises";
 import os from "os";
 import path from "path";

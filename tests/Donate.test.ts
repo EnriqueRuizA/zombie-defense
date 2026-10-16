@@ -1,8 +1,8 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { GameID } from "@openfront/engine-api/Schemas";
-import { DonateGoldExecution } from "@openfront/engine/execution/DonateGoldExecution";
-import { DonateTroopsExecution } from "@openfront/engine/execution/DonateTroopExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { DonateGoldExecution } from "@zombie-defense/engine/execution/DonateGoldExecution";
+import { DonateTroopsExecution } from "@zombie-defense/engine/execution/DonateTroopExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
 import { setup } from "./util/Setup";
 
 describe("Donate troops to an ally", () => {

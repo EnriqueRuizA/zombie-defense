@@ -1,5 +1,5 @@
-import { Difficulty, GameMapType } from "@openfront/engine-api/game/GameTypes";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { Difficulty, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("../../src/client/Cosmetics", () => ({

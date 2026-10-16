@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { PublicGames } from "@openfront/shared/WireSchemas";
+import type { PublicGames } from "@zombie-defense/shared/WireSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { capturePagePin, resetPagePinForTests } from "../src/client/PagePin";
 

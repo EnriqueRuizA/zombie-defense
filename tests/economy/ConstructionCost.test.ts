@@ -2,9 +2,9 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "../util/Setup";
 
 // Regression test: the ghost/build-menu price of a structure must not double-count

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { EventBus } from "@openfront/shared/EventBus";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import en from "../../resources/lang/en.json";
 import { gamePortal } from "../../src/client/GamePortal";
 import {

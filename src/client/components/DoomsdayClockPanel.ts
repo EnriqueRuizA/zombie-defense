@@ -2,16 +2,16 @@ import {
   GameMode,
   PlayerType,
   Team,
-} from "@openfront/engine-api/game/GameTypes";
-import { renderTroops } from "@openfront/engine-lib/Format";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { renderTroops } from "@zombie-defense/engine-lib/Format";
 import {
   doomsdayClockDrain,
   doomsdayClockRequiredTiles,
   doomsdayClockRotQuota,
   doomsdayClockTroopFloor,
   doomsdayClockWaveState,
-} from "@openfront/engine-lib/game/DoomsdayClock";
-import { assetUrl } from "@openfront/shared/AssetUrls";
+} from "@zombie-defense/engine-lib/game/DoomsdayClock";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeProvider } from "../theme/ThemeProvider";

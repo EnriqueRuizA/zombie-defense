@@ -3,20 +3,20 @@ import {
   GameMapSize,
   GameMapType,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameID } from "@openfront/engine-api/Schemas";
-import type { Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import type { Game } from "@zombie-defense/engine/game/Game";
 import { vi } from "vitest";
 import { setup } from "../../util/Setup";
 
 const mockResolveTribeNameData = vi.fn();
 
-vi.mock("@openfront/engine-lib/execution/utils/TribeNames", () => ({
+vi.mock("@zombie-defense/engine-lib/execution/utils/TribeNames", () => ({
   resolveTribeNameData: (...args: unknown[]) =>
     mockResolveTribeNameData(...args),
 }));
 
-import { TribeSpawner } from "@openfront/engine/execution/TribeSpawner";
+import { TribeSpawner } from "@zombie-defense/engine/execution/TribeSpawner";
 
 const GAME_ID: GameID = "test_game_id";
 

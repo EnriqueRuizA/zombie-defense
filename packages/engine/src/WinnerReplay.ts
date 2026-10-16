@@ -2,14 +2,14 @@ import {
   ErrorUpdate,
   GameUpdateType,
   WinUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { MapFiles } from "@openfront/engine-api/game/MapFiles";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { MapFiles } from "@zombie-defense/engine-api/game/MapFiles";
 import {
   AllPlayersStats,
   GameStartInfo,
   Turn,
   Winner,
-} from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/Schemas";
 import { createGameRunner } from "./GameRunner";
 
 export interface ReplayedWinner {

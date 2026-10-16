@@ -6,13 +6,13 @@ import {
   GameType,
   maps,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { TeamCountConfig } from "@openfront/engine-api/Schemas";
-import { DoomsdayClockSpeed } from "@openfront/engine-lib/game/DoomsdayClock";
-import { UserMeResponse } from "@openfront/shared/ApiSchemas";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { generateID } from "@openfront/shared/SharedUtil";
-import { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { TeamCountConfig } from "@zombie-defense/engine-api/Schemas";
+import { DoomsdayClockSpeed } from "@zombie-defense/engine-lib/game/DoomsdayClock";
+import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { generateID } from "@zombie-defense/shared/SharedUtil";
+import { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { html, TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { translateText } from "../client/Utils";

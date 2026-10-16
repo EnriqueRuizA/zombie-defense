@@ -3,13 +3,13 @@ import {
   ClientID,
   StampedIntent,
   Turn,
-} from "@openfront/engine-api/Schemas";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/Schemas";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   createPartialGameRecord,
   decompressGameRecord,
   replacer,
-} from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/shared/SharedUtil";
 import {
   ClientMessage,
   ClientSendWinnerMessage,
@@ -18,7 +18,7 @@ import {
   PlayerRecord,
   ServerMessage,
   ServerStartGameMessage,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { ClientEnv } from "src/client/ClientEnv";
 import { z } from "zod";
 import { getApiBase } from "./Api";

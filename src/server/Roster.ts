@@ -1,5 +1,5 @@
-import { ClientID } from "@openfront/engine-api/Schemas";
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
 import WebSocket from "ws";
 import { Client } from "./Client";
 

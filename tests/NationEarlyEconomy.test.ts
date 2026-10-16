@@ -4,11 +4,11 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { NationStructureBehavior } from "@openfront/engine/execution/nation/NationStructureBehavior";
-import { UpgradeStructureExecution } from "@openfront/engine/execution/UpgradeStructureExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { NationStructureBehavior } from "@zombie-defense/engine/execution/nation/NationStructureBehavior";
+import { UpgradeStructureExecution } from "@zombie-defense/engine/execution/UpgradeStructureExecution";
 import { createGame, L, W } from "./core/pathfinding/_fixtures";
 
 // size x size with a lake in the middle half: `nation` owns the west coast, `other` the

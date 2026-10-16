@@ -1,5 +1,5 @@
-import { renderNumber } from "@openfront/engine-lib/Format";
-import { assetUrl } from "@openfront/shared/AssetUrls";
+import { renderNumber } from "@zombie-defense/engine-lib/Format";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import {
   LitElement,
   html,

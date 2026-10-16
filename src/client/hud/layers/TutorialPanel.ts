@@ -2,9 +2,9 @@ import {
   PlayerType,
   Relation,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { renderNumber } from "@openfront/engine-lib/Format";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { renderNumber } from "@zombie-defense/engine-lib/Format";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { LitElement, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { Controller } from "../../Controller";

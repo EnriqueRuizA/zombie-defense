@@ -1,4 +1,4 @@
-import type { LiveStream } from "@openfront/shared/ApiSchemas";
+import type { LiveStream } from "@zombie-defense/shared/ApiSchemas";
 import { LitElement, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { streamsFeed, watchUrl } from "../StreamsFeed";

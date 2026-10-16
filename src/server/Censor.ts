@@ -1,4 +1,4 @@
-import { simpleHash } from "@openfront/engine-lib/Util";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import {
   DataSet,
   RegExpMatcher,

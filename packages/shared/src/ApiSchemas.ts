@@ -1,15 +1,15 @@
-import { ClanTagSchema } from "@openfront/engine-api/Schemas";
+import { ClanTagSchema } from "@zombie-defense/engine-api/Schemas";
 import {
   BigIntStringSchema,
   PlayerStatsSchema,
-} from "@openfront/engine-api/StatsSchemas";
+} from "@zombie-defense/engine-api/StatsSchemas";
 import {
   Difficulty,
   GameMode,
   GameType,
   HumansVsNations,
   RankedType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import { z } from "zod";
 import { base64urlToUuid } from "./Base64";
 import {

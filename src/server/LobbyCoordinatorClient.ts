@@ -1,9 +1,9 @@
-import { CloseCode } from "@openfront/shared/CloseCodes";
+import { CloseCode } from "@zombie-defense/shared/CloseCodes";
 import {
   PublicGameType,
   PublicGameTypeSchema,
   ScheduledPublicGameTypeSchema,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import winston from "winston";
 import WebSocket from "ws";
 import { z } from "zod";

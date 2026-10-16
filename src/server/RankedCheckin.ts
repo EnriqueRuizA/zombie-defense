@@ -1,4 +1,4 @@
-import { isCommitLike, isSiteLike } from "@openfront/shared/ServerList";
+import { isCommitLike, isSiteLike } from "@zombie-defense/shared/ServerList";
 import type winston from "winston";
 import { z } from "zod";
 import { registeredSite } from "./ClusterCheckin";

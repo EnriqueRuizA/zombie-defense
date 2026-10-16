@@ -3,10 +3,10 @@ import {
   Nation,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig, GameID } from "@openfront/engine-api/Schemas";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig, GameID } from "@zombie-defense/engine-api/Schemas";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
 import { setup } from "../util/Setup";
 import { executeTicks } from "../util/utils";
 

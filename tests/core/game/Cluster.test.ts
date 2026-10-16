@@ -1,5 +1,5 @@
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { Cluster, TrainStation } from "@openfront/engine/game/TrainStation";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { Cluster, TrainStation } from "@zombie-defense/engine/game/TrainStation";
 
 const createStation = (id: number = 1): TrainStation => {
   const station = new TrainStation(

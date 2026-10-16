@@ -2,8 +2,8 @@ import {
   GameMode,
   GameType,
   type GameMapType,
-} from "@openfront/engine-api/game/GameTypes";
-import { type GameEndInfo } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { type GameEndInfo } from "@zombie-defense/shared/WireSchemas";
 import {
   html,
   LitElement,

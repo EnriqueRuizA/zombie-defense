@@ -1,6 +1,6 @@
-import { EventBus } from "@openfront/shared/EventBus";
-import type { ServerMessage } from "@openfront/shared/WireSchemas";
-import { encodeServerMessage } from "@openfront/shared/ZbinWire";
+import { EventBus } from "@zombie-defense/shared/EventBus";
+import type { ServerMessage } from "@zombie-defense/shared/WireSchemas";
+import { encodeServerMessage } from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // OPE-423. Transport's onmessage catch used to log the raw frame. That catch

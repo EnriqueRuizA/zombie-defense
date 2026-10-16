@@ -1,4 +1,4 @@
-import { ClientID } from "@openfront/engine-api/Schemas";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
 import { Client } from "./Client";
 
 // Desync detection. The simulation runs on every client; each reports a hash

@@ -1,5 +1,5 @@
-import { GameMode } from "@openfront/engine-api/game/GameTypes";
-import { GameConfigSchema } from "@openfront/engine-api/Schemas";
+import { GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfigSchema } from "@zombie-defense/engine-api/Schemas";
 import { describe, expect, it, vi } from "vitest";
 import { MapPlaylist } from "../../src/server/MapPlaylist";
 

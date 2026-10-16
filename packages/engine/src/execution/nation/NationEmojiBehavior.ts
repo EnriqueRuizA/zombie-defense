@@ -5,16 +5,16 @@ import {
   PlayerType,
   Relation,
   Tick,
-} from "@openfront/engine-api/game/GameTypes";
-import { flattenedEmojiTable } from "@openfront/engine-api/Schemas";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { flattenedEmojiTable } from "@zombie-defense/engine-api/Schemas";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   readVersioned,
   snapshotType,
   Versioned,
   zInt,
   zPlayerRef,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { Game, Player } from "../../game/Game";
 import type {

@@ -1,8 +1,8 @@
-import { RankedType } from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
-import type { GameXpEligible, Progress } from "@openfront/shared/ApiSchemas";
-import { Pattern } from "@openfront/shared/CosmeticSchemas";
-import { EventBus } from "@openfront/shared/EventBus";
+import { RankedType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
+import type { GameXpEligible, Progress } from "@zombie-defense/shared/ApiSchemas";
+import { Pattern } from "@zombie-defense/shared/CosmeticSchemas";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement, TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import {

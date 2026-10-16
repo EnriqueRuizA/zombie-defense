@@ -1,6 +1,6 @@
-import { PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
+import { PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { actionButton } from "../../components/ui/ActionButton";

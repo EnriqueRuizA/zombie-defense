@@ -1,4 +1,4 @@
-import { GameMap, TileRef } from "@openfront/engine-api/game/GameMap";
+import { GameMap, TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Cell,
   formatPlayerDisplayName,
@@ -11,20 +11,20 @@ import {
   Tick,
   UnitInfo,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   GameUpdateViewData,
   SpawnPhaseEndUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameLike, UnitPredicate } from "@openfront/engine-api/game/ReadViews";
-import { ClientID, GameID } from "@openfront/engine-api/Schemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { unpackMotionPlans } from "@openfront/engine-lib/game/MotionPlans";
-import { TerrainMapData } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { TerraNulliusImpl } from "@openfront/engine-lib/game/TerraNulliusImpl";
-import { UnitGrid } from "@openfront/engine-lib/game/UnitGrid";
-import { PlayerCosmetics, WirePlayer } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameLike, UnitPredicate } from "@zombie-defense/engine-api/game/ReadViews";
+import { ClientID, GameID } from "@zombie-defense/engine-api/Schemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { unpackMotionPlans } from "@zombie-defense/engine-lib/game/MotionPlans";
+import { TerrainMapData } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { TerraNulliusImpl } from "@zombie-defense/engine-lib/game/TerraNulliusImpl";
+import { UnitGrid } from "@zombie-defense/engine-lib/game/UnitGrid";
+import { PlayerCosmetics, WirePlayer } from "@zombie-defense/shared/WireSchemas";
 import { computeAllianceClusters } from "../render/frame/derive/AllianceClusters";
 import { extractAttackRings } from "../render/frame/derive/AttackRings";
 import { extractDefenseVolleyRings } from "../render/frame/derive/DefenseVolleyRings";
@@ -963,7 +963,7 @@ export class GameView implements GameLike {
     return this._map.waterVersion();
   }
   /** Map layers defined in the map's info.json, if any. */
-  layers(): import("@openfront/engine-api/game/MapFiles").MapLayer[] {
+  layers(): import("@zombie-defense/engine-api/game/MapFiles").MapLayer[] {
     return this._mapData.layers ?? [];
   }
   isValidCoord(x: number, y: number): boolean {

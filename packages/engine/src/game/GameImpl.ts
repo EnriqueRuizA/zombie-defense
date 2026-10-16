@@ -1,4 +1,4 @@
-import { GameMap, TileRef } from "@openfront/engine-api/game/GameMap";
+import { GameMap, TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Cell,
   ColoredTeams,
@@ -21,29 +21,29 @@ import {
   Tick,
   Trios,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdate,
   GameUpdateType,
-} from "@openfront/engine-api/game/GameUpdates";
-import { UnitPredicate } from "@openfront/engine-api/game/ReadViews";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { UnitPredicate } from "@zombie-defense/engine-api/game/ReadViews";
 import {
   AllPlayersStats,
   ClientID,
   Winner,
-} from "@openfront/engine-api/Schemas";
-import { ATTACK_INDEX_SENT } from "@openfront/engine-api/StatsSchemas";
-import { renderNumber } from "@openfront/engine-lib/Format";
+} from "@zombie-defense/engine-api/Schemas";
+import { ATTACK_INDEX_SENT } from "@zombie-defense/engine-api/StatsSchemas";
+import { renderNumber } from "@zombie-defense/engine-lib/Format";
 import {
   MotionPlanRecord,
   packMotionPlans,
-} from "@openfront/engine-lib/game/MotionPlans";
+} from "@zombie-defense/engine-lib/game/MotionPlans";
 import {
   assignTeams,
   resolveTeamsList,
-} from "@openfront/engine-lib/game/TeamAssignment";
-import { TerraNulliusImpl } from "@openfront/engine-lib/game/TerraNulliusImpl";
-import { UnitGrid } from "@openfront/engine-lib/game/UnitGrid";
+} from "@zombie-defense/engine-lib/game/TeamAssignment";
+import { TerraNulliusImpl } from "@zombie-defense/engine-lib/game/TerraNulliusImpl";
+import { UnitGrid } from "@zombie-defense/engine-lib/game/UnitGrid";
 import {
   readVersioned,
   snapshotType,
@@ -51,8 +51,8 @@ import {
   zInt,
   zPlayerRef,
   zRef,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
-import { simpleHash } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import { EngineConfig } from "../configuration/EngineConfig";
 import {

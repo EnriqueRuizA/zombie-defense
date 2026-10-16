@@ -1,5 +1,5 @@
-import { GameMap, TileRef } from "@openfront/engine-api/game/GameMap";
-import { within } from "@openfront/engine-lib/Util";
+import { GameMap, TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { within } from "@zombie-defense/engine-lib/Util";
 import { DistanceBasedBezierCurve } from "../utilities/Line";
 import { PathResult, PathStatus, SteppingPathFinder } from "./types";
 

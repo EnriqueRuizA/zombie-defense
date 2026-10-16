@@ -1,5 +1,5 @@
-import { GameMapType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
+import { GameMapType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
 
 /**
  * Maps a slider value (0-400) to the nations config value.

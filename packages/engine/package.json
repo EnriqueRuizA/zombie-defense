@@ -1,5 +1,5 @@
 {
-  "name": "@openfront/engine",
+  "name": "@zombie-defense/engine",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,9 +7,9 @@
     "./*": "./src/*.ts"
   },
   "dependencies": {
-    "@openfront/engine-api": "0.0.0",
-    "@openfront/engine-lib": "0.0.0",
-    "@openfront/zbin": "0.0.0",
+    "@zombie-defense/engine-api": "0.0.0",
+    "@zombie-defense/engine-lib": "0.0.0",
+    "@zombie-defense/zbin": "0.0.0",
     "zod": "^4.4.2"
   }
 }

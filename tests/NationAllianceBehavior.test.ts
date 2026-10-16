@@ -5,12 +5,12 @@ import {
   PlayerType,
   Tick,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { AllianceRequestExecution } from "@openfront/engine/execution/alliance/AllianceRequestExecution";
-import { NationAllianceBehavior } from "@openfront/engine/execution/nation/NationAllianceBehavior";
-import { NationEmojiBehavior } from "@openfront/engine/execution/nation/NationEmojiBehavior";
-import { AllianceRequest, Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { AllianceRequestExecution } from "@zombie-defense/engine/execution/alliance/AllianceRequestExecution";
+import { NationAllianceBehavior } from "@zombie-defense/engine/execution/nation/NationAllianceBehavior";
+import { NationEmojiBehavior } from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
+import { AllianceRequest, Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 let game: Game;

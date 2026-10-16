@@ -1,5 +1,5 @@
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { TileSet } from "@openfront/engine-lib/game/TileSet";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { TileSet } from "@zombie-defense/engine-lib/game/TileSet";
 import { describe, expect, it } from "vitest";
 
 describe("TileSet", () => {

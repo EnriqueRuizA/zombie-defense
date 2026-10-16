@@ -19,7 +19,7 @@ import {
   RailroadConstructionUpdate,
   RailroadDestructionUpdate,
   RailroadSnapUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
+} from "@zombie-defense/engine-api/game/GameUpdates";
 
 // Regular enum (not const enum) for cross-package use.
 export enum RailType {

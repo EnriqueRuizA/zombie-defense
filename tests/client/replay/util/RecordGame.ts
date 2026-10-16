@@ -5,10 +5,10 @@
  * the encoder consumes, so a normalization bug can't hide itself.
  */
 
-import { GameUpdateViewData } from "@openfront/engine-api/game/GameUpdates";
-import { Executor } from "@openfront/engine/execution/ExecutionManager";
-import { Game } from "@openfront/engine/game/Game";
-import { GameRunner } from "@openfront/engine/GameRunner";
+import { GameUpdateViewData } from "@zombie-defense/engine-api/game/GameUpdates";
+import { Executor } from "@zombie-defense/engine/execution/ExecutionManager";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { GameRunner } from "@zombie-defense/engine/GameRunner";
 import { gunzipSync, gzipSync } from "zlib";
 import { ReplayReader } from "../../../../src/client/replay/codec/decode/ReplayReader";
 import { StreamingEncoder } from "../../../../src/client/replay/codec/encode/StreamingEncoder";

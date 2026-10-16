@@ -1,5 +1,5 @@
-import { ClientID } from "@openfront/engine-api/Schemas";
-import { TerraNullius } from "@openfront/engine-api/game/GameTypes";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
+import { TerraNullius } from "@zombie-defense/engine-api/game/GameTypes";
 
 export class TerraNulliusImpl implements TerraNullius {
   constructor() {}
