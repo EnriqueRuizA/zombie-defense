@@ -107,7 +107,7 @@ On Windows, double-click `Iniciar-Juego.cmd` in the repo root, or run:
 npm run dev:simple
 ```
 
-It checks the Node/npm versions from `engines` (Node never auto-updates: fix it manually; npm below the range auto-updates with `npm install --global --ignore-scripts npm@12.1.0` and re-checks), installs dependencies with `npm run inst` when `node_modules` is missing, `package-lock.json` is newer, or workspace symlinks are broken, verifies the dev ports are free (client URL always explicit `server.port`, never auto-changed), then starts `npm run dev` and opens `http://localhost:9000/` in your browser. To skip opening the browser: `$env:SKIP_BROWSER_OPEN="true"; npm run dev:simple`.
+It checks the Node/npm versions from `engines` (Node missing or out-of-range offers auto-install with `[S/n]` defaulting to Yes: resolves the latest Node 24 LTS from `https://nodejs.org/dist` with no hardcoded version/URL/hash, verifies the MSI SHA256 against `SHASUMS256.txt`, installs with `msiexec /i /qn /norestart /log <TEMP>` showing a single UAC prompt, refreshes the session PATH, lists `where.exe` matches on coexistence, and re-checks — answering No or on any failure it aborts with the manual guide; npm below the range auto-updates with `npm install --global --ignore-scripts npm@12.1.0` and re-checks), installs dependencies with `npm run inst` when `node_modules` is missing, `package-lock.json` is newer, or workspace symlinks are broken, verifies the dev ports are free (client URL always explicit `server.port`, never auto-changed), then starts `npm run dev` and opens `http://localhost:9000/` in your browser. To skip opening the browser: `$env:SKIP_BROWSER_OPEN="true"; npm run dev:simple`.
 
 ### Client Only
 

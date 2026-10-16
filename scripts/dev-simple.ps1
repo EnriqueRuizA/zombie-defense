@@ -5,10 +5,18 @@
 #   - npm run dev:simple
 #   - Para no abrir el navegador: $env:SKIP_BROWSER_OPEN="true"; npm run dev:simple
 #
-# Lo que hace, en 4 pasos visibles (spec lanzador v1.2):
+# Lo que hace, en 4 pasos visibles (spec lanzador v1.3):
 #   1/4 Comprueba la toolchain (Node/npm segun "engines" de package.json).
-#       Node: SIN auto-instalacion; si no cumple, aborta ANTES de instalar
-#       nada, mostrando version actual, version requerida y guia de correccion.
+#       Node: AUTO-ASISTIDO; si falta o no cumple, pregunta [S/n] (defecto
+#       SI): con SI descarga el ultimo MSI Node 24 LTS x64 resolviendo la
+#       version en https://nodejs.org/dist (index.json, sin hardcodear
+#       version/URL/hash), verifica su SHA256 contra SHASUMS256.txt, lo
+#       instala con "msiexec /i <msi> /qn /norestart /log <TEMP>" (1 sola
+#       confirmacion UAC), refresca el PATH de la sesion, lista where.exe
+#       (coexistencia) y re-comprueba; con NO o ante cualquier fallo,
+#       aborta ANTES de instalar nada mas, mostrando version actual,
+#       version requerida y guia manual (fallback). winget: solo Propuesta
+#       (fuera de alcance, ver comentario en Install-NodeAuto).
 #       npm: SI se auto-corrige con "npm install --global --ignore-scripts
 #       npm@12.1.0" y re-comprueba; solo si sigue sin cumplir, aborta con guia.
 #   2/4 Verifica dependencias y ejecuta "npm run inst" (= npm ci
@@ -101,6 +109,138 @@ function Test-VersionInRange([System.Version]$Actual, [System.Version]$Min, [Sys
   return ($Actual.CompareTo($Min) -ge 0) -and ($Actual.CompareTo($Max) -lt 0)
 }
 
+function Update-SessionPath {
+  # Tras instalar Node con MSI, la consola actual no ve el PATH nuevo hasta
+  # reabrirla: se refresca la sesion con los valores de registro (Machine+User).
+  $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+  $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+  if ([string]::IsNullOrEmpty($machinePath)) { $machinePath = "" }
+  if ([string]::IsNullOrEmpty($userPath)) { $userPath = "" }
+  if (($machinePath -ne "") -and ($userPath -ne "")) {
+    $env:Path = "$machinePath;$userPath"
+  } elseif ($machinePath -ne "") {
+    $env:Path = $machinePath
+  } elseif ($userPath -ne "") {
+    $env:Path = $userPath
+  }
+}
+
+function Get-NodeCandidates {
+  # Coexistencia: lista TODAS las instalaciones visibles, no solo la primera
+  # del PATH, para avisar si hay varias.
+  $found = @()
+  try {
+    $lines = (& where.exe node 2>$null)
+    foreach ($one in @($lines)) {
+      $trimmed = ([string]$one).Trim()
+      if ($trimmed -ne "") { $found += $trimmed }
+    }
+  } catch {
+    # where.exe sale con codigo != 0 si no hay coincidencias; no es un error.
+  }
+  return $found
+}
+
+function Resolve-LatestNode24 {
+  # Resolucion DINAMICA de la ultima version v24.x LTS: se lee el indice
+  # oficial (https://nodejs.org/dist, fichero index.json) y se elige la mayor
+  # v24 con LTS. Prohibido hardcodear versiones, URLs de MSI o hashes: la URL
+  # del MSI y SHASUMS256.txt se construyen desde la version resuelta.
+  # Devuelve "v24.<minor>.<patch>" o $null si el indice no es accesible.
+  $indexUrl = "https://nodejs.org/dist/index.json"
+  try {
+    $entries = Invoke-RestMethod -Uri $indexUrl -UseBasicParsing
+  } catch {
+    return $null
+  }
+  $best = $null
+  $bestName = ""
+  foreach ($entry in @($entries)) {
+    $v = [string]$entry.version
+    if (-not ($v -like "v24.*")) { continue }
+    if (-not $entry.lts) { continue }
+    $parsed = $null
+    if (-not [System.Version]::TryParse($v.TrimStart("v"), [ref]$parsed)) { continue }
+    if (($best -eq $null) -or ($parsed.CompareTo($best) -gt 0)) {
+      $best = $parsed
+      $bestName = $v
+    }
+  }
+  if ($best -eq $null) { return $null }
+  return $bestName
+}
+
+function Install-NodeAuto([string]$RequiredText) {
+  # Node auto-asistido (spec v1.3): pregunta S/N con defecto SI; con SI
+  # descarga el MSI, verifica hash SHA256 contra SHASUMS256.txt, instala con
+  # 1 sola confirmacion UAC (la del msiexec), refresca PATH y deja el
+  # re-check al llamador. Ante cualquier fallo o respuesta NO: fallback a la
+  # guia manual (Fail con ERROR+Accion+pausa+exit 1), sin reintentar solo.
+  # Propuesta (fuera de alcance v1.3): alternativa via winget
+  # (winget install OpenJS.NodeJS.LTS --silent); no se usa porque requiere
+  # winget preinstalado y su UAC/UX varia por edicion de Windows.
+  $answer = Read-Host "Node no cumple ($RequiredText). ¿Descargar e instalar automaticamente el ultimo Node 24 LTS desde nodejs.org? [S/n]"
+  $normalized = $answer.Trim().ToLowerInvariant()
+  if (($normalized -eq "n") -or ($normalized -eq "no")) {
+    Fail "Instalacion automatica de Node rechazada por el usuario." "Instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  }
+  # Defecto SI: Enter vacio o cualquier respuesta distinta de N/No continua.
+  Write-Host "   Resolviendo la ultima version Node 24 LTS..." -ForegroundColor Yellow
+  $latest = Resolve-LatestNode24
+  if (($latest -eq $null) -or ($latest -eq "")) {
+    Fail "No se pudo resolver la ultima version Node 24 (indice https://nodejs.org/dist no accesible)." "Instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  }
+  $distBase = "https://nodejs.org/dist"
+  $msiName = "node-$latest-x64.msi"
+  $msiUrl = "$distBase/$latest/$msiName"
+  $shasumsUrl = "$distBase/$latest/SHASUMS256.txt"
+  $msiPath = Join-Path $env:TEMP $msiName
+  $logPath = Join-Path $env:TEMP "node-install.log"
+  Write-Host "   Descargando $msiUrl ..." -ForegroundColor Yellow
+  try {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath -UseBasicParsing
+  } catch {
+    Fail "No se pudo descargar $msiName." "Comprueba tu conexion e instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24). Log: $logPath."
+  }
+  Write-Host "   Verificando hash SHA256 contra SHASUMS256.txt ..." -ForegroundColor Yellow
+  try {
+    $shasums = (Invoke-WebRequest -Uri $shasumsUrl -UseBasicParsing).Content
+  } catch {
+    Remove-Item -LiteralPath $msiPath -Force -ErrorAction SilentlyContinue
+    Fail "No se pudo obtener SHASUMS256.txt para $latest." "Instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  }
+  $expected = $null
+  foreach ($line in ([string]$shasums -split "`r?`n")) {
+    $trimmed = $line.Trim()
+    if ($trimmed -eq "") { continue }
+    $parts = @($trimmed -split "\s+")
+    if ((@($parts).Count -ge 2) -and ($parts[1] -eq $msiName)) { $expected = $parts[0]; break }
+  }
+  if (($expected -eq $null) -or ($expected -eq "")) {
+    Remove-Item -LiteralPath $msiPath -Force -ErrorAction SilentlyContinue
+    Fail "SHASUMS256.txt no incluye $msiName." "Instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  }
+  $actual = (Get-FileHash -LiteralPath $msiPath -Algorithm SHA256).Hash
+  if ($actual.ToLowerInvariant() -ne ([string]$expected).Trim().ToLowerInvariant()) {
+    Remove-Item -LiteralPath $msiPath -Force -ErrorAction SilentlyContinue
+    Fail "El hash SHA256 del MSI no coincide con SHASUMS256.txt (descarga corrupta o manipulada)." "Instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  }
+  Write-Ok "Hash SHA256 verificado para $msiName."
+  Write-Host "   Instalando $msiName (una confirmacion UAC)..." -ForegroundColor Yellow
+  # Plantilla MSI: msiexec /i <msi> /qn /norestart /log <TEMP>. Unico UAC.
+  & msiexec /i "$msiPath" /qn /norestart /log "$logPath"
+  if ($LASTEXITCODE -ne 0) {
+    Fail "El instalador MSI termino con codigo $LASTEXITCODE (log: $logPath)." "Instala Node $RequiredText a mano desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  }
+  Update-SessionPath
+  $candidates = @(Get-NodeCandidates)
+  if ($candidates.Count -gt 1) {
+    Write-Warn ("Varias instalaciones de Node en el PATH (coexistencia): " + ($candidates -join "; ") + ". Se usa la primera del PATH.")
+  }
+  Write-Ok "Instalacion MSI completada (log: $logPath). Re-comprobando version..."
+}
+
 # --- Raiz del repo (esta script vive en <repo>\scripts\) ---------------------
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $RepoRoot
@@ -127,19 +267,45 @@ if (($engines -eq $null) -or ($engines.node -eq $null) -or ($engines.npm -eq $nu
 $nodeRange = Parse-EnginesBound ([string]$engines.node) "node"
 $npmRange = Parse-EnginesBound ([string]$engines.npm) "npm"
 
+# v1.3: Node AUTO-ASISTIDO (pregunta [S/n], defecto SI) + re-check tras
+# instalar. Orden del paso 1/4: Node auto -> re-check -> npm auto.
+$nodeVersion = $null
+$nodeRaw = $null
+$nodeOk = $false
 try {
   $nodeRaw = (& node --version) | Select-Object -First 1
+  $parsedNode = $null
+  if ([System.Version]::TryParse(([string]$nodeRaw).TrimStart("v", " ", "`t"), [ref]$parsedNode)) {
+    $nodeVersion = $parsedNode
+    $nodeOk = Test-VersionInRange $nodeVersion $nodeRange.Min $nodeRange.Max
+  }
 } catch {
-  Fail "Node.js no esta instalado o no esta en el PATH." "Instala Node $($nodeRange.Text) desde https://nodejs.org/ (rama LTS 24) y reintenta."
+  $nodeOk = $false
 }
-$nodeVersion = $null
-if (-not [System.Version]::TryParse($nodeRaw.TrimStart("v", " ", "`t"), [ref]$nodeVersion)) {
-  Fail "No se pudo interpretar la version de Node (salida: $nodeRaw)." "Reinstala Node $($nodeRange.Text) desde https://nodejs.org/ y reintenta."
+if (-not $nodeOk) {
+  if (($nodeRaw -eq $null) -or (([string]$nodeRaw).Trim() -eq "")) {
+    Write-Warn "Node.js no esta instalado o no esta en el PATH."
+  } else {
+    Write-Warn "Node $nodeRaw no cumple (requerido: $($nodeRange.Text))."
+  }
+  Install-NodeAuto $nodeRange.Text
+  # Re-check tras el auto-instalador (PATH de sesion ya refrescado dentro).
+  try {
+    $nodeRaw = (& node --version) | Select-Object -First 1
+  } catch {
+    Fail "Node sigue sin responder tras la instalacion automatica." "Cierra y reabre la consola (aplica el PATH nuevo) y reintenta; si persiste, instala Node $($nodeRange.Text) a mano desde https://nodejs.org/."
+  }
+  $nodeVersion = $null
+  if (-not [System.Version]::TryParse(([string]$nodeRaw).TrimStart("v", " ", "`t"), [ref]$nodeVersion)) {
+    Fail "No se pudo interpretar la version de Node tras instalar (salida: $nodeRaw)." "Cierra y reabre la consola y reintenta; si persiste, instala Node $($nodeRange.Text) a mano desde https://nodejs.org/."
+  }
+  if (-not (Test-VersionInRange $nodeVersion $nodeRange.Min $nodeRange.Max)) {
+    Fail "Node $nodeVersion sigue sin cumplir el requisito (requerido: $($nodeRange.Text))." "Cierra y reabre la consola para aplicar el PATH; si persiste, instala Node $($nodeRange.Text) a mano desde https://nodejs.org/ (rama LTS 24)."
+  }
+  Write-Ok "Node $nodeVersion cumple ($($nodeRange.Text)) tras instalacion automatica."
+} else {
+  Write-Ok "Node $nodeVersion cumple ($($nodeRange.Text))."
 }
-if (-not (Test-VersionInRange $nodeVersion $nodeRange.Min $nodeRange.Max)) {
-  Fail "Node $nodeVersion no cumple el requisito (requerido: $($nodeRange.Text), actual: $nodeVersion)." "Instala Node $($nodeRange.Text) desde https://nodejs.org/ (rama LTS 24) y reintenta. Este lanzador no actualiza Node por ti."
-}
-Write-Ok "Node $nodeVersion cumple ($($nodeRange.Text))."
 
 try {
   $npmRaw = (& npm --version) | Select-Object -First 1
