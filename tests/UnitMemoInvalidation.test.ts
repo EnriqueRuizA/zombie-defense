@@ -1,14 +1,14 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import {
   WaterPathFinder,
   WaterPathMemo,
-} from "@openfront/engine/pathfinding/PathFinder";
+} from "@zombie-defense/engine/pathfinding/PathFinder";
 import { setup } from "./util/Setup";
 
 let game: Game;

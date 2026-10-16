@@ -1,7 +1,7 @@
-import { PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { AllianceRequestExecution } from "@openfront/engine/execution/alliance/AllianceRequestExecution";
-import { DonateGoldExecution } from "@openfront/engine/execution/DonateGoldExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+import { PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { AllianceRequestExecution } from "@zombie-defense/engine/execution/alliance/AllianceRequestExecution";
+import { DonateGoldExecution } from "@zombie-defense/engine/execution/DonateGoldExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;

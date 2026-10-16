@@ -1,12 +1,12 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   GameType,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { getSpawnTiles } from "@openfront/engine/execution/Util";
-import { Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { getSpawnTiles } from "@zombie-defense/engine/execution/Util";
+import { Game } from "@zombie-defense/engine/game/Game";
 import { describe, expect, it } from "vitest";
 import { playerInfo, setup } from "../../util/Setup";
 

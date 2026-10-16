@@ -1,5 +1,5 @@
-import { ClientID } from "@openfront/engine-api/Schemas";
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { ClientID } from "@zombie-defense/engine-api/Schemas";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   BuildableUnit,
   Cell,
@@ -15,16 +15,16 @@ import {
   Team,
   Tick,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AllianceView,
   AttackUpdate,
   PlayerUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { PlayerLike } from "@openfront/engine-api/game/ReadViews";
-import { PatternDecoder } from "@openfront/shared/PatternDecoder";
-import { createRandomName } from "@openfront/shared/SharedUtil";
-import { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { PlayerLike } from "@zombie-defense/engine-api/game/ReadViews";
+import { PatternDecoder } from "@zombie-defense/shared/PatternDecoder";
+import { createRandomName } from "@zombie-defense/shared/SharedUtil";
+import { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { Colord, colord } from "colord";
 import { base64url } from "jose";
 import { UserSettings } from "../UserSettings";

@@ -1,4 +1,4 @@
-import { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import {
   Cosmetics,
   Effect,
@@ -7,7 +7,7 @@ import {
   isNukeExplosionEffect,
   NUKE_EXPLOSION_TYPES,
   NukeExplosionType,
-} from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
 import { html, LitElement, nothing, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import {

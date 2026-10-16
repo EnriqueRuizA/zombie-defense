@@ -1,4 +1,4 @@
-import { zInt, zPlayerRef } from "@openfront/engine-lib/snapshot/SnapshotType";
+import { zInt, zPlayerRef } from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { Execution, Game, Player } from "../game/Game";
 import { execSnapshotType } from "../snapshot/ExecutionSnapshot";

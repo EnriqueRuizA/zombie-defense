@@ -2,8 +2,8 @@ import {
   ColoredTeams,
   PlayerType,
   Team,
-} from "@openfront/engine-api/game/GameTypes";
-import { simpleHash } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import { Colord, colord, LabaColor } from "colord";
 import { PALETTE_NAMES } from "../render/gl/GraphicsOverrides";
 import {

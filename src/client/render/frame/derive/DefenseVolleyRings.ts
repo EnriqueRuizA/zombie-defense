@@ -1,5 +1,5 @@
-import type { UnitUpdate } from "@openfront/engine-api/game/GameUpdates";
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
+import type { UnitUpdate } from "@zombie-defense/engine-api/game/GameUpdates";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
 import type { AttackRingInput, UnitState } from "../../types";
 
 /**

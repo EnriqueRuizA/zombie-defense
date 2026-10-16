@@ -2,9 +2,9 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { ShellExecution } from "@openfront/engine/execution/ShellExecution";
-import { Game, Player, Unit } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ShellExecution } from "@zombie-defense/engine/execution/ShellExecution";
+import { Game, Player, Unit } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 const coastX = 7;

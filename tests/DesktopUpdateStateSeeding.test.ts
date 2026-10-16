@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
-import { GameMapType, GameMode } from "@openfront/engine-api/game/GameTypes";
-import type { GameConfig } from "@openfront/engine-api/Schemas";
+import { GameMapType, GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import type {
   PublicGameInfo,
   PublicGames,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   afterEach,
   beforeEach,

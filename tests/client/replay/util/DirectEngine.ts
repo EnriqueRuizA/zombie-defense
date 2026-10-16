@@ -7,11 +7,11 @@
 import {
   ErrorUpdate,
   GameUpdateViewData,
-} from "@openfront/engine-api/game/GameUpdates";
-import { MapFiles } from "@openfront/engine-api/game/MapFiles";
-import { GameStartInfo } from "@openfront/engine-api/Schemas";
-import { Game } from "@openfront/engine/game/Game";
-import { createGameRunner } from "@openfront/engine/GameRunner";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { MapFiles } from "@zombie-defense/engine-api/game/MapFiles";
+import { GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { createGameRunner } from "@zombie-defense/engine/GameRunner";
 import type { ReplayEngine } from "../../../../src/client/replay/processor/ReplayProcessor";
 
 export function directEngine(

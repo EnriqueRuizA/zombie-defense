@@ -1,12 +1,12 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { MessageType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { NukeType } from "@openfront/engine-api/StatsSchemas";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { MessageType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { NukeType } from "@zombie-defense/engine-api/StatsSchemas";
 import {
   zNum,
   zPlayerRef,
   zRef,
   zTile,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { Execution, Game, Player, Unit } from "../game/Game";
 import { PathFinding } from "../pathfinding/PathFinder";

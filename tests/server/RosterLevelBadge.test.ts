@@ -1,16 +1,16 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { UserMeResponseSchema } from "@openfront/shared/ApiSchemas";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { UserMeResponseSchema } from "@zombie-defense/shared/ApiSchemas";
 import {
   LevelBadge,
   packLevelBadge,
   unpackLevelBadge,
-} from "@openfront/shared/LevelBadgeWire";
-import { GameInfo, ServerMessage } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/LevelBadgeWire";
+import { GameInfo, ServerMessage } from "@zombie-defense/shared/WireSchemas";
 import {
   decodeServerMessage,
   encodeServerMessage,
-} from "@openfront/shared/ZbinWire";
+} from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   levelBadgeForPlayer,

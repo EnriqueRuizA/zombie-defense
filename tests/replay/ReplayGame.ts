@@ -21,26 +21,26 @@
  *
  * Exits non-zero if the replay diverges from the recorded hashes.
  */
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   HashUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameStartInfo } from "@openfront/engine-api/Schemas";
-import { loadTerrainMap } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { simpleHash } from "@openfront/engine-lib/Util";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { Executor } from "@openfront/engine/execution/ExecutionManager";
-import { createGame } from "@openfront/engine/game/GameImpl";
-import { createNationsForGame } from "@openfront/engine/game/NationCreation";
-import { GameRunner } from "@openfront/engine/GameRunner";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { loadTerrainMap } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { Executor } from "@zombie-defense/engine/execution/ExecutionManager";
+import { createGame } from "@zombie-defense/engine/game/GameImpl";
+import { createNationsForGame } from "@zombie-defense/engine/game/NationCreation";
+import { GameRunner } from "@zombie-defense/engine/GameRunner";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 import {
   decompressGameRecord,
   toWireGameStartInfo,
-} from "@openfront/shared/SharedUtil";
-import { GameRecord, GameRecordSchema } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/SharedUtil";
+import { GameRecord, GameRecordSchema } from "@zombie-defense/shared/WireSchemas";
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";

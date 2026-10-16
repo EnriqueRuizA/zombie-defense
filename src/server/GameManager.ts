@@ -4,12 +4,12 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig, GameID } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig, GameID } from "@zombie-defense/engine-api/Schemas";
 import {
   ClientPlatformSchema,
   PublicGameType,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { Logger } from "winston";
 import WebSocket from "ws";
 import { Client } from "./Client";

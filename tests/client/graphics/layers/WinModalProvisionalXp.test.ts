@@ -65,10 +65,10 @@ vi.mock("../../../../src/client/CrazyGamesSDK", () => ({
   },
 }));
 
-import type { HumanStatsSnapshot } from "@openfront/engine-api/game/GameTypes";
-import { GameMode, GameType } from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
-import { EventBus } from "@openfront/shared/EventBus";
+import type { HumanStatsSnapshot } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameMode, GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import "../../../../src/client/components/GameXpPanel";
 import type { GameXpPanel } from "../../../../src/client/components/GameXpPanel";
 import "../../../../src/client/hud/layers/WinModal";

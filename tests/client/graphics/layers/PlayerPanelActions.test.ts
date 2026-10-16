@@ -20,7 +20,7 @@ vi.mock("../../../../src/client/Utils", () => ({
   renderDuration: vi.fn(),
   showToast: vi.fn(),
 }));
-vi.mock("@openfront/engine-lib/Format", () => ({
+vi.mock("@zombie-defense/engine-lib/Format", () => ({
   renderNumber: vi.fn(),
   renderTroops: vi.fn(),
 }));
@@ -40,9 +40,9 @@ import {
   AllPlayers,
   GameType,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { flattenedEmojiTable } from "@openfront/engine-api/Schemas";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { flattenedEmojiTable } from "@zombie-defense/engine-api/Schemas";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { actionButton } from "../../../../src/client/components/ui/ActionButton";
 import { PlayerPanel } from "../../../../src/client/hud/layers/PlayerPanel";
 import {

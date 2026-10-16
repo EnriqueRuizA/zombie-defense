@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { EventBus } from "@openfront/shared/EventBus";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { describe, expect, test, vi } from "vitest";
 import { SendUpgradeStructureIntentEvent } from "../src/client/Transport";
 

@@ -1,4 +1,4 @@
-import { PartialGameRecord } from "@openfront/shared/WireSchemas";
+import { PartialGameRecord } from "@zombie-defense/shared/WireSchemas";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { finalizeGameRecord } from "../../src/server/Archive";
 

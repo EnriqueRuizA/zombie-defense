@@ -1,8 +1,8 @@
-import { GameMap, TileRef } from "@openfront/engine-api/game/GameMap";
-import { Game } from "@openfront/engine/game/Game";
-import { AbstractGraphBuilder } from "@openfront/engine/pathfinding/algorithms/AbstractGraph";
-import { ConnectedComponents } from "@openfront/engine/pathfinding/algorithms/ConnectedComponents";
-import { PathFinding } from "@openfront/engine/pathfinding/PathFinder";
+import { GameMap, TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { AbstractGraphBuilder } from "@zombie-defense/engine/pathfinding/algorithms/AbstractGraph";
+import { ConnectedComponents } from "@zombie-defense/engine/pathfinding/algorithms/ConnectedComponents";
+import { PathFinding } from "@zombie-defense/engine/pathfinding/PathFinder";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { setup } from "../../util/Setup";
 

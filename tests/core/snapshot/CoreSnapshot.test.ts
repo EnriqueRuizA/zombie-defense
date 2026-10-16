@@ -2,11 +2,11 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { WinCheckExecution } from "@openfront/engine/execution/WinCheckExecution";
-import { Game } from "@openfront/engine/game/Game";
-import { GameImpl } from "@openfront/engine/game/GameImpl";
-import { snapshotGame } from "@openfront/engine/snapshot/GameSnapshot";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { WinCheckExecution } from "@zombie-defense/engine/execution/WinCheckExecution";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { GameImpl } from "@zombie-defense/engine/game/GameImpl";
+import { snapshotGame } from "@zombie-defense/engine/snapshot/GameSnapshot";
 import { setup } from "../../util/Setup";
 import { diffGraphs, diffSnapshots, roundTrip } from "../../util/Snapshot";
 

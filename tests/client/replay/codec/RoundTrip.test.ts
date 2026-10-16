@@ -13,16 +13,16 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { unpackMotionPlans } from "@openfront/engine-lib/game/MotionPlans";
-import { AllianceRequestExecution } from "@openfront/engine/execution/alliance/AllianceRequestExecution";
-import { BreakAllianceExecution } from "@openfront/engine/execution/alliance/BreakAllianceExecution";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { TransportShipExecution } from "@openfront/engine/execution/TransportShipExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { unpackMotionPlans } from "@zombie-defense/engine-lib/game/MotionPlans";
+import { AllianceRequestExecution } from "@zombie-defense/engine/execution/alliance/AllianceRequestExecution";
+import { BreakAllianceExecution } from "@zombie-defense/engine/execution/alliance/BreakAllianceExecution";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { TransportShipExecution } from "@zombie-defense/engine/execution/TransportShipExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "../../../util/Setup";
 import { expectFrameMatchesTruth, expectReplayMatches } from "../util/Expect";
 import { openReader, recordGame } from "../util/RecordGame";

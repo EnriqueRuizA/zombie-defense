@@ -9,7 +9,7 @@
  * StructurePass + StructureLevelPass already implement the visual highlight.
  */
 
-import { EventBus } from "@openfront/shared/EventBus";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { Controller } from "../Controller";
 import { ToggleStructureEvent } from "../InputHandler";
 import { MapRenderer } from "../render/gl";

@@ -1,4 +1,4 @@
-import type { TileRef } from "@openfront/engine-api/game/GameMap";
+import type { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 
 /** TrainType enum — numeric values matching UnitState.trainType. */
 export enum TrainType {

@@ -8,7 +8,7 @@ vi.mock("../../src/client/ApiBase", () => ({
   getApiBase: () => "https://api.test",
 }));
 
-import type { GameXpResponse } from "@openfront/shared/ApiSchemas";
+import type { GameXpResponse } from "@zombie-defense/shared/ApiSchemas";
 import { getAuthHeader } from "../../src/client/Auth";
 import {
   fetchMyGameXp,

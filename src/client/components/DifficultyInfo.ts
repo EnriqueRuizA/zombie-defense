@@ -1,4 +1,4 @@
-import { Difficulty } from "@openfront/engine-api/game/GameTypes";
+import { Difficulty } from "@zombie-defense/engine-api/game/GameTypes";
 import { html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { translateText } from "../Utils";

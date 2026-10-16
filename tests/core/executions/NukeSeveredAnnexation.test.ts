@@ -2,11 +2,11 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { PlayerExecution } from "@openfront/engine/execution/PlayerExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { tileTraversalScratch } from "@openfront/engine/game/TileTraversalScratch";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { PlayerExecution } from "@zombie-defense/engine/execution/PlayerExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { tileTraversalScratch } from "@zombie-defense/engine/game/TileTraversalScratch";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { setup } from "../../util/Setup";
 import { TestConfig } from "../../util/TestConfig";

@@ -1,15 +1,15 @@
-import { GameMap } from "@openfront/engine-api/game/GameMap";
+import { GameMap } from "@zombie-defense/engine-api/game/GameMap";
 import {
   GameMapSize,
   TeamGameSpawnAreas,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AdditionalNation,
   MapFiles,
   MapLayer,
   MapMetadata,
   Nation,
-} from "@openfront/engine-api/game/MapFiles";
+} from "@zombie-defense/engine-api/game/MapFiles";
 import { GameMapImpl } from "./GameMapImpl";
 
 export type TerrainMapData = {

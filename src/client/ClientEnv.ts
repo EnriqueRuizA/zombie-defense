@@ -1,12 +1,12 @@
-import { GameID } from "@openfront/engine-api/Schemas";
-import { simpleHash } from "@openfront/engine-lib/Util";
-import { ClusterConfig } from "@openfront/shared/ClusterConfig";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
+import { ClusterConfig } from "@zombie-defense/shared/ClusterConfig";
 import {
   GameEnv,
   JwksSchema,
   parseGameEnv,
-} from "@openfront/shared/configuration/Env";
-import { ServerList } from "@openfront/shared/ServerList";
+} from "@zombie-defense/shared/configuration/Env";
+import { ServerList } from "@zombie-defense/shared/ServerList";
 import { JWK } from "jose";
 import { z } from "zod";
 

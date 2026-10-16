@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Cell,
   Difficulty,
@@ -12,20 +12,20 @@ import {
   TerrainType,
   TerraNullius,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   readVersioned,
   snapshotType,
   Versioned,
   zNum,
   zRef,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import {
   assertNever,
   boundingBoxCenter,
   calculateBoundingBoxCenter,
-} from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import { CHEAPEST_TROOP_RATIO } from "../../configuration/EngineConfig";
 import { Attack, Game, Player, Unit } from "../../game/Game";

@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
-import { GameMapType, GameMode } from "@openfront/engine-api/game/GameTypes";
-import type { GameConfig } from "@openfront/engine-api/Schemas";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { GameMapType, GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import type {
   PublicGameInfo,
   PublicGames,
   PublicGameType,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ClientEnv } from "../src/client/ClientEnv";
 import type { DesktopUpdateState } from "../src/client/DesktopShell";

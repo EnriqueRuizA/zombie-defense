@@ -1,4 +1,4 @@
-import { StreamsFeed } from "@openfront/shared/ApiSchemas";
+import { StreamsFeed } from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getStreams } from "../../../src/client/Api";
 import { ClientEnv } from "../../../src/client/ClientEnv";

@@ -1,9 +1,9 @@
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import {
   EFFECT_TYPES,
   NUKE_EXPLOSION_TYPES,
   type Cosmetics,
-} from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { purchaseCosmetic } from "../../src/client/Cosmetics";
 import { EFFECTS_KEY, UserSettings } from "../../src/client/UserSettings";

@@ -4,15 +4,15 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
-import { LOBBY_LABEL_MAX } from "@openfront/engine-lib/Util";
-import { sanitizeLobbyLabel } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { LOBBY_LABEL_MAX } from "@zombie-defense/engine-lib/Util";
+import { sanitizeLobbyLabel } from "@zombie-defense/shared/SharedUtil";
 import {
   FEATURED_LOBBY_AUTO_START_MS,
   HOSTED_LOBBY_AUTO_START_MS,
   LobbyLabelSchema,
   MAX_HOSTED_LOBBIES,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import EventEmitter from "events";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WebSocket } from "ws";

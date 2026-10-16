@@ -11,18 +11,18 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { type MapManifest } from "@openfront/engine-api/game/MapFiles";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { type MapManifest } from "@zombie-defense/engine-api/game/MapFiles";
 import {
   genTerrainFromBin,
   type TerrainMapData,
-} from "@openfront/engine-lib/game/TerrainMapLoader";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { TransportShipExecution } from "@openfront/engine/execution/TransportShipExecution";
-import { Execution, Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { TransportShipExecution } from "@zombie-defense/engine/execution/TransportShipExecution";
+import { Execution, Game } from "@zombie-defense/engine/game/Game";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

@@ -7,8 +7,8 @@ import {
   Quads,
   Team,
   Trios,
-} from "@openfront/engine-api/game/GameTypes";
-import { ClientID, TeamCountConfig } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ClientID, TeamCountConfig } from "@zombie-defense/engine-api/Schemas";
 import { PseudoRandom } from "../PseudoRandom";
 import { simpleHash } from "../Util";
 

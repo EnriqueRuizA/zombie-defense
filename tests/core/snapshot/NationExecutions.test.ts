@@ -5,11 +5,11 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { Game } from "@zombie-defense/engine/game/Game";
 import { setup } from "../../util/Setup";
 import { expectSnapshotRoundTrip } from "../../util/Snapshot";
 import { TestConfig, UseRealAttackLogic } from "../../util/TestConfig";

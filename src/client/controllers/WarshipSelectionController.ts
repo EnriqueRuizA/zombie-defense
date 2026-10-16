@@ -1,6 +1,6 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { Cell, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { EventBus } from "@openfront/shared/EventBus";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { Cell, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { Controller } from "../Controller";
 import {
   CloseViewEvent,

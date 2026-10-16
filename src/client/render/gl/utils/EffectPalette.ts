@@ -15,7 +15,7 @@
 import type {
   StructuresEffectAttributes,
   TrailEffectAttributes,
-} from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
 import { colord } from "colord";
 import { MAX_TRAIL_COLORS } from "./ColorUtils";
 

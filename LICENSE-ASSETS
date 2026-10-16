@@ -1,5 +1,15 @@
 # Asset License
 
+<!-- MARKER (O4/D2 + D3): marca legal retirada temporalmente para el sandbox
+     no comercial (sign-off D2 + D3). En este fichero se sustituyó la
+     atribución de la entidad upstream por Zombie Defense / Zombie Defense
+     Inc. y la marca de los assets propietarios. Riesgo asumido: la atribución
+     CC BY-SA original debe volver con el re-add antes de cualquier
+     distribución real. Texto previo exacto: git show 7160185:LICENSE-ASSETS.
+     Re-add por branch de miembro:
+       git checkout 7160185 -- LICENSE-ASSETS
+     Tabla de retiradas: docs/LEGAL-SANDBOX.md -->
+
 ## Open Assets (/resources) - Creative Commons BY-SA 4.0
 
 Assets in the `/resources` directory are licensed under Creative Commons BY-SA 4.0, including but not limited to:
@@ -10,7 +20,7 @@ Assets in the `/resources` directory are licensed under Creative Commons BY-SA 4
 - Font files
 - Level/map data files
 
-Attribution required: "OpenFront" or "OpenFront Inc."
+Attribution required: "Zombie Defense"
 
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/
 or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
@@ -18,10 +28,10 @@ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 ## Proprietary Assets (/proprietary) - All Rights Reserved
 
 Assets in the `/proprietary` directory are:
-- Copyright © 2024-2026 OpenFront Inc. and Contributors
+- Copyright © 2024-2026 Zombie Defense Inc. and Contributors
 - All Rights Reserved
-- NOT licensed for use, modification, or redistribution outside of OpenFront
-- May only be used as part of the complete OpenFront software package
+- NOT licensed for use, modification, or redistribution outside of Zombie Defense
+- May only be used as part of the complete Zombie Defense software package
 
 See `/proprietary/LICENSE` for full terms.
 
@@ -34,7 +44,8 @@ The following assets are NOT included in this repository and are NOT covered by 
 - Sound effects and music accessed via API
 - Any assets not explicitly included in this repository
 
-These external assets are proprietary property of OpenFront Inc.
+These external assets are proprietary property of Zombie Defense Inc.
+
 
 ## Important Legal Notice
 

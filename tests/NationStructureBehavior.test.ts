@@ -3,13 +3,13 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { NationStructureBehavior } from "@openfront/engine/execution/nation/NationStructureBehavior";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { Cluster } from "@openfront/engine/game/TrainStation";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { NationStructureBehavior } from "@zombie-defense/engine/execution/nation/NationStructureBehavior";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { Cluster } from "@zombie-defense/engine/game/TrainStation";
 import { vi } from "vitest";
 import { createGame, L, W } from "./core/pathfinding/_fixtures";
 

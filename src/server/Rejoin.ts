@@ -1,5 +1,5 @@
-import { GameID } from "@openfront/engine-api/Schemas";
-import { CloseCode, CloseReason } from "@openfront/shared/CloseCodes";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
 import { Logger } from "winston";
 import WebSocket from "ws";
 import { GameManager } from "./GameManager";

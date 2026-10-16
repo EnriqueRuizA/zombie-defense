@@ -1,4 +1,4 @@
-import { LiveStream, StreamsFeed } from "@openfront/shared/ApiSchemas";
+import { LiveStream, StreamsFeed } from "@zombie-defense/shared/ApiSchemas";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { isDesktopShell } from "./DesktopShell";

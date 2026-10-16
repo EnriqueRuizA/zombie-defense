@@ -3,7 +3,7 @@ import {
   type PlayerProfile,
   type PlayerStatsTree,
   type PublicProgress,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import { html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";

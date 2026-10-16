@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   NukeState,
   Tick,
@@ -6,9 +6,9 @@ import {
   TransportShipState,
   UnitType,
   WarshipState,
-} from "@openfront/engine-api/game/GameTypes";
-import { UnitUpdate } from "@openfront/engine-api/game/GameUpdates";
-import { UnitLike } from "@openfront/engine-api/game/ReadViews";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { UnitUpdate } from "@zombie-defense/engine-api/game/GameUpdates";
+import { UnitLike } from "@zombie-defense/engine-api/game/ReadViews";
 import type { UnitState } from "../render/types";
 import { TrainType as RendererTrainType } from "../render/types";
 import { applyUnitUpdateInPlace, unitStateFromUpdate } from "./EntityState";

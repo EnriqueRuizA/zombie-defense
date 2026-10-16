@@ -9,10 +9,10 @@ import {
   Quads,
   Team,
   Trios,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { DoomsdayClockSpeed } from "@openfront/engine-lib/game/DoomsdayClock";
-import { stripVersionPrefix } from "@openfront/shared/ServerList";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { DoomsdayClockSpeed } from "@zombie-defense/engine-lib/game/DoomsdayClock";
+import { stripVersionPrefix } from "@zombie-defense/shared/ServerList";
 import IntlMessageFormat from "intl-messageformat";
 import { ClientEnv } from "./ClientEnv";
 import type { LangSelector } from "./LangSelector";

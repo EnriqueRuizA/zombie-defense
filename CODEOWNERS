@@ -1,4 +1,7 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-* @openfrontio/maintainer
-resources/lang @openfrontio/translation-approver
-resources/lang/en.json @openfrontio/maintainer
+# Propuesta (O2/D1): handles provisionales con el scope aprobado @zombie-defense.
+# Sustituir por la org/teams definitivas cuando existan (no inventar); hasta
+# entonces GitHub marcará estas entradas como owners inválidos.
+* @zombie-defense/maintainer
+resources/lang @zombie-defense/translation-approver
+resources/lang/en.json @zombie-defense/maintainer

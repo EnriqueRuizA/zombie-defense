@@ -1,5 +1,5 @@
-import { ShoreCoercingTransformer } from "@openfront/engine/pathfinding/transformers/ShoreCoercingTransformer";
-import { PathFinder } from "@openfront/engine/pathfinding/types";
+import { ShoreCoercingTransformer } from "@zombie-defense/engine/pathfinding/transformers/ShoreCoercingTransformer";
+import { PathFinder } from "@zombie-defense/engine/pathfinding/types";
 import { describe, expect, it } from "vitest";
 import { createGameMap, createIslandMap, L, W } from "../_fixtures";
 

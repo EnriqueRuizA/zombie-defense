@@ -1,8 +1,19 @@
-# License for OpenFront.io Project
+# License for Zombie Defense Project
+
+<!-- MARKER (O4/D2 + D3): marca legal upstream retirada temporalmente para el
+     sandbox no comercial (sign-off D2 + D3). En este documento se sustituyeron
+     todas las menciones a la entidad/dominio upstream por Zombie Defense /
+     Zombie Defense Inc., y las líneas de copyright histórico quedaron como
+     "[notice retirada temporalmente…]" en lugar de falsear la titularidad.
+     Riesgo asumido: la condición MIT de conservar los notices históricos
+     queda incumplida hasta el re-add. Re-add por branch de miembro:
+       git checkout 7160185 -- LICENSING.md
+     Contenido previo exacto: git show 7160185:LICENSING.md
+     Tabla de retiradas y procedimiento: docs/LEGAL-SANDBOX.md -->
 
 ## Overview
 
-This document provides comprehensive licensing information for the OpenFront.io project, including its evolution from MIT to GPL to AGPL licensing, asset licensing terms, and proprietary content notices.
+This document provides comprehensive licensing information for the Zombie Defense project, including its evolution from MIT to GPL to AGPL licensing, asset licensing terms, and proprietary content notices.
 
 ## Timeline
 
@@ -12,8 +23,8 @@ This document provides comprehensive licensing information for the OpenFront.io 
 - **Date Range:** 2024 - March 25, 2025
 - **License:** MIT License only
 - **Applies to:** Entire project
-- **Copyright Holders:** WarFront.io Team, OpenFront Inc. (and contributors)
-- **Note:** OpenFront.io extensively modified/replaced almost all original code
+- **Copyright Holders:** WarFront.io Team, Zombie Defense Inc. (and contributors)
+- **Note:** Zombie Defense extensively modified/replaced almost all original code
 
 ### Phase 2: Mixed MIT/GPL
 
@@ -22,7 +33,7 @@ This document provides comprehensive licensing information for the OpenFront.io 
 - **Licenses:**
   - GPL v3.0 for `src/client` directory
   - MIT for all other directories
-- **Copyright Holders:** OpenFront Inc. (and contributors)
+- **Copyright Holders:** Zombie Defense Inc. (and contributors)
 - **Note:** Created split licensing structure with copyleft for client code
 
 ### Phase 3: AGPL + Creative Commons
@@ -32,7 +43,7 @@ This document provides comprehensive licensing information for the OpenFront.io 
 - **Licenses:**
   - **Code:** Licensed under AGPL v3.0 (entire codebase)
   - **Assets:** Creative Commons BY-SA 4.0 (all non-code assets)
-- **Copyright Holders:** OpenFront Inc. (and contributors)
+- **Copyright Holders:** Zombie Defense Inc. (and contributors)
 - **Changes:**
   - Unified licensing approach (no more directory-specific licenses)
   - Upgraded from GPL v3 to AGPL v3 for stronger network copyleft
@@ -47,13 +58,13 @@ This document provides comprehensive licensing information for the OpenFront.io 
   - **Code:** AGPL v3.0 (unchanged from Phase 3)
   - **Open Assets (/resources):** Creative Commons BY-SA 4.0 (unchanged from Phase 3)
   - **Proprietary Assets (/proprietary):** All Rights Reserved
-- **Copyright Holders:** OpenFront Inc. and Contributors
+- **Copyright Holders:** Zombie Defense Inc. and Contributors
 - **Changes:**
   - Added `/proprietary` directory for copyrighted assets
   - Established dual-track asset licensing structure
   - Open assets in `/resources` remain CC BY-SA 4.0
   - Proprietary assets override open assets during build process
-  - Contributors retain copyright while granting usage rights to OpenFront Inc.
+  - Contributors retain copyright while granting usage rights to Zombie Defense Inc.
 
 ### Phase 5: Update AGPL Additional Attribution Terms
 
@@ -98,10 +109,10 @@ All assets included in this repository (graphics, sounds, music, models) are lic
 
 These external assets are:
 
-- Copyright © 2024-2026 OpenFront Inc.
+- Copyright © 2024-2026 Zombie Defense Inc.
 - All Rights Reserved
 - NOT licensed for use, modification, or redistribution
-- Proprietary and may not be extracted, copied, or used outside of the official OpenFront.io service
+- Proprietary and may not be extracted, copied, or used outside of the official Zombie Defense service
 
 ## Important Legal Notice
 
@@ -113,12 +124,12 @@ The open source license (AGPL) applies ONLY to code. The CC BY-SA license applie
 
 See CONTRIBUTING.md for current licensing requirements. All code contributions are licensed under AGPL v3 and assets under CC BY-SA 4.0.
 
-For questions, contact OpenFront Inc.
+For questions, contact Zombie Defense Inc.
 
 ## Historical MIT License
 
 Portions Copyright (c) 2024 WarFront.io Team
-Portions Copyright (c) 2024-2025 OpenFront Inc. (and contributors)
+Portions Copyright (c) 2024-2025 [notice retirada temporalmente — O4/D2, ver docs/LEGAL-SANDBOX.md]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Difficulty,
   GameMapSize,
@@ -9,19 +9,19 @@ import {
   PlayerType,
   TerrainType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { genTerrainFromBin } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { NationAllianceBehavior } from "@openfront/engine/execution/nation/NationAllianceBehavior";
-import { NationEmojiBehavior } from "@openfront/engine/execution/nation/NationEmojiBehavior";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { PlayerExecution } from "@openfront/engine/execution/PlayerExecution";
-import { AiAttackBehavior } from "@openfront/engine/execution/utils/AiAttackBehavior";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { createGame } from "@openfront/engine/game/GameImpl";
-import { PathFinding } from "@openfront/engine/pathfinding/PathFinder";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { genTerrainFromBin } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { NationAllianceBehavior } from "@zombie-defense/engine/execution/nation/NationAllianceBehavior";
+import { NationEmojiBehavior } from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { PlayerExecution } from "@zombie-defense/engine/execution/PlayerExecution";
+import { AiAttackBehavior } from "@zombie-defense/engine/execution/utils/AiAttackBehavior";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { createGame } from "@zombie-defense/engine/game/GameImpl";
+import { PathFinding } from "@zombie-defense/engine/pathfinding/PathFinder";
 import { encodeTerrainTile } from "../src/client/render/gl/utils/ColorUtils";
 import { TestConfig } from "./util/TestConfig";
 import { executeTicks } from "./util/utils";

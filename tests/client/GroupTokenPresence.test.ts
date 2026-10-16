@@ -1,10 +1,10 @@
-import { GameMode, GameType } from "@openfront/engine-api/game/GameTypes";
-import { EventBus } from "@openfront/shared/EventBus";
+import { GameMode, GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   GroupTokenEvent,
   type ServerMessage,
   type ServerStartGameMessage,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { describe, expect, it, vi } from "vitest";
 import type { PresencePayload } from "../../src/client/DesktopPresence";
 import {

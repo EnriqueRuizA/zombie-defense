@@ -1,8 +1,8 @@
-import { GameMode } from "@openfront/engine-api/game/GameTypes";
-import { ClientID, GameConfig } from "@openfront/engine-api/Schemas";
-import { simpleHash } from "@openfront/engine-lib/Util";
-import { anonWordName } from "@openfront/shared/AnonNames";
-import { GameInfo, WireGameStartInfo } from "@openfront/shared/WireSchemas";
+import { GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import { ClientID, GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
+import { anonWordName } from "@zombie-defense/shared/AnonNames";
+import { GameInfo, WireGameStartInfo } from "@zombie-defense/shared/WireSchemas";
 import { Client } from "./Client";
 
 // Who may see whose real identity, and what each viewer is shown instead.

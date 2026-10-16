@@ -3,8 +3,8 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { TransportShipExecution } from "@openfront/engine/execution/TransportShipExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { TransportShipExecution } from "@zombie-defense/engine/execution/TransportShipExecution";
 import { setup } from "../../util/Setup";
 import { executeTicks } from "../../util/utils";
 

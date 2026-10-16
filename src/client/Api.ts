@@ -1,4 +1,4 @@
-import type { NewsItem, StreamsFeed } from "@openfront/shared/ApiSchemas";
+import type { NewsItem, StreamsFeed } from "@zombie-defense/shared/ApiSchemas";
 import {
   ClaimAllRewardsResponse,
   ClaimAllRewardsResponseSchema,
@@ -45,12 +45,12 @@ import {
   UserMeResponse,
   UserMeResponseSchema,
   VisibilityResponseSchema,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import {
   AnalyticsRecord,
   ArchivedAnalyticsRecordSchema,
   GameInfo,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import newsItemsFallback from "resources/news.json";
 import streamsFallback from "resources/streams.json";
 import { z } from "zod";

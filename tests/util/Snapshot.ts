@@ -1,27 +1,27 @@
-import { GameMap } from "@openfront/engine-api/game/GameMap";
-import { MapManifest } from "@openfront/engine-api/game/MapFiles";
-import { genTerrainFromBin } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { TileSet } from "@openfront/engine-lib/game/TileSet";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { FlatBinaryHeap } from "@openfront/engine/execution/utils/FlatBinaryHeap";
-import { Game } from "@openfront/engine/game/Game";
-import { AStar } from "@openfront/engine/pathfinding/algorithms/AStar";
-import { AbstractGraphAStar } from "@openfront/engine/pathfinding/algorithms/AStar.AbstractGraph";
-import { AStarRail } from "@openfront/engine/pathfinding/algorithms/AStar.Rail";
-import { AStarWater } from "@openfront/engine/pathfinding/algorithms/AStar.Water";
-import { AStarWaterBounded } from "@openfront/engine/pathfinding/algorithms/AStar.WaterBounded";
-import { AStarWaterHierarchical } from "@openfront/engine/pathfinding/algorithms/AStar.WaterHierarchical";
-import { BFSGrid } from "@openfront/engine/pathfinding/algorithms/BFS.Grid";
+import { GameMap } from "@zombie-defense/engine-api/game/GameMap";
+import { MapManifest } from "@zombie-defense/engine-api/game/MapFiles";
+import { genTerrainFromBin } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { TileSet } from "@zombie-defense/engine-lib/game/TileSet";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { FlatBinaryHeap } from "@zombie-defense/engine/execution/utils/FlatBinaryHeap";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { AStar } from "@zombie-defense/engine/pathfinding/algorithms/AStar";
+import { AbstractGraphAStar } from "@zombie-defense/engine/pathfinding/algorithms/AStar.AbstractGraph";
+import { AStarRail } from "@zombie-defense/engine/pathfinding/algorithms/AStar.Rail";
+import { AStarWater } from "@zombie-defense/engine/pathfinding/algorithms/AStar.Water";
+import { AStarWaterBounded } from "@zombie-defense/engine/pathfinding/algorithms/AStar.WaterBounded";
+import { AStarWaterHierarchical } from "@zombie-defense/engine/pathfinding/algorithms/AStar.WaterHierarchical";
+import { BFSGrid } from "@zombie-defense/engine/pathfinding/algorithms/BFS.Grid";
 import {
   BucketQueue,
   MinHeap,
-} from "@openfront/engine/pathfinding/algorithms/PriorityQueue";
-import { WaterPathMemo } from "@openfront/engine/pathfinding/PathFinder";
+} from "@zombie-defense/engine/pathfinding/algorithms/PriorityQueue";
+import { WaterPathMemo } from "@zombie-defense/engine/pathfinding/PathFinder";
 import {
   restoreGame,
   snapshotGame,
-} from "@openfront/engine/snapshot/GameSnapshot";
-import { decodeSnapshotValue } from "@openfront/engine/snapshot/SnapshotCodec";
+} from "@zombie-defense/engine/snapshot/GameSnapshot";
+import { decodeSnapshotValue } from "@zombie-defense/engine/snapshot/SnapshotCodec";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

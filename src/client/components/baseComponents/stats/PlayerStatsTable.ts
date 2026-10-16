@@ -3,8 +3,8 @@ import {
   boatUnits,
   bombUnits,
   otherUnits,
-} from "@openfront/engine-api/StatsSchemas";
-import { renderNumber } from "@openfront/engine-lib/Format";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { renderNumber } from "@zombie-defense/engine-lib/Format";
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { translateText } from "../../../Utils";

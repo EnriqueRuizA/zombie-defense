@@ -1,5 +1,5 @@
-import { PlayerType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { renderNumber, renderTroops } from "@openfront/engine-lib/Format";
+import { PlayerType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { renderNumber, renderTroops } from "@zombie-defense/engine-lib/Format";
 import type { ColumnId, StatsTableKind } from "../../../StatsConstants";
 import { formatPercentage, translateText } from "../../../Utils";
 import type { GameView, PlayerView } from "../../../view";

@@ -1,5 +1,5 @@
-import { GameMode } from "@openfront/engine-api/game/GameTypes";
-import type { ClientInfo } from "@openfront/shared/WireSchemas";
+import { GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import type { ClientInfo } from "@zombie-defense/shared/WireSchemas";
 import { beforeEach, describe, expect, it } from "vitest";
 import "../../../src/client/components/LobbyPlayerView";
 import type { LobbyTeamView } from "../../../src/client/components/LobbyPlayerView";

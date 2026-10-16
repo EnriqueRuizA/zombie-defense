@@ -3,7 +3,7 @@ import {
   PublicGameInfo,
   PublicGames,
   PublicGameType,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ClientEnv } from "../src/client/ClientEnv";
 import { PublicLobbySocket } from "../src/client/LobbySocket";

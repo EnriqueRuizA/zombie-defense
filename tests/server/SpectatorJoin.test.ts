@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { GameType, RankedType } from "@openfront/engine-api/game/GameTypes";
-import { ClientMessage } from "@openfront/shared/WireSchemas";
-import { createGameWireContext } from "@openfront/shared/ZbinWire";
+import { GameType, RankedType } from "@zombie-defense/engine-api/game/GameTypes";
+import { ClientMessage } from "@zombie-defense/shared/WireSchemas";
+import { createGameWireContext } from "@zombie-defense/shared/ZbinWire";
 import { Client } from "../../src/server/Client";
 import { GameServer } from "../../src/server/GameServer";
 import {

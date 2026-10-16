@@ -1,7 +1,7 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { Game } from "@openfront/engine/game/Game";
-import { PathFinding } from "@openfront/engine/pathfinding/PathFinder";
-import { SteppingPathFinder } from "@openfront/engine/pathfinding/types";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { PathFinding } from "@zombie-defense/engine/pathfinding/PathFinder";
+import { SteppingPathFinder } from "@zombie-defense/engine/pathfinding/types";
 import { beforeAll, describe, expect, it } from "vitest";
 import { setup } from "../../util/Setup";
 

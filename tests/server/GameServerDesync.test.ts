@@ -1,4 +1,4 @@
-import { createGameWireContext } from "@openfront/shared/ZbinWire";
+import { createGameWireContext } from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Client } from "../../src/server/Client";
 import { GameServer } from "../../src/server/GameServer";

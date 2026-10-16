@@ -1,4 +1,4 @@
-import { assetUrl } from "@openfront/shared/AssetUrls";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { composeVersionDisplay, desktopVersion } from "../DesktopShell";
@@ -118,7 +118,12 @@ export class Footer extends LitElement {
               target="_blank"
               class="hover:text-white transition-colors"
             ></a>
-            <span data-i18n="main.copyright"></span>
+            <!-- MARKER (O4/D2): copyright notice retirada del footer para el
+                 sandbox no comercial (sign-off D2 + D3). La clave
+                 main.copyright sigue viva para el loading screen y su valor se
+                 neutralizó en resources/lang/en.json. Re-add por branch de
+                 miembro: git checkout 7160185 -- src/client/components/Footer.ts
+                 (tabla: docs/LEGAL-SANDBOX.md). -->
             <a
               href="/privacy-policy.html"
               data-i18n="main.privacy_policy"

@@ -1,5 +1,5 @@
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus, GameEvent } from "@openfront/shared/EventBus";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus, GameEvent } from "@zombie-defense/shared/EventBus";
 import * as d3 from "d3";
 import { Controller } from "../../Controller";
 import { CloseViewEvent } from "../../InputHandler";

@@ -1,18 +1,18 @@
-﻿import { TileRef } from "@openfront/engine-api/game/GameMap";
+﻿import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Cell,
   GameMapSize,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { type CustomTribe } from "@openfront/engine-api/game/Maps.gen";
-import { GameID } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { type CustomTribe } from "@zombie-defense/engine-api/game/Maps.gen";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
 import {
   type TribeNameData,
   resolveTribeNameData,
-} from "@openfront/engine-lib/execution/utils/TribeNames";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { simpleHash } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/execution/utils/TribeNames";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import { Game } from "../game/Game";
 import { SpawnExecution } from "./SpawnExecution";
 

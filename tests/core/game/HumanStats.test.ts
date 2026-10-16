@@ -1,9 +1,9 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { MarkDisconnectedExecution } from "@openfront/engine/execution/MarkDisconnectedExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { Game } from "@openfront/engine/game/Game";
-import { humanStatsSnapshot } from "@openfront/engine/game/HumanStats";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { MarkDisconnectedExecution } from "@zombie-defense/engine/execution/MarkDisconnectedExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { humanStatsSnapshot } from "@zombie-defense/engine/game/HumanStats";
 import { describe, expect, it } from "vitest";
 import { setup } from "../../util/Setup";
 import { executeTicks } from "../../util/utils";

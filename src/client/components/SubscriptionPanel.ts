@@ -2,8 +2,8 @@ import {
   isGrantedSubscription,
   isSteamGrant,
   UserSubscription,
-} from "@openfront/shared/ApiSchemas";
-import { Subscription } from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
+import { Subscription } from "@zombie-defense/shared/CosmeticSchemas";
 import { html, LitElement, nothing, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {

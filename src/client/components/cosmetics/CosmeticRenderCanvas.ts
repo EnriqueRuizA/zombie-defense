@@ -4,8 +4,8 @@ import {
   NukeExplosionAttributes,
   Pattern,
   Skin,
-} from "@openfront/shared/CosmeticSchemas";
-import { decodePatternData } from "@openfront/shared/PatternDecoder";
+} from "@zombie-defense/shared/CosmeticSchemas";
+import { decodePatternData } from "@zombie-defense/shared/PatternDecoder";
 import { base64url } from "jose";
 import { html, LitElement, nothing, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";

@@ -13,11 +13,11 @@ import {
   RankedType,
   Trios,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig, TeamCountConfig } from "@openfront/engine-api/Schemas";
-import { SAM_CONSTRUCTION_TICKS } from "@openfront/engine-lib/configuration/Config";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { ScheduledPublicGameType } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig, TeamCountConfig } from "@zombie-defense/engine-api/Schemas";
+import { SAM_CONSTRUCTION_TICKS } from "@zombie-defense/engine-lib/configuration/Config";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { ScheduledPublicGameType } from "@zombie-defense/shared/WireSchemas";
 import { logger } from "./Logger";
 import { getMapLandTiles } from "./MapLandTiles";
 import { MapWeightOverrides } from "./MapWeights";

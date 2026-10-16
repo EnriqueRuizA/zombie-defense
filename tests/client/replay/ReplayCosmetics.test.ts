@@ -5,8 +5,8 @@
  * from the file, and the trail effects resolved against the catalog.
  */
 
-import type { Cosmetics } from "@openfront/shared/CosmeticSchemas";
-import type { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+import type { Cosmetics } from "@zombie-defense/shared/CosmeticSchemas";
+import type { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { colord } from "colord";
 import { createThemeSettings } from "../../../src/client/render/gl/RenderSettings";
 import {

@@ -1,5 +1,5 @@
-import { GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { normalizeAssetPath } from "@openfront/shared/AssetPaths";
+import { GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { normalizeAssetPath } from "@zombie-defense/shared/AssetPaths";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";

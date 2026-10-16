@@ -7,9 +7,9 @@
  * starts it and gives the two workers a channel to talk on directly.
  */
 
-import type { ConnectMessage } from "@openfront/engine-api/worker/WorkerMessages";
-import { getCdnBase } from "@openfront/shared/AssetUrls";
-import type { GameRecord } from "@openfront/shared/WireSchemas";
+import type { ConnectMessage } from "@zombie-defense/engine-api/worker/WorkerMessages";
+import { getCdnBase } from "@zombie-defense/shared/AssetUrls";
+import type { GameRecord } from "@zombie-defense/shared/WireSchemas";
 import { createGameWorker } from "../WorkerClient";
 import type { ReplayAppend, ReplayBase } from "./codec/ReplayTypes";
 import type { ProcessorRequest, ProcessorResponse } from "./ProcessorMessages";

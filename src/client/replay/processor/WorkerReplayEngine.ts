@@ -6,14 +6,14 @@
  * between ticks.
  */
 
-import type { MapFiles } from "@openfront/engine-api/game/MapFiles";
-import type { GameStartInfo, Turn } from "@openfront/engine-api/Schemas";
+import type { MapFiles } from "@zombie-defense/engine-api/game/MapFiles";
+import type { GameStartInfo, Turn } from "@zombie-defense/engine-api/Schemas";
 import type {
   MainThreadMessage,
   RunTurnsResultMessage,
   WorkerMessage,
-} from "@openfront/engine-api/worker/WorkerMessages";
-import { mapFilesTransfer } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-api/worker/WorkerMessages";
+import { mapFilesTransfer } from "@zombie-defense/shared/GameMapLoader";
 import type { ReplayEngine } from "./ReplayProcessor";
 
 /** How long the engine gets to build the map and start the game. */

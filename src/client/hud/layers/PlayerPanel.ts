@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   AllPlayers,
   GameType,
@@ -6,16 +6,16 @@ import {
   PlayerProfile,
   PlayerType,
   Relation,
-} from "@openfront/engine-api/game/GameTypes";
-import { Emoji, flattenedEmojiTable } from "@openfront/engine-api/Schemas";
-import { renderNumber, renderTroops } from "@openfront/engine-lib/Format";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { Emoji, flattenedEmojiTable } from "@zombie-defense/engine-api/Schemas";
+import { renderNumber, renderTroops } from "@zombie-defense/engine-lib/Format";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   type LevelBadge,
   packLevelBadge,
-} from "@openfront/shared/LevelBadgeWire";
+} from "@zombie-defense/shared/LevelBadgeWire";
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import Countries from "resources/countries.json" with { type: "json" };

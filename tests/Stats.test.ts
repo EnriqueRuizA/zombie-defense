@@ -2,16 +2,16 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ATTACK_INDEX_MAX_RECV,
   ATTACK_INDEX_RECV,
   PlayerStats,
-} from "@openfront/engine-api/StatsSchemas";
-import { Game, Player } from "@openfront/engine/game/Game";
-import { Stats } from "@openfront/engine/game/Stats";
-import { StatsImpl } from "@openfront/engine/game/StatsImpl";
-import { replacer } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
+import { Stats } from "@zombie-defense/engine/game/Stats";
+import { StatsImpl } from "@zombie-defense/engine/game/StatsImpl";
+import { replacer } from "@zombie-defense/shared/SharedUtil";
 import { setup } from "./util/Setup";
 
 let stats: Stats;

@@ -2,7 +2,7 @@ import {
   type GameXpFlare,
   type GameXpReward,
   isRewardClaimable,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import {
   cosmeticSelectionLabel,
   cosmeticTypeLabel,

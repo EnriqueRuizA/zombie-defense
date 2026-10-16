@@ -1,5 +1,5 @@
-import { GameEnv } from "@openfront/shared/configuration/Env";
-import { ServerList } from "@openfront/shared/ServerList";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
+import { ServerList } from "@zombie-defense/shared/ServerList";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ClientEnv, NoServerError } from "../../src/client/ClientEnv";
 

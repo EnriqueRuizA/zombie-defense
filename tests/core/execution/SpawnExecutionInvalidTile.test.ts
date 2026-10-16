@@ -1,7 +1,7 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { GameID } from "@openfront/engine-api/Schemas";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { Game } from "@openfront/engine/game/Game";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { Game } from "@zombie-defense/engine/game/Game";
 import path from "path";
 import { beforeEach, describe, expect, test } from "vitest";
 import { setup } from "../../util/Setup";
