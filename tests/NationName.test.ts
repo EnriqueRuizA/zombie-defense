@@ -35,15 +35,6 @@ describe("Map manifests: nation name constraints", () => {
             );
             return;
           }
-          if (name === "ΜΟΝΟʟΙȚΗ") {
-            // This exception handles the without-name easter-egg Nation in Luna.
-            // The MONOLITH nation have UNICODE characters that DO NOT render in the game-map.
-            // Precisely: each bytes of the UNICODE 16-bit code
-            // falls **outside** of the Extended-ASCII render-zone: [0x20–0x7E] and [0xA0-0xFF].
-            // This magic trick makes its flag stand out, alone, over it's population count.
-            // However the name renders correctly in other texts (leaderboard, overlay, alliances, alerts, etc.).
-            return;
-          }
           // Allow only printable safe-extended-ASCII characters
           // within [0x20-0x7E] or [0xA0-0xFF], as in https://www.ascii-code.com/.
           const excludededCharacters = [...name].filter(

@@ -121,9 +121,7 @@ export class UserSettingModal extends BaseModal {
   // of open() and invoked once on close. The in-game menu uses it to reappear.
   private onReturn?: () => void;
 
-  @state() private keySequence: string[] = [];
   @state() private graphicsAdvancedOpen = false;
-  @state() private showEasterEggSettings = false;
 
   @state() private userKeybinds: Record<
     string,
@@ -174,7 +172,6 @@ export class UserSettingModal extends BaseModal {
       `${USER_SETTINGS_CHANGED_EVENT}:${GRAPHICS_KEY}`,
       this.onGraphicsChanged,
     );
-    window.removeEventListener("keydown", this.handleEasterEggKey);
     // An element torn down without close() being called (the in-game instance
     // when the match ends) would otherwise leave the bridge holding a
     // callback into a dead component.
@@ -349,39 +346,6 @@ export class UserSettingModal extends BaseModal {
     const entry = this.userKeybinds[action];
     if (!entry) return formatKeyForDisplay(this.defaultKeybinds[action] || "");
     return entry.key || formatKeyForDisplay(entry.value || "");
-  }
-
-  private handleEasterEggKey = (e: KeyboardEvent) => {
-    if (!this.isModalOpen || this.showEasterEggSettings) return;
-
-    // Validate that the event target is inside this component
-    const target = e.target as Node;
-    if (!this.contains(target)) {
-      return;
-    }
-
-    const key = e.key.toLowerCase();
-    const nextSequence = [...this.keySequence, key].slice(-4);
-    this.keySequence = nextSequence;
-
-    if (nextSequence.join("") === "evan") {
-      this.triggerEasterEgg();
-      this.keySequence = [];
-    }
-  };
-
-  private triggerEasterEgg() {
-    console.log("🪺 Setting~ unlocked by EVAN combo!");
-    this.showEasterEggSettings = true;
-    const popup = document.createElement("div");
-    popup.className =
-      "fixed top-10 left-1/2 p-4 px-6 bg-black/80 text-white text-xl rounded-xl animate-fadePop z-[9999]";
-    popup.textContent = "🎉 You found a secret setting!";
-    document.body.appendChild(popup);
-
-    setTimeout(() => {
-      popup.remove();
-    }, 5000);
   }
 
   private toggleEmojis() {
@@ -833,7 +797,6 @@ export class UserSettingModal extends BaseModal {
 
   protected onClose(): void {
     this.leaveDisplayTab();
-    window.removeEventListener("keydown", this.handleEasterEggKey);
     // Fire once: a caller that reopens us on return would otherwise inherit
     // the previous caller's callback.
     const onReturn = this.onReturn;
@@ -1956,55 +1919,10 @@ export class UserSettingModal extends BaseModal {
             : translateText("user_setting.off")}
         @change=${this.sliderNukeAllianceSafetyDuration}
       ></setting-slider>
-
-      ${this.showEasterEggSettings
-        ? html`
-            <setting-slider
-              label="${translateText(
-                "user_setting.easter_writing_speed_label",
-              )}"
-              description="${translateText(
-                "user_setting.easter_writing_speed_desc",
-              )}"
-              min="0"
-              max="100"
-              value="40"
-              easter="true"
-              @change=${(e: CustomEvent) => {
-                const value = e.detail?.value;
-                if (value !== undefined) {
-                  console.log("Changed:", value);
-                } else {
-                  console.warn("Slider event missing detail.value", e);
-                }
-              }}
-            ></setting-slider>
-
-            <setting-number
-              label="${translateText("user_setting.easter_bug_count_label")}"
-              description="${translateText(
-                "user_setting.easter_bug_count_desc",
-              )}"
-              value="100"
-              min="0"
-              max="1000"
-              easter="true"
-              @change=${(e: CustomEvent) => {
-                const value = e.detail?.value;
-                if (value !== undefined) {
-                  console.log("Changed:", value);
-                } else {
-                  console.warn("Slider event missing detail.value", e);
-                }
-              }}
-            ></setting-number>
-          `
-        : null}
     `;
   }
 
   protected onOpen(args?: Record<string, unknown>): void {
-    window.addEventListener("keydown", this.handleEasterEggKey);
     // Keybinds are editable from either instance and were only read in
     // connectedCallback, so re-read them or the other one renders stale.
     this.loadKeybindsFromStorage();
