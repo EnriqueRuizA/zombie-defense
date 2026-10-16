@@ -1,5 +1,5 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { ClientID, Intent } from "@openfront/engine-api/Schemas";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { ClientID, Intent } from "@zombie-defense/engine-api/Schemas";
 import { hostCheatsEnabled } from "./ConfigPatch";
 
 export interface IntentActor {

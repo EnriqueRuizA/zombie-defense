@@ -1,10 +1,10 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   PlayerBuildableUnitType,
   PlayerID,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { EventBus, GameEvent } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus, GameEvent } from "@zombie-defense/shared/EventBus";
 import { favoriteSlotForKey } from "./EmojiKeys";
 import { Platform } from "./Platform";
 import { UIState } from "./UIState";

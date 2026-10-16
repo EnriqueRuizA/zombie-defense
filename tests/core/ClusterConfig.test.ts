@@ -1,6 +1,6 @@
-import { GAME_ID_REGEX } from "@openfront/engine-api/Schemas";
-import { ClusterConfigSchema } from "@openfront/shared/ClusterConfig";
-import { generateGameID } from "@openfront/shared/SharedUtil";
+import { GAME_ID_REGEX } from "@zombie-defense/engine-api/Schemas";
+import { ClusterConfigSchema } from "@zombie-defense/shared/ClusterConfig";
+import { generateGameID } from "@zombie-defense/shared/SharedUtil";
 import { describe, expect, it } from "vitest";
 
 const entry = (host: string, numWorkers = 2) => ({ host, numWorkers });

@@ -1,4 +1,4 @@
-/* game.js v2 — clon OpenFront: terreno+agua, ciudades, ataques sostenidos, leaderboard, SC + aire + AA. Sin dependencias, file:// OK. */
+/* game.js v2 — clon Zombie Defense: terreno+agua, ciudades, ataques sostenidos, leaderboard, SC + aire + AA. Sin dependencias, file:// OK. */
 (function () {
   'use strict';
 
@@ -207,7 +207,7 @@
   }
   // FIX5(a), v4: teatro único por muestreo determinista con reintento.
   // La componente mayor de tierra debe cubrir >=80% para que la victoria por
-  // % de tierra sea alcanzable (estilo OpenFront). Se descarta la opción (b)
+  // % de tierra sea alcanzable (estilo Zombie Defense). Se descarta la opción (b)
   // —victoria sobre la componente mayor— porque permitiría "ganar" con el
   // enemigo dueño de casi todo el continente principal y mostraría victoria
   // con ~53% en el HUD, rompiendo la semántica "% de tierra" de la spec.
@@ -1234,7 +1234,7 @@
     showOverlay(title, lines, cls);
   }
 
-  // ---------- Render estilo OpenFront ----------
+  // ---------- Render estilo Zombie Defense ----------
   function render(now, myRun) {
     if (myRun !== runId) return; // Guardia: ignora frames de partidas viejas.
     if (!running && !gameOver) return;
@@ -1289,7 +1289,7 @@
       ctx.fillStyle = '#fff'; ctx.font = 'bold 8px sans-serif'; ctx.textAlign = 'center';
       ctx.fillText('⬢', cx, cy + 3);
     });
-    // Capitales: icono pequeño (OpenFront).
+    // Capitales: icono pequeño (Zombie Defense).
     players.forEach(function (pl) {
       if (!pl.alive) return;
       var capX = pl.capital.x * CELL + CELL / 2, capY = pl.capital.y * CELL + CELL / 2;
@@ -1374,7 +1374,7 @@
 
   function renderBoard() { if (ctx) draw(); }
 
-  // ---------- HUD OpenFront ----------
+  // ---------- HUD Zombie Defense ----------
   function say(t) { message = t; messageUntil = performance.now() + 3000; paintMsg(); }
   function paintMsg() { if (el.msg) el.msg.textContent = (performance.now() < messageUntil) ? message : ''; }
   setInterval(paintMsg, 300);
@@ -1437,7 +1437,7 @@
       else if (phase === 'spawn') el.phase.textContent = '📍 Spawn: elige punto (' + Math.ceil((C.SPAWN_PHASE_TICKS - tickCount) / 10) + 's)';
       else el.phase.textContent = 'Tique ' + tickCount + imm;
     }
-    // Paridad OpenFront: temporizador + economía real (oro/workers/pob aún no existen → Próximamente).
+    // Paridad Zombie Defense: temporizador + economía real (oro/workers/pob aún no existen → Próximamente).
     if (el.time) {
       var secs = Math.floor(tickCount * C.TICK_MS / 1000);
       var mm = Math.floor(secs / 60), ss = ('0' + (secs % 60)).slice(-2);

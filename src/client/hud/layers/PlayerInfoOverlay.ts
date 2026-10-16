@@ -1,15 +1,15 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   PlayerProfile,
   PlayerType,
   Relation,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { AllianceView } from "@openfront/engine-api/game/GameUpdates";
-import { UnitLike } from "@openfront/engine-api/game/ReadViews";
-import { renderNumber, renderTroops } from "@openfront/engine-lib/Format";
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { AllianceView } from "@zombie-defense/engine-api/game/GameUpdates";
+import { UnitLike } from "@zombie-defense/engine-api/game/ReadViews";
+import { renderNumber, renderTroops } from "@zombie-defense/engine-lib/Format";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Controller } from "../../Controller";

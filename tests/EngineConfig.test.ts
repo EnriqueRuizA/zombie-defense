@@ -1,7 +1,7 @@
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
 import { describe, expect, it } from "vitest";
 
 describe("EngineConfig.unitInfo", () => {

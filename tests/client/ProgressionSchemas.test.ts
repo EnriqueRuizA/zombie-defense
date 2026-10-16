@@ -4,7 +4,7 @@ import {
   ProgressionConfigSchema,
   PublicProgressSchema,
   UserMeResponseSchema,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import { describe, expect, it } from "vitest";
 
 const progress = {

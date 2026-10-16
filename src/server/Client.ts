@@ -1,11 +1,11 @@
-import { Tick } from "@openfront/engine-api/game/GameTypes";
-import { ClientID, Winner } from "@openfront/engine-api/Schemas";
-import { TokenPayload } from "@openfront/shared/ApiSchemas";
+import { Tick } from "@zombie-defense/engine-api/game/GameTypes";
+import { ClientID, Winner } from "@zombie-defense/engine-api/Schemas";
+import { TokenPayload } from "@zombie-defense/shared/ApiSchemas";
 import {
   type LevelBadge,
   packLevelBadge,
-} from "@openfront/shared/LevelBadgeWire";
-import { ClientPlatform, PlayerCosmetics } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/LevelBadgeWire";
+import { ClientPlatform, PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import WebSocket from "ws";
 
 export class Client {

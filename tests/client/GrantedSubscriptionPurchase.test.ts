@@ -41,7 +41,7 @@ vi.mock("../../src/client/Payments", async (importOriginal) => ({
 import type {
   Cosmetics,
   Subscription,
-} from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
 import {
   changeSubscriptionTier,
   getUserMe,

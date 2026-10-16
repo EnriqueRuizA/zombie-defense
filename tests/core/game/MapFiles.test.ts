@@ -1,10 +1,10 @@
-import { GameMapSize, GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { loadTerrainMap } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { createGameRunner } from "@openfront/engine/GameRunner";
+import { GameMapSize, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { loadTerrainMap } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { createGameRunner } from "@zombie-defense/engine/GameRunner";
 import {
   loadMapFiles,
   mapFilesTransfer,
-} from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/shared/GameMapLoader";
 import path from "path";
 import { fileURLToPath } from "url";
 import { NodeGameMapLoader } from "../../perf/fullgame/NodeGameMapLoader";

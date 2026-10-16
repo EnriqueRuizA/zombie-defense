@@ -1,12 +1,14 @@
-# Contributing to OpenFront.io
+# Contributing to Zombie Defense
 
-First off, thank you for considering contributing to OpenFront.io! It's people like you that make OpenFront such a great game.
+First off, thank you for considering contributing to Zombie Defense! It's people like you that make Zombie Defense such a great game.
 
 We welcome contributions from everyone. By participating in this project, you agree to abide by our code of conduct and treat all community members with respect.
 
 ## Quick Links
 
-- **Game**: [https://openfront.io/](https://openfront.io/)
+<!-- Propuesta (O2/D1): dominio provisional; Discord/Crowdin/GitHub pendientes
+     de que el coordinador fije las URLs definitivas (no inventar). -->
+- **Game**: [https://zombie-defense.io/](https://zombie-defense.io/)
 - **Discord**: [Join the Development Discord](https://discord.gg/K9zernJB5z)
 - **Translations**: [Crowdin Project](https://crowdin.com/project/openfront-mls)
 - **Issues**: [GitHub Issues](https://github.com/openfrontio/OpenFrontIO/issues)
@@ -61,6 +63,8 @@ Using AI tools is fine — but you **MUST** understand the code you are submitti
 
 1. **Fork the repository** on GitHub.
 2. **Clone your fork** locally:
+   <!-- Propuesta (O2/D1): nombre/URL del repo upstream (OpenFrontIO) pendiente
+        de renovar por el del repo de Zombie Defense cuando exista. -->
    ```bash
    git clone https://github.com/YOUR_USERNAME/OpenFrontIO.git
    cd OpenFrontIO
@@ -158,7 +162,7 @@ Before submitting, ensure you have:
 
 ## Translations
 
-Translators are welcome! We use Crowdin for translations. To help translate OpenFront.io:
+Translators are welcome! We use Crowdin for translations. To help translate Zombie Defense:
 
 1. Join the [Translation Discord](https://discord.gg/3zZzacjWFr).
 2. Visit our [Crowdin Project](https://crowdin.com/project/openfront-mls).
@@ -182,4 +186,4 @@ By contributing, you agree that your contributions will be licensed under the [G
 
 Remember that maintaining this project requires significant effort. The maintainer appreciates your contributions but must prioritize long-term project health and stability. Not all contributions will be accepted, and that's okay.
 
-Thank you for helping make OpenFront better!
+Thank you for helping make Zombie Defense better!

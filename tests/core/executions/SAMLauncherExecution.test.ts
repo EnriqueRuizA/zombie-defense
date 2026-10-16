@@ -3,14 +3,14 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameID } from "@openfront/engine-api/Schemas";
-import { NukeType } from "@openfront/engine-api/StatsSchemas";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { SAMLauncherExecution } from "@openfront/engine/execution/SAMLauncherExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { UpgradeStructureExecution } from "@openfront/engine/execution/UpgradeStructureExecution";
-import { Game, Player, Unit } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { NukeType } from "@zombie-defense/engine-api/StatsSchemas";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { SAMLauncherExecution } from "@zombie-defense/engine/execution/SAMLauncherExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { UpgradeStructureExecution } from "@zombie-defense/engine/execution/UpgradeStructureExecution";
+import { Game, Player, Unit } from "@zombie-defense/engine/game/Game";
 import { setup } from "../../util/Setup";
 import { TestConfig } from "../../util/TestConfig";
 import { constructionExecution, executeTicks } from "../../util/utils";

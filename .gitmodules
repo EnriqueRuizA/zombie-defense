@@ -1,3 +1,7 @@
+# Propuesta (O2/D1): URL provisional del submodule gatekeeper.
+# El fork/org definitivo de Zombie Defense aún no existe; se usa el placeholder
+# del propio scope aprobado (@zombie-defense) y no se inventa ningún dominio.
+# Revisar junto a O4 cuando el coordinador fije el repo.
 [submodule "src/server/gatekeeper"]
 	path = src/server/gatekeeper
-	url = https://github.com/openfrontio/gatekeeper.git
+	url = https://github.com/zombie-defense/gatekeeper.git

@@ -2,16 +2,16 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { ConstructionExecution } from "@openfront/engine/execution/ConstructionExecution";
-import { DoomsdayClockExecution } from "@openfront/engine/execution/DoomsdayClockExecution";
-import { MirvExecution } from "@openfront/engine/execution/MIRVExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { PortExecution } from "@openfront/engine/execution/PortExecution";
-import { SAMLauncherExecution } from "@openfront/engine/execution/SAMLauncherExecution";
-import { ShellExecution } from "@openfront/engine/execution/ShellExecution";
-import { TrainStationExecution } from "@openfront/engine/execution/TrainStationExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ConstructionExecution } from "@zombie-defense/engine/execution/ConstructionExecution";
+import { DoomsdayClockExecution } from "@zombie-defense/engine/execution/DoomsdayClockExecution";
+import { MirvExecution } from "@zombie-defense/engine/execution/MIRVExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { PortExecution } from "@zombie-defense/engine/execution/PortExecution";
+import { SAMLauncherExecution } from "@zombie-defense/engine/execution/SAMLauncherExecution";
+import { ShellExecution } from "@zombie-defense/engine/execution/ShellExecution";
+import { TrainStationExecution } from "@zombie-defense/engine/execution/TrainStationExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "../../util/Setup";
 import { expectSnapshotRoundTrip } from "../../util/Snapshot";
 import { executeTicks } from "../../util/utils";

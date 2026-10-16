@@ -5,8 +5,8 @@
 // runs in the sim worker, and what it needs is the same answer on this server
 // across calls — not lockstep reproducibility between clients.
 
-import { GameID, PoolConfig } from "@openfront/engine-api/Schemas";
-import { simpleHash } from "@openfront/engine-lib/Util";
+import { GameID, PoolConfig } from "@zombie-defense/engine-api/Schemas";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 
 export function poolIndexFor(key: string, size: number): number {
   return simpleHash(key) % size;

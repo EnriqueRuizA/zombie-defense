@@ -1,6 +1,6 @@
-import { Emoji, flattenedEmojiTable } from "@openfront/engine-api/Schemas";
-import { Cosmetics } from "@openfront/shared/CosmeticSchemas";
-import { PlayerPattern } from "@openfront/shared/WireSchemas";
+import { Emoji, flattenedEmojiTable } from "@zombie-defense/engine-api/Schemas";
+import { Cosmetics } from "@zombie-defense/shared/CosmeticSchemas";
+import { PlayerPattern } from "@zombie-defense/shared/WireSchemas";
 import {
   GraphicsOverrides,
   GraphicsOverridesSchema,

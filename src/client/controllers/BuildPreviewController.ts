@@ -7,19 +7,19 @@
  * is valid, and pushes preview data straight to the WebGL view.
  */
 
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   BuildableUnit,
   bulkCost,
   PlayerBuildableUnitType,
   Structures,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   listNukeBreakAlliance,
   wouldNukeBreakAlliance,
-} from "@openfront/engine-lib/execution/NukeAlliance";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-lib/execution/NukeAlliance";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { Controller } from "../Controller";
 import {
   ConfirmGhostStructureEvent,

@@ -1,7 +1,7 @@
 import type {
   PlayerActionsResultMessage,
   WorkerMessage,
-} from "@openfront/engine-api/worker/WorkerMessages";
+} from "@zombie-defense/engine-api/worker/WorkerMessages";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WorkerClient } from "../../../src/client/WorkerClient";
 

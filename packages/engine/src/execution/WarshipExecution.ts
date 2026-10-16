@@ -1,6 +1,6 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   zInt,
   zNum,
@@ -8,8 +8,8 @@ import {
   zRandom,
   zRef,
   zTile,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
-import { findMinimumBy } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
+import { findMinimumBy } from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import {
   Execution,

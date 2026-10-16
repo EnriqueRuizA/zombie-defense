@@ -7,7 +7,7 @@ RUN npm install --global --ignore-scripts npm@12.1.0
 FROM base AS build
 ENV HUSKY=0
 # Copy package files first for better caching. The workspace manifests come
-# along so npm ci can link node_modules/@openfront/* to packages/*.
+# along so npm ci can link node_modules/@zombie-defense/* to packages/*.
 COPY package*.json .npmrc ./
 COPY packages/engine/package.json ./packages/engine/
 COPY packages/engine-api/package.json ./packages/engine-api/
@@ -92,7 +92,7 @@ RUN rm -rf ./resources/maps
 COPY tsconfig.json tsconfig.base.json ./
 COPY client-api.json ./
 COPY src ./src
-# node_modules/@openfront/* are symlinks into packages/; without this copy
+# node_modules/@zombie-defense/* are symlinks into packages/; without this copy
 # they dangle and the server dies at boot.
 COPY packages ./packages
 

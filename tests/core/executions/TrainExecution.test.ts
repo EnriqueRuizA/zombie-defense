@@ -1,12 +1,12 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { TrainExecution } from "@openfront/engine/execution/TrainExecution";
-import { Railroad } from "@openfront/engine/game/Railroad";
-import { TrainStation } from "@openfront/engine/game/TrainStation";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { TrainExecution } from "@zombie-defense/engine/execution/TrainExecution";
+import { Railroad } from "@zombie-defense/engine/game/Railroad";
+import { TrainStation } from "@zombie-defense/engine/game/TrainStation";
 import { describe, expect, it, vi } from "vitest";
 import { setup } from "../../util/Setup";
 

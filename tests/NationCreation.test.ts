@@ -5,14 +5,14 @@ import {
   GameMode,
   GameType,
   Nation,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AdditionalNation,
   Nation as ManifestNation,
-} from "@openfront/engine-api/game/MapFiles";
-import { GameConfig, GameStartInfo } from "@openfront/engine-api/Schemas";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { createNationsForGame } from "@openfront/engine/game/NationCreation";
+} from "@zombie-defense/engine-api/game/MapFiles";
+import { GameConfig, GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { createNationsForGame } from "@zombie-defense/engine/game/NationCreation";
 
 function makeManifestNations(count: number): ManifestNation[] {
   const result: ManifestNation[] = [];

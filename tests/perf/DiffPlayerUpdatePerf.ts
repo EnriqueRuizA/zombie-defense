@@ -1,11 +1,11 @@
-import { PlayerType } from "@openfront/engine-api/game/GameTypes";
+import { PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   AllianceView,
   AttackUpdate,
   GameUpdateType,
   PlayerUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { diffPlayerUpdate } from "@openfront/engine/game/GameUpdateUtils";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { diffPlayerUpdate } from "@zombie-defense/engine/game/GameUpdateUtils";
 import Benchmark from "benchmark";
 
 /**

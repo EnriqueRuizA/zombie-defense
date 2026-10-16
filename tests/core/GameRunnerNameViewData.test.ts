@@ -4,11 +4,11 @@
  * they were at that tick once later ticks have run.
  */
 
-import { GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateViewData } from "@openfront/engine-api/game/GameUpdates";
-import { createGameRunner } from "@openfront/engine/GameRunner";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
-import { toWireGameStartInfo } from "@openfront/shared/SharedUtil";
+import { GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateViewData } from "@zombie-defense/engine-api/game/GameUpdates";
+import { createGameRunner } from "@zombie-defense/engine/GameRunner";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
+import { toWireGameStartInfo } from "@zombie-defense/shared/SharedUtil";
 import {
   config,
   human,

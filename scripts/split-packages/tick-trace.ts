@@ -23,21 +23,21 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ErrorUpdate,
   GameUpdateType,
   GameUpdateViewData,
   HashUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { GameStartInfo, Turn } from "@openfront/engine-api/Schemas";
-import { createGameRunner } from "@openfront/engine/GameRunner";
-import { loadMapFiles } from "@openfront/shared/GameMapLoader";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameStartInfo, Turn } from "@zombie-defense/engine-api/Schemas";
+import { createGameRunner } from "@zombie-defense/engine/GameRunner";
+import { loadMapFiles } from "@zombie-defense/shared/GameMapLoader";
 import {
   decompressGameRecord,
   toWireGameStartInfo,
-} from "@openfront/shared/SharedUtil";
-import { GameRecord } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/SharedUtil";
+import { GameRecord } from "@zombie-defense/shared/WireSchemas";
 import { createHash, Hash } from "crypto";
 import fs from "fs";
 import path from "path";

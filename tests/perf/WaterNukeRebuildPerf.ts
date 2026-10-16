@@ -8,8 +8,8 @@
  *
  * Run with: npx tsx tests/perf/WaterNukeRebuildPerf.ts
  */
-import { Game } from "@openfront/engine/game/Game";
-import { DebugSpan } from "@openfront/engine/utilities/DebugSpan";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { DebugSpan } from "@zombie-defense/engine/utilities/DebugSpan";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { setup } from "../util/Setup";

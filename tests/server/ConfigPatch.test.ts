@@ -5,8 +5,8 @@ import {
   GameMode,
   GameType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import { describe, expect, it } from "vitest";
 import {
   applyGameConfigPatch,

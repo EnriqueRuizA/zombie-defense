@@ -37,7 +37,7 @@ import type {
   Cosmetics,
   Pack,
   Pattern,
-} from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
 import {
   changeSubscriptionTier,
   getUserMe,

@@ -1,10 +1,10 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   GameMode,
   PlayerType,
   Team,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   doomsdayClockDrain,
   doomsdayClockRequiredTiles,
@@ -14,10 +14,10 @@ import {
   ROT_NOISE_SCALE,
   rotFrontNoise,
   rotSpeckleNoise,
-} from "@openfront/engine-lib/game/DoomsdayClock";
-import { DoomsdayClockExecution } from "@openfront/engine/execution/DoomsdayClockExecution";
-import { PlayerExecution } from "@openfront/engine/execution/PlayerExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-lib/game/DoomsdayClock";
+import { DoomsdayClockExecution } from "@zombie-defense/engine/execution/DoomsdayClockExecution";
+import { PlayerExecution } from "@zombie-defense/engine/execution/PlayerExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { vi } from "vitest";
 import { playerInfo, setup } from "./util/Setup";
 

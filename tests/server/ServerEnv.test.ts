@@ -1,4 +1,4 @@
-import { GAME_ID_REGEX } from "@openfront/engine-api/Schemas";
+import { GAME_ID_REGEX } from "@zombie-defense/engine-api/Schemas";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { ServerEnv } from "../../src/server/ServerEnv";
 

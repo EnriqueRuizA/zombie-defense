@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   Difficulty,
   GameMapSize,
@@ -6,22 +6,22 @@ import {
   GameMode,
   GameType,
   PlayerInfo,
-} from "@openfront/engine-api/game/GameTypes";
-import { MapManifest } from "@openfront/engine-api/game/MapFiles";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { genTerrainFromBin } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { Game } from "@openfront/engine/game/Game";
-import { createGame, GameImpl } from "@openfront/engine/game/GameImpl";
-import { AStarWater } from "@openfront/engine/pathfinding/algorithms/AStar.Water";
-import { AStarWaterHierarchical } from "@openfront/engine/pathfinding/algorithms/AStar.WaterHierarchical";
-import { PathFinding } from "@openfront/engine/pathfinding/PathFinder";
-import { PathFinderBuilder } from "@openfront/engine/pathfinding/PathFinderBuilder";
-import { StepperConfig } from "@openfront/engine/pathfinding/PathFinderStepper";
-import { MiniMapTransformer } from "@openfront/engine/pathfinding/transformers/MiniMapTransformer";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { MapManifest } from "@zombie-defense/engine-api/game/MapFiles";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { genTerrainFromBin } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { createGame, GameImpl } from "@zombie-defense/engine/game/GameImpl";
+import { AStarWater } from "@zombie-defense/engine/pathfinding/algorithms/AStar.Water";
+import { AStarWaterHierarchical } from "@zombie-defense/engine/pathfinding/algorithms/AStar.WaterHierarchical";
+import { PathFinding } from "@zombie-defense/engine/pathfinding/PathFinder";
+import { PathFinderBuilder } from "@zombie-defense/engine/pathfinding/PathFinderBuilder";
+import { StepperConfig } from "@zombie-defense/engine/pathfinding/PathFinderStepper";
+import { MiniMapTransformer } from "@zombie-defense/engine/pathfinding/transformers/MiniMapTransformer";
 import {
   PathStatus,
   SteppingPathFinder,
-} from "@openfront/engine/pathfinding/types";
+} from "@zombie-defense/engine/pathfinding/types";
 import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";

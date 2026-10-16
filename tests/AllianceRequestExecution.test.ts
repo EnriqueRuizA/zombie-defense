@@ -1,8 +1,8 @@
-import { PlayerType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { AllianceRejectExecution } from "@openfront/engine/execution/alliance/AllianceRejectExecution";
-import { AllianceRequestExecution } from "@openfront/engine/execution/alliance/AllianceRequestExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+import { PlayerType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { AllianceRejectExecution } from "@zombie-defense/engine/execution/alliance/AllianceRejectExecution";
+import { AllianceRequestExecution } from "@zombie-defense/engine/execution/alliance/AllianceRequestExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 import { constructionExecution } from "./util/utils";
 

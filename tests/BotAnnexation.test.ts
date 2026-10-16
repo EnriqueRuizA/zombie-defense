@@ -2,14 +2,14 @@ import {
   Difficulty,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { CHEAPEST_TROOP_RATIO } from "@openfront/engine/configuration/EngineConfig";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { planBotAttacks } from "@openfront/engine/execution/nation/BotAnnexation";
-import { PlayerExecution } from "@openfront/engine/execution/PlayerExecution";
-import { AiAttackBehavior } from "@openfront/engine/execution/utils/AiAttackBehavior";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { CHEAPEST_TROOP_RATIO } from "@zombie-defense/engine/configuration/EngineConfig";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { planBotAttacks } from "@zombie-defense/engine/execution/nation/BotAnnexation";
+import { PlayerExecution } from "@zombie-defense/engine/execution/PlayerExecution";
+import { AiAttackBehavior } from "@zombie-defense/engine/execution/utils/AiAttackBehavior";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 import { UseRealAttackLogic } from "./util/TestConfig";
 import { executeTicks } from "./util/utils";

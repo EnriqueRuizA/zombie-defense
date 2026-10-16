@@ -1,5 +1,5 @@
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { Config } from "@openfront/engine-lib/configuration/Config";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
 import { describe, expect, it } from "vitest";
 
 const dummyGameConfig = {} as unknown as GameConfig;

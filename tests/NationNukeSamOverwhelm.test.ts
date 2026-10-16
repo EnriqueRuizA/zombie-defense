@@ -5,20 +5,20 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   Config,
   NukeMagnitude,
-} from "@openfront/engine-lib/configuration/Config";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { MissileSiloExecution } from "@openfront/engine/execution/MissileSiloExecution";
-import { NationAllianceBehavior } from "@openfront/engine/execution/nation/NationAllianceBehavior";
-import { NationEmojiBehavior } from "@openfront/engine/execution/nation/NationEmojiBehavior";
-import { NationNukeBehavior } from "@openfront/engine/execution/nation/NationNukeBehavior";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
-import { SAMLauncherExecution } from "@openfront/engine/execution/SAMLauncherExecution";
-import { AiAttackBehavior } from "@openfront/engine/execution/utils/AiAttackBehavior";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-lib/configuration/Config";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { MissileSiloExecution } from "@zombie-defense/engine/execution/MissileSiloExecution";
+import { NationAllianceBehavior } from "@zombie-defense/engine/execution/nation/NationAllianceBehavior";
+import { NationEmojiBehavior } from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
+import { NationNukeBehavior } from "@zombie-defense/engine/execution/nation/NationNukeBehavior";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
+import { SAMLauncherExecution } from "@zombie-defense/engine/execution/SAMLauncherExecution";
+import { AiAttackBehavior } from "@zombie-defense/engine/execution/utils/AiAttackBehavior";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 import { TestConfig } from "./util/TestConfig";
 import { executeTicks } from "./util/utils";

@@ -1,11 +1,11 @@
-import { AllPlayers, PlayerID } from "@openfront/engine-api/game/GameTypes";
-import { flattenedEmojiTable } from "@openfront/engine-api/Schemas";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
+import { AllPlayers, PlayerID } from "@zombie-defense/engine-api/game/GameTypes";
+import { flattenedEmojiTable } from "@zombie-defense/engine-api/Schemas";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
 import {
   zNum,
   zPlayerRef,
   zRandom,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import { Execution, Game, Player } from "../game/Game";
 import { execSnapshotType } from "../snapshot/ExecutionSnapshot";

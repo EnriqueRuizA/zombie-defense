@@ -3,8 +3,8 @@
  * nothing itself, and a failed start doesn't leave the worker running.
  */
 
-import { GameMapSize, GameMapType } from "@openfront/engine-api/game/GameTypes";
-import type { GameStartInfo } from "@openfront/engine-api/Schemas";
+import { GameMapSize, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import type { GameStartInfo } from "@zombie-defense/engine-api/Schemas";
 import { WorkerClient } from "../../../src/client/WorkerClient";
 
 const worker = vi.hoisted(() => ({
@@ -14,7 +14,7 @@ const worker = vi.hoisted(() => ({
 }));
 const mapFiles = vi.hoisted(() => ({ fail: false }));
 
-vi.mock("@openfront/engine/worker/Worker.worker?worker&inline", () => ({
+vi.mock("@zombie-defense/engine/worker/Worker.worker?worker&inline", () => ({
   default: class {
     addEventListener(_type: string, l: (e: MessageEvent) => void) {
       worker.listeners.push(l);

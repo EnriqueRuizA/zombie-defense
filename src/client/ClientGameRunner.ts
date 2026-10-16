@@ -1,23 +1,23 @@
-import { ClientID, GameID } from "@openfront/engine-api/Schemas";
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { ClientID, GameID } from "@zombie-defense/engine-api/Schemas";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   BuildableUnit,
   PlayerType,
   Structures,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ErrorUpdate,
   GameUpdateType,
   GameUpdateViewData,
   HashUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { findClosestBy } from "@openfront/engine-lib/Util";
-import { Config } from "@openfront/engine-lib/configuration/Config";
-import { TerrainMapData } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { EventBus } from "@openfront/shared/EventBus";
-import { GameMapLoader } from "@openfront/shared/GameMapLoader";
-import { replacer } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { findClosestBy } from "@zombie-defense/engine-lib/Util";
+import { Config } from "@zombie-defense/engine-lib/configuration/Config";
+import { TerrainMapData } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { EventBus } from "@zombie-defense/shared/EventBus";
+import { GameMapLoader } from "@zombie-defense/shared/GameMapLoader";
+import { replacer } from "@zombie-defense/shared/SharedUtil";
 import {
   GameRecord,
   GroupTokenEvent,
@@ -25,7 +25,7 @@ import {
   PlayerCosmeticRefs,
   ServerMessage,
   WireGameStartInfo,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { ClientEnv } from "../client/ClientEnv";
 import { reloadForUpdate, translateText } from "../client/Utils";
 import { isDesktopShell } from "./DesktopShell";

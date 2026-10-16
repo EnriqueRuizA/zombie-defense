@@ -4,16 +4,16 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameConfig } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import {
   GOLD_INDEX_STEAL,
   GOLD_INDEX_TRADE,
   GOLD_INDEX_TRAIN_OTHER,
   GOLD_INDEX_TRAIN_SELF,
   GOLD_INDEX_WAR,
-} from "@openfront/engine-api/StatsSchemas";
-import { AnalyticsRecord } from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { AnalyticsRecord } from "@zombie-defense/shared/WireSchemas";
 import {
   Ranking,
   RankType,

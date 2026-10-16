@@ -1,5 +1,5 @@
-import { buildAssetUrl } from "@openfront/shared/AssetPaths";
-import { rewriteAssetsForCdn } from "@openfront/shared/AssetUrls";
+import { buildAssetUrl } from "@zombie-defense/shared/AssetPaths";
+import { rewriteAssetsForCdn } from "@zombie-defense/shared/AssetUrls";
 import { describe, expect, test } from "vitest";
 
 describe("AssetUrls", () => {

@@ -5,14 +5,14 @@ import {
   PlayerInfo,
   PlayerType,
   Relation,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { AllianceRequestExecution } from "@openfront/engine/execution/alliance/AllianceRequestExecution";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { NationAllianceBehavior } from "@openfront/engine/execution/nation/NationAllianceBehavior";
-import { NationEmojiBehavior } from "@openfront/engine/execution/nation/NationEmojiBehavior";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { AllianceRequestExecution } from "@zombie-defense/engine/execution/alliance/AllianceRequestExecution";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { NationAllianceBehavior } from "@zombie-defense/engine/execution/nation/NationAllianceBehavior";
+import { NationEmojiBehavior } from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 let game: Game;

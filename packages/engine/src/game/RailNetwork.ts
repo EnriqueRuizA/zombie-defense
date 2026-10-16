@@ -1,5 +1,5 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
 import { Unit } from "./Game";
 import { StationManager } from "./RailNetworkImpl";
 import { TrainStation } from "./TrainStation";

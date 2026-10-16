@@ -6,7 +6,10 @@
   </picture>
 </p>
 
-[OpenFront.io](https://openfront.io/) is an online real-time strategy game focused on territorial control and alliance building. Players compete to expand their territory, build structures, and form strategic alliances in various maps based on real-world geography.
+[Zombie Defense](https://zombie-defense.io/) is an online real-time strategy game focused on territorial control and alliance building. Players compete to expand their territory, build structures, and form strategic alliances in various maps based on real-world geography.
+
+<!-- Propuesta (O2/D1): dominio provisional https://zombie-defense.io/ —
+     sustituir por el dominio definitivo cuando exista (no inventar). -->
 
 This is a fork/rewrite of WarFront.io. Credit to https://github.com/WarFrontIO.
 
@@ -15,6 +18,10 @@ This is a fork/rewrite of WarFront.io. Credit to https://github.com/WarFrontIO.
 [![CLA assistant](https://cla-assistant.io/readme/badge/openfrontio/OpenFrontIO)](https://cla-assistant.io/openfrontio/OpenFrontIO)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Assets: CC BY-SA 4.0](https://img.shields.io/badge/Assets-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+
+<!-- Propuesta (O2/D1): los badges de CI/Crowdin/CLA y el clonado de abajo
+     siguen apuntando al upstream openfrontio/OpenFrontIO; pendiente de que el
+     coordinador fije repo/org/proyecto nuevos (no inventar URLs). -->
 
 ## License
 
@@ -161,10 +168,10 @@ npm run dev:prod
 
 - `/src/client` - Frontend game client
 - `/src/server` - Backend game server
-- `/packages/engine` - Deterministic game simulation (`@openfront/engine`)
-- `/packages/engine-api` - The engine's contract: types, schemas, game updates and the worker protocol (`@openfront/engine-api`)
-- `/packages/engine-lib` - Engine code also used outside the engine: map grid, rules, helpers (`@openfront/engine-lib`)
-- `/packages/shared` - Code shared by client and server: wire schemas, env, asset URLs (`@openfront/shared`)
+- `/packages/engine` - Deterministic game simulation (`@zombie-defense/engine`)
+- `/packages/engine-api` - The engine's contract: types, schemas, game updates and the worker protocol (`@zombie-defense/engine-api`)
+- `/packages/engine-lib` - Engine code also used outside the engine: map grid, rules, helpers (`@zombie-defense/engine-lib`)
+- `/packages/shared` - Code shared by client and server: wire schemas, env, asset URLs (`@zombie-defense/shared`)
 - `/packages/zbin` - Compact binary wire format for zod schemas (self-contained, zod-only)
 - `/resources` - Static assets (images, maps, etc.)
 

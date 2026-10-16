@@ -1,5 +1,5 @@
-import { GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { assetUrl } from "@openfront/shared/AssetUrls";
+import { GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import {

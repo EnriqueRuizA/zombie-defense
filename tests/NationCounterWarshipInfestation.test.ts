@@ -6,8 +6,8 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { NationExecution } from "@openfront/engine/execution/NationExecution";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { NationExecution } from "@zombie-defense/engine/execution/NationExecution";
 import { setup } from "./util/Setup";
 
 // The half_land_half_ocean map is 16x16:

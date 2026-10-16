@@ -5,8 +5,8 @@ import {
   mapCategoryOrder,
   MapInfo,
   maps,
-} from "@openfront/engine-api/game/GameTypes";
-import { assetUrl } from "@openfront/shared/AssetUrls";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";

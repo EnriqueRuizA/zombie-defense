@@ -1,4 +1,4 @@
-import { PublicGameType } from "@openfront/shared/WireSchemas";
+import { PublicGameType } from "@zombie-defense/shared/WireSchemas";
 import EventEmitter from "events";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { InternalGameInfo } from "../../src/server/IPCBridgeSchema";

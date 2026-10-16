@@ -1,6 +1,6 @@
-import { GameMapImpl } from "@openfront/engine-lib/game/GameMapImpl";
-import { MiniMapTransformer } from "@openfront/engine/pathfinding/transformers/MiniMapTransformer";
-import { PathFinder } from "@openfront/engine/pathfinding/types";
+import { GameMapImpl } from "@zombie-defense/engine-lib/game/GameMapImpl";
+import { MiniMapTransformer } from "@zombie-defense/engine/pathfinding/transformers/MiniMapTransformer";
+import { PathFinder } from "@zombie-defense/engine/pathfinding/types";
 import { describe, expect, it } from "vitest";
 
 describe("MiniMapTransformer", () => {

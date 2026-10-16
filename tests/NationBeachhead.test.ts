@@ -3,14 +3,14 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { NationAllianceBehavior } from "@openfront/engine/execution/nation/NationAllianceBehavior";
-import { NationEmojiBehavior } from "@openfront/engine/execution/nation/NationEmojiBehavior";
-import { NationWarshipBehavior } from "@openfront/engine/execution/nation/NationWarshipBehavior";
-import { TransportShipExecution } from "@openfront/engine/execution/TransportShipExecution";
-import { AiAttackBehavior } from "@openfront/engine/execution/utils/AiAttackBehavior";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { NationAllianceBehavior } from "@zombie-defense/engine/execution/nation/NationAllianceBehavior";
+import { NationEmojiBehavior } from "@zombie-defense/engine/execution/nation/NationEmojiBehavior";
+import { NationWarshipBehavior } from "@zombie-defense/engine/execution/nation/NationWarshipBehavior";
+import { TransportShipExecution } from "@zombie-defense/engine/execution/TransportShipExecution";
+import { AiAttackBehavior } from "@zombie-defense/engine/execution/utils/AiAttackBehavior";
 import { createGame, L, W } from "./core/pathfinding/_fixtures";
 import { setup } from "./util/Setup";
 

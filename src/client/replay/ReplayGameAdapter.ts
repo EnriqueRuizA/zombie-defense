@@ -18,14 +18,14 @@
  * tests rely on that.
  */
 
-import type { TileRef } from "@openfront/engine-api/game/GameMap";
+import type { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import type {
   PlayerType,
   Team,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
-import type { Config } from "@openfront/engine-lib/configuration/Config";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
+import type { Config } from "@zombie-defense/engine-lib/configuration/Config";
 import { OWNER_MASK } from "../render/gl/utils/TileCodec";
 import type {
   NameEntry,

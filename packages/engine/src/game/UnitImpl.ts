@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   DefensePostUpgradeState,
   MessageType,
@@ -11,12 +11,12 @@ import {
   TransportShipState,
   UnitType,
   WarshipState,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameUpdateType,
   UnitUpdate,
-} from "@openfront/engine-api/game/GameUpdates";
-import { maxHealthWithVeterancy } from "@openfront/engine-lib/game/Veterancy";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { maxHealthWithVeterancy } from "@zombie-defense/engine-lib/game/Veterancy";
 import {
   snapshotType,
   zBytes,
@@ -26,8 +26,8 @@ import {
   zRef,
   zTile,
   zTiles,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
-import { simpleHash, toInt, withinInt } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
+import { simpleHash, toInt, withinInt } from "@zombie-defense/engine-lib/Util";
 import { z } from "zod";
 import { UnitTypeSchema } from "../snapshot/CommonSchemas";
 import type {

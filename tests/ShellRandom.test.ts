@@ -2,11 +2,11 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { DefensePostExecution } from "@openfront/engine/execution/DefensePostExecution";
-import { ShellExecution } from "@openfront/engine/execution/ShellExecution";
-import { WarshipExecution } from "@openfront/engine/execution/WarshipExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { DefensePostExecution } from "@zombie-defense/engine/execution/DefensePostExecution";
+import { ShellExecution } from "@zombie-defense/engine/execution/ShellExecution";
+import { WarshipExecution } from "@zombie-defense/engine/execution/WarshipExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 
 const coastX = 7;

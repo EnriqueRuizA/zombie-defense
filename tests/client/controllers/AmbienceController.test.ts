@@ -1,5 +1,5 @@
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { EventBus } from "@openfront/shared/EventBus";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import { AmbienceController } from "../../../src/client/controllers/AmbienceController";
 import { SetAmbienceEvent } from "../../../src/client/sound/Sounds";
 

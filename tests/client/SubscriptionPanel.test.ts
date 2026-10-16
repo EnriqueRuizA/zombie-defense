@@ -19,7 +19,7 @@ vi.mock("../../src/client/Utils", () => ({
     params ? `${key} ${Object.values(params).join(" ")}` : key,
 }));
 
-import type { UserSubscription } from "@openfront/shared/ApiSchemas";
+import type { UserSubscription } from "@zombie-defense/shared/ApiSchemas";
 import {
   cancelSubscription,
   invalidateUserMe,

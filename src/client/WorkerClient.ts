@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   BuildableUnit,
   Cell,
@@ -8,22 +8,22 @@ import {
   PlayerBuildableUnitType,
   PlayerID,
   PlayerProfile,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ErrorUpdate,
   GameUpdateViewData,
-} from "@openfront/engine-api/game/GameUpdates";
-import { MapFiles } from "@openfront/engine-api/game/MapFiles";
-import { ClientID, GameStartInfo, Turn } from "@openfront/engine-api/Schemas";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { MapFiles } from "@zombie-defense/engine-api/game/MapFiles";
+import { ClientID, GameStartInfo, Turn } from "@zombie-defense/engine-api/Schemas";
 import {
   InitMessage,
   WorkerMessage,
-} from "@openfront/engine-api/worker/WorkerMessages";
+} from "@zombie-defense/engine-api/worker/WorkerMessages";
 import {
   loadMapFiles,
   mapFilesTransfer,
-} from "@openfront/shared/GameMapLoader";
-import { generateID } from "@openfront/shared/SharedUtil";
+} from "@zombie-defense/shared/GameMapLoader";
+import { generateID } from "@zombie-defense/shared/SharedUtil";
 import { terrainMapFileLoader } from "./TerrainMapFileLoader";
 
 // Inlined as a same-origin Blob (Vite's `?worker&inline`), sidestepping the
@@ -33,7 +33,7 @@ import { terrainMapFileLoader } from "./TerrainMapFileLoader";
 // instead of inside the main bundle.
 export async function createGameWorker(): Promise<Worker> {
   const { default: GameWorker } =
-    await import("@openfront/engine/worker/Worker.worker?worker&inline");
+    await import("@zombie-defense/engine/worker/Worker.worker?worker&inline");
   return new GameWorker();
 }
 

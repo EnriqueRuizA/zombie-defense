@@ -4,8 +4,8 @@ import {
   GameMode,
   PlayerInfo,
   PlayerType,
-} from "@openfront/engine-api/game/GameTypes";
-import { Game } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { Game } from "@zombie-defense/engine/game/Game";
 import { playerInfo, setup } from "./util/Setup";
 
 let game: Game;

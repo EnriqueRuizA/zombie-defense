@@ -6,9 +6,9 @@ import {
   GameMapType,
   GameMode,
   GameType,
-} from "@openfront/engine-api/game/GameTypes";
-import { ADMIN_BOT_CLIENT_ID } from "@openfront/engine-api/Schemas";
-import { createGameWireContext } from "@openfront/shared/ZbinWire";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { ADMIN_BOT_CLIENT_ID } from "@zombie-defense/engine-api/Schemas";
+import { createGameWireContext } from "@zombie-defense/shared/ZbinWire";
 import { GameManager } from "../../src/server/GameManager";
 import { GameServer } from "../../src/server/GameServer";
 import type {

@@ -1,10 +1,10 @@
-import { Tick } from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
+import { Tick } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
 import {
   snapshotType,
   zInt,
   zPlayerRef,
-} from "@openfront/engine-lib/snapshot/SnapshotType";
+} from "@zombie-defense/engine-lib/snapshot/SnapshotType";
 import { z } from "zod";
 import type {
   SnapshotReader,

@@ -1,4 +1,4 @@
-/* SC_CONFIG v2: balance + terreno + ciudades + crecimiento logístico estilo OpenFront. */
+/* SC_CONFIG v2: balance + terreno + ciudades + crecimiento logístico estilo Zombie Defense. */
 (function (global) {
   'use strict';
 
@@ -92,7 +92,7 @@
   var CONFIG = {
     MAP_W: 120, MAP_H: 75, CELL_PX: 8, TICK_MS: 100,
     SPAWN_PHASE_TICKS: 100,
-    // Pacing OpenFront (PROPUESTA ciclo ritmo): economía más rápida y frentes
+    // Pacing Zombie Defense (PROPUESTA ciclo ritmo): economía más rápida y frentes
     // baratos para la expansión explosiva del primer minuto.
     START_TROOPS: 900, MAX_TROOPS_BASE: 1000,
     TROOPS_PER_TILE: 12, TROOPS_PER_CITY: 350,

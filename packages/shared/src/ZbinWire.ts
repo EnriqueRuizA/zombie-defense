@@ -19,8 +19,8 @@
 // receiver's table; ids outside the roster (e.g. ADMIN_BOT_CLIENT_ID) ride the
 // escape path inline.
 
-import { CLIENT_ID_MAPPING } from "@openfront/engine-api/Schemas";
-import { ZbContext } from "@openfront/zbin";
+import { CLIENT_ID_MAPPING } from "@zombie-defense/engine-api/Schemas";
+import { ZbContext } from "@zombie-defense/zbin";
 import {
   ClientMessage,
   ClientMessageSchema,

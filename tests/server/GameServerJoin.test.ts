@@ -1,5 +1,5 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { GameEnv } from "@openfront/shared/configuration/Env";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ServerEnv } from "../../src/server/ServerEnv";
 import {

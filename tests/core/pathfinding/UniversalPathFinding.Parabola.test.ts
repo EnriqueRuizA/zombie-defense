@@ -1,6 +1,6 @@
-import { GameMapImpl } from "@openfront/engine-lib/game/GameMapImpl";
-import { UniversalPathFinding } from "@openfront/engine/pathfinding/PathFinder";
-import { PathStatus } from "@openfront/engine/pathfinding/types";
+import { GameMapImpl } from "@zombie-defense/engine-lib/game/GameMapImpl";
+import { UniversalPathFinding } from "@zombie-defense/engine/pathfinding/PathFinder";
+import { PathStatus } from "@zombie-defense/engine/pathfinding/types";
 import { describe, expect, it } from "vitest";
 
 describe("UniversalPathFinding.Parabola", () => {

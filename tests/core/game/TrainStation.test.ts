@@ -5,19 +5,19 @@ import {
   GameMode,
   GameType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
-import { GameConfig } from "@openfront/engine-api/Schemas";
-import { EngineConfig } from "@openfront/engine/configuration/EngineConfig";
-import { TrainExecution } from "@openfront/engine/execution/TrainExecution";
-import { Game, Player, Unit } from "@openfront/engine/game/Game";
-import { Cluster, TrainStation } from "@openfront/engine/game/TrainStation";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
+import { GameConfig } from "@zombie-defense/engine-api/Schemas";
+import { EngineConfig } from "@zombie-defense/engine/configuration/EngineConfig";
+import { TrainExecution } from "@zombie-defense/engine/execution/TrainExecution";
+import { Game, Player, Unit } from "@zombie-defense/engine/game/Game";
+import { Cluster, TrainStation } from "@zombie-defense/engine/game/TrainStation";
 import { vi, type Mocked } from "vitest";
 
-vi.mock("@openfront/engine/game/Game");
-vi.mock("@openfront/engine-api/game/GameTypes");
-vi.mock("@openfront/engine/execution/TrainExecution");
-vi.mock("@openfront/engine-lib/PseudoRandom");
+vi.mock("@zombie-defense/engine/game/Game");
+vi.mock("@zombie-defense/engine-api/game/GameTypes");
+vi.mock("@zombie-defense/engine/execution/TrainExecution");
+vi.mock("@zombie-defense/engine-lib/PseudoRandom");
 
 describe("TrainStation", () => {
   let game: Mocked<Game>;

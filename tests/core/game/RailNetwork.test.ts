@@ -1,14 +1,14 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
-import { PlayerType, UnitType } from "@openfront/engine-api/game/GameTypes";
-import { FactoryExecution } from "@openfront/engine/execution/FactoryExecution";
-import { PortExecution } from "@openfront/engine/execution/PortExecution";
-import { Unit } from "@openfront/engine/game/Game";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
+import { PlayerType, UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { FactoryExecution } from "@zombie-defense/engine/execution/FactoryExecution";
+import { PortExecution } from "@zombie-defense/engine/execution/PortExecution";
+import { Unit } from "@zombie-defense/engine/game/Game";
 import {
   RailNetworkImpl,
   StationManagerImpl,
-} from "@openfront/engine/game/RailNetworkImpl";
-import { Railroad } from "@openfront/engine/game/Railroad";
-import { Cluster } from "@openfront/engine/game/TrainStation";
+} from "@zombie-defense/engine/game/RailNetworkImpl";
+import { Railroad } from "@zombie-defense/engine/game/Railroad";
+import { Cluster } from "@zombie-defense/engine/game/TrainStation";
 import { playerInfo, setup } from "../../util/Setup";
 
 // Mock types

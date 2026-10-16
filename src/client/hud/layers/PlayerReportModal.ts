@@ -1,9 +1,9 @@
-import { assetUrl } from "@openfront/shared/AssetUrls";
-import { EventBus } from "@openfront/shared/EventBus";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   ReportReason,
   ReportReasonSchema,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { SendPlayerReportEvent } from "../../Transport";

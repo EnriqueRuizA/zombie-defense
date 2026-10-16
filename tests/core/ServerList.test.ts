@@ -12,7 +12,7 @@ import {
   versionedPath,
   versionedPathForGame,
   versionMatches,
-} from "@openfront/shared/ServerList";
+} from "@zombie-defense/shared/ServerList";
 import { describe, expect, it } from "vitest";
 
 const OWN = "bfd5563a11111111111111111111111111111111";

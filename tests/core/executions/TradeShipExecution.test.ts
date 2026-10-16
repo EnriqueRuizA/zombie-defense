@@ -3,14 +3,14 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   BOAT_INDEX_CAPTURE,
   GOLD_INDEX_STEAL,
-} from "@openfront/engine-api/StatsSchemas";
-import { TradeShipExecution } from "@openfront/engine/execution/TradeShipExecution";
-import { Game, Player, Unit } from "@openfront/engine/game/Game";
-import { PathStatus } from "@openfront/engine/pathfinding/types";
+} from "@zombie-defense/engine-api/StatsSchemas";
+import { TradeShipExecution } from "@zombie-defense/engine/execution/TradeShipExecution";
+import { Game, Player, Unit } from "@zombie-defense/engine/game/Game";
+import { PathStatus } from "@zombie-defense/engine/pathfinding/types";
 import { setup } from "../../util/Setup";
 import { executeTicks } from "../../util/utils";
 

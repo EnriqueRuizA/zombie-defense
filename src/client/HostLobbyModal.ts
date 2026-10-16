@@ -4,20 +4,20 @@ import {
   GameMapType,
   GameMode,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameConfigPatch,
   isValidGameID,
   TeamCountConfig,
-} from "@openfront/engine-api/Schemas";
-import { DoomsdayClockSpeed } from "@openfront/engine-lib/game/DoomsdayClock";
-import { GameEnv } from "@openfront/shared/configuration/Env";
-import { EventBus } from "@openfront/shared/EventBus";
+} from "@zombie-defense/engine-api/Schemas";
+import { DoomsdayClockSpeed } from "@zombie-defense/engine-lib/game/DoomsdayClock";
+import { GameEnv } from "@zombie-defense/shared/configuration/Env";
+import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   ClientInfo,
   LOBBY_QUEUE_CUTOFF_MS,
   LobbyInfoEvent,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import { html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";

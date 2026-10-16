@@ -1,4 +1,4 @@
-import { PlayerUpdate } from "@openfront/engine-api/game/GameUpdates";
+import { PlayerUpdate } from "@zombie-defense/engine-api/game/GameUpdates";
 import type { PlayerState } from "../render/types";
 
 /**

@@ -1,9 +1,9 @@
-import { GameMode } from "@openfront/engine-api/game/GameTypes";
-import { GameConfig, GameStartInfo } from "@openfront/engine-api/Schemas";
-import { Game } from "@openfront/engine/game/Game";
-import { GameRunner } from "@openfront/engine/GameRunner";
-import { EXECUTION_SNAPSHOT_TYPES } from "@openfront/engine/snapshot/ExecutionRegistry";
-import { decodeSnapshotValue } from "@openfront/engine/snapshot/SnapshotCodec";
+import { GameMode } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameConfig, GameStartInfo } from "@zombie-defense/engine-api/Schemas";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { GameRunner } from "@zombie-defense/engine/GameRunner";
+import { EXECUTION_SNAPSHOT_TYPES } from "@zombie-defense/engine/snapshot/ExecutionRegistry";
+import { decodeSnapshotValue } from "@zombie-defense/engine/snapshot/SnapshotCodec";
 import {
   createScriptedRunner,
   restoreScriptedRunner,

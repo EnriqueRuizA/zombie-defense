@@ -1,4 +1,4 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   AllPlayers,
   BuildableUnit,
@@ -14,16 +14,16 @@ import {
   PlayerProfile,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import {
   ErrorUpdate,
   GameUpdateViewData,
-} from "@openfront/engine-api/game/GameUpdates";
-import { MapFiles } from "@openfront/engine-api/game/MapFiles";
-import { ClientID, GameStartInfo, Turn } from "@openfront/engine-api/Schemas";
-import { loadTerrainMap } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { PseudoRandom } from "@openfront/engine-lib/PseudoRandom";
-import { simpleHash } from "@openfront/engine-lib/Util";
+} from "@zombie-defense/engine-api/game/GameUpdates";
+import { MapFiles } from "@zombie-defense/engine-api/game/MapFiles";
+import { ClientID, GameStartInfo, Turn } from "@zombie-defense/engine-api/Schemas";
+import { loadTerrainMap } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { PseudoRandom } from "@zombie-defense/engine-lib/PseudoRandom";
+import { simpleHash } from "@zombie-defense/engine-lib/Util";
 import { EngineConfig } from "./configuration/EngineConfig";
 import { DoomsdayClockExecution } from "./execution/DoomsdayClockExecution";
 import { Executor } from "./execution/ExecutionManager";

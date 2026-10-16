@@ -1,15 +1,15 @@
-import { TileRef } from "@openfront/engine-api/game/GameMap";
+import { TileRef } from "@zombie-defense/engine-api/game/GameMap";
 import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { GameID } from "@openfront/engine-api/Schemas";
-import { MirvExecution } from "@openfront/engine/execution/MIRVExecution";
-import { NukeExecution } from "@openfront/engine/execution/NukeExecution";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { UpgradeStructureExecution } from "@openfront/engine/execution/UpgradeStructureExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { GameID } from "@zombie-defense/engine-api/Schemas";
+import { MirvExecution } from "@zombie-defense/engine/execution/MIRVExecution";
+import { NukeExecution } from "@zombie-defense/engine/execution/NukeExecution";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { UpgradeStructureExecution } from "@zombie-defense/engine/execution/UpgradeStructureExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 import { constructionExecution, executeTicks } from "./util/utils";
 

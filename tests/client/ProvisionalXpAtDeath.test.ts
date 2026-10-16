@@ -1,15 +1,15 @@
-import type { HumanStatsSnapshot } from "@openfront/engine-api/game/GameTypes";
+import type { HumanStatsSnapshot } from "@zombie-defense/engine-api/game/GameTypes";
 import {
   GameMode,
   GameType,
   HumansVsNations,
-} from "@openfront/engine-api/game/GameTypes";
+} from "@zombie-defense/engine-api/game/GameTypes";
 import type {
   GameXpResponse,
   Progress,
   ProgressionConfig,
   XpRules,
-} from "@openfront/shared/ApiSchemas";
+} from "@zombie-defense/shared/ApiSchemas";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { XpGameConfig, XpResult } from "../../src/client/ProvisionalXp";
 import {

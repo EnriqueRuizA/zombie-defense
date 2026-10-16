@@ -1,7 +1,7 @@
-import { PlayerInfo, PlayerType } from "@openfront/engine-api/game/GameTypes";
-import { Executor } from "@openfront/engine/execution/ExecutionManager";
-import { SpawnExecution } from "@openfront/engine/execution/SpawnExecution";
-import { SpawnTimerExecution } from "@openfront/engine/execution/SpawnTimerExecution";
+import { PlayerInfo, PlayerType } from "@zombie-defense/engine-api/game/GameTypes";
+import { Executor } from "@zombie-defense/engine/execution/ExecutionManager";
+import { SpawnExecution } from "@zombie-defense/engine/execution/SpawnExecution";
+import { SpawnTimerExecution } from "@zombie-defense/engine/execution/SpawnTimerExecution";
 import { setup } from "../../util/Setup";
 
 describe("Spawn execution", () => {

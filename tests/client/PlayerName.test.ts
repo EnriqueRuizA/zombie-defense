@@ -1,5 +1,5 @@
-import { UsernameSchema } from "@openfront/engine-api/Schemas";
-import type { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { UsernameSchema } from "@zombie-defense/engine-api/Schemas";
+import type { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { describe, expect, it } from "vitest";
 import {
   accountNameHeld,

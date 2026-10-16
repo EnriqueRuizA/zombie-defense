@@ -1,4 +1,4 @@
-import type { PlayerCosmetics } from "@openfront/shared/WireSchemas";
+import type { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { render } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 

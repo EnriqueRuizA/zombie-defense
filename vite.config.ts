@@ -1,8 +1,8 @@
 import {
   type AssetManifest,
   buildAssetUrl,
-} from "@openfront/shared/AssetPaths";
-import { rewriteAssetsForCdn } from "@openfront/shared/AssetUrls";
+} from "@zombie-defense/shared/AssetPaths";
+import { rewriteAssetsForCdn } from "@zombie-defense/shared/AssetUrls";
 import tailwindcss from "@tailwindcss/vite";
 import fs from "fs";
 import http from "http";

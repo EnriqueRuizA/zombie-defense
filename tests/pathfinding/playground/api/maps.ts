@@ -1,5 +1,5 @@
-import { Game } from "@openfront/engine/game/Game";
-import { DebugSpan } from "@openfront/engine/utilities/DebugSpan";
+import { Game } from "@zombie-defense/engine/game/Game";
+import { DebugSpan } from "@zombie-defense/engine/utilities/DebugSpan";
 import { readdirSync, readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";

@@ -1,4 +1,4 @@
-import type { Cosmetics, Effect } from "@openfront/shared/CosmeticSchemas";
+import type { Cosmetics, Effect } from "@zombie-defense/shared/CosmeticSchemas";
 import { nothing, type LitElement } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {

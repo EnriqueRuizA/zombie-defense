@@ -1,4 +1,4 @@
-import { CloseReason } from "@openfront/shared/CloseCodes";
+import { CloseReason } from "@zombie-defense/shared/CloseCodes";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { LobbyConfig } from "../../src/client/ClientGameRunner";
 
@@ -31,8 +31,8 @@ vi.mock("src/client/ClientEnv", async (importOriginal) => {
   };
 });
 
-import { EventBus } from "@openfront/shared/EventBus";
-import { encodeServerMessage } from "@openfront/shared/ZbinWire";
+import { EventBus } from "@zombie-defense/shared/EventBus";
+import { encodeServerMessage } from "@zombie-defense/shared/ZbinWire";
 import { Transport } from "../../src/client/Transport";
 
 const ENTRY = "aaaa1111";

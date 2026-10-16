@@ -9,8 +9,8 @@
  * smallID lookup, tick tracking, and tile delta accumulation.
  */
 
-import { UnitType } from "@openfront/engine-api/game/GameTypes";
-import { GameUpdateType } from "@openfront/engine-api/game/GameUpdates";
+import { UnitType } from "@zombie-defense/engine-api/game/GameTypes";
+import { GameUpdateType } from "@zombie-defense/engine-api/game/GameUpdates";
 import { describe, expect, it } from "vitest";
 import {
   makeEmptyGu,

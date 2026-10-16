@@ -4,15 +4,15 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { toInt } from "@openfront/engine-lib/Util";
-import { AttackExecution } from "@openfront/engine/execution/AttackExecution";
-import { MarkDisconnectedExecution } from "@openfront/engine/execution/MarkDisconnectedExecution";
-import { PlayerExecution } from "@openfront/engine/execution/PlayerExecution";
-import { TransportShipExecution } from "@openfront/engine/execution/TransportShipExecution";
-import { getSpawnTiles } from "@openfront/engine/execution/Util";
-import { WarshipExecution } from "@openfront/engine/execution/WarshipExecution";
-import { Game, Player } from "@openfront/engine/game/Game";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { toInt } from "@zombie-defense/engine-lib/Util";
+import { AttackExecution } from "@zombie-defense/engine/execution/AttackExecution";
+import { MarkDisconnectedExecution } from "@zombie-defense/engine/execution/MarkDisconnectedExecution";
+import { PlayerExecution } from "@zombie-defense/engine/execution/PlayerExecution";
+import { TransportShipExecution } from "@zombie-defense/engine/execution/TransportShipExecution";
+import { getSpawnTiles } from "@zombie-defense/engine/execution/Util";
+import { WarshipExecution } from "@zombie-defense/engine/execution/WarshipExecution";
+import { Game, Player } from "@zombie-defense/engine/game/Game";
 import { setup } from "./util/Setup";
 import { UseRealAttackLogic } from "./util/TestConfig";
 import { executeTicks } from "./util/utils";

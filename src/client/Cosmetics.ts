@@ -2,8 +2,8 @@ import {
   isGrantedSubscription,
   UserMeResponse,
   UserSubscription,
-} from "@openfront/shared/ApiSchemas";
-import { assetUrl } from "@openfront/shared/AssetUrls";
+} from "@zombie-defense/shared/ApiSchemas";
+import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import {
   ColorPalette,
   CosmeticPack,
@@ -18,13 +18,13 @@ import {
   Pattern,
   Skin,
   Subscription,
-} from "@openfront/shared/CosmeticSchemas";
+} from "@zombie-defense/shared/CosmeticSchemas";
 import {
   PlayerCosmeticRefs,
   PlayerCosmetics,
   PlayerEffect,
   PlayerPattern,
-} from "@openfront/shared/WireSchemas";
+} from "@zombie-defense/shared/WireSchemas";
 import {
   changeSubscriptionTier,
   getApiBase,

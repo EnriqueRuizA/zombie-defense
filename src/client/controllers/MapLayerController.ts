@@ -6,10 +6,10 @@
  * so the game starts without blocking on layer images.
  */
 
-import { GameMapSize, GameMapType } from "@openfront/engine-api/game/GameTypes";
-import { MapLayer } from "@openfront/engine-api/game/MapFiles";
-import { TerrainMapData } from "@openfront/engine-lib/game/TerrainMapLoader";
-import { GameMapLoader } from "@openfront/shared/GameMapLoader";
+import { GameMapSize, GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
+import { MapLayer } from "@zombie-defense/engine-api/game/MapFiles";
+import { TerrainMapData } from "@zombie-defense/engine-lib/game/TerrainMapLoader";
+import { GameMapLoader } from "@zombie-defense/shared/GameMapLoader";
 import { Controller } from "../Controller";
 import { MapRenderer } from "../render/gl";
 import { UserSettings } from "../UserSettings";

@@ -1,6 +1,6 @@
-import { GameType } from "@openfront/engine-api/game/GameTypes";
-import { ADMIN_BOT_CLIENT_ID } from "@openfront/engine-api/Schemas";
-import { createGameWireContext } from "@openfront/shared/ZbinWire";
+import { GameType } from "@zombie-defense/engine-api/game/GameTypes";
+import { ADMIN_BOT_CLIENT_ID } from "@zombie-defense/engine-api/Schemas";
+import { createGameWireContext } from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GameServer } from "../../src/server/GameServer";
 import {

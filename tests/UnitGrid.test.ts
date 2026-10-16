@@ -2,8 +2,8 @@ import {
   PlayerInfo,
   PlayerType,
   UnitType,
-} from "@openfront/engine-api/game/GameTypes";
-import { UnitGrid } from "@openfront/engine-lib/game/UnitGrid";
+} from "@zombie-defense/engine-api/game/GameTypes";
+import { UnitGrid } from "@zombie-defense/engine-lib/game/UnitGrid";
 import { setup } from "./util/Setup";
 
 async function checkRange(

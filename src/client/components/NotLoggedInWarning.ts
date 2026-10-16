@@ -1,4 +1,4 @@
-import { UserMeResponse } from "@openfront/shared/ApiSchemas";
+import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { responseHasLinkedIdentity } from "../AccountIdentity";

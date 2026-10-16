@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title data-i18n="main.title">OpenFront (ALPHA)</title>
+    <title data-i18n="main.title">Zombie Defense (ALPHA)</title>
     <link rel="manifest" href="<%- manifestHref %>" />
     <link rel="icon" type="image/svg+xml" href="<%- faviconHref %>" />
 
@@ -135,15 +135,17 @@
     </style>
 
     <!-- SEO -->
-    <link rel="canonical" href="https://openfront.io/" />
+    <!-- Propuesta (O2/D1): dominio provisional zombie-defense.io.
+         Sustituir por el dominio definitivo cuando exista; no inventar otros. -->
+    <link rel="canonical" href="https://zombie-defense.io/" />
     <meta
       name="description"
       content="Conquer the world in this multiplayer battle royale! Expand your nation, eliminate opponents, and dominate the map in this fast-paced IO game."
     />
 
     <!-- Open Graph -->
-    <meta property="og:url" content="https://openfront.io/" />
-    <meta property="og:title" content="OpenFront - Battle Royale" />
+    <meta property="og:url" content="https://zombie-defense.io/" />
+    <meta property="og:title" content="Zombie Defense - Battle Royale" />
     <meta
       property="og:description"
       content="Conquer the world in this multiplayer battle royale! Expand your nation, eliminate opponents, and dominate the map in this fast-paced IO game."
@@ -152,13 +154,16 @@
     <meta property="og:type" content="game" />
 
     <!-- Structured Data -->
+    <!-- Propuesta (O2/D1): GitHub/Discord/Reddit definitivos de Zombie Defense
+         aún no existen; se usa el placeholder del propio sitio hasta que el
+         coordinador fije las URLs (no inventar invitas ni orgs). -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "VideoGame",
-        "name": "OpenFront",
-        "alternateName": "OpenFront.io",
-        "url": "https://openfront.io/",
+        "name": "Zombie Defense",
+        "alternateName": "zombie-defense.io",
+        "url": "https://zombie-defense.io/",
         "description": "Conquer the world in this multiplayer battle royale! Expand your nation, eliminate opponents, and dominate the map in this fast-paced IO game.",
         "applicationCategory": "Game",
         "operatingSystem": "Any",
@@ -167,11 +172,7 @@
         "playMode": "MultiPlayer",
         "inLanguage": "en",
         "isAccessibleForFree": true,
-        "sameAs": [
-          "https://github.com/openfrontio/OpenFrontIO",
-          "https://discord.gg/openfront",
-          "https://www.reddit.com/r/OpenFront/"
-        ]
+        "sameAs": ["https://zombie-defense.io/"]
       }
     </script>
 
@@ -246,7 +247,7 @@
     <script>
       window.googletag = window.googletag || { cmd: [] };
       googletag.cmd.push(function () {
-        googletag.pubads().set("page_url", "http://openfront.io ");
+        googletag.pubads().set("page_url", "http://zombie-defense.io ");
       });
     </script>
 
