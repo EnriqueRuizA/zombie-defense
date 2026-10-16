@@ -5,24 +5,35 @@
 #   - npm run dev:simple
 #   - Para no abrir el navegador: $env:SKIP_BROWSER_OPEN="true"; npm run dev:simple
 #
-# Lo que hace, en 4 pasos visibles:
-#   1/4 Comprueba la toolchain (Node/npm segun "engines" de package.json). Si no
-#       cumple, aborta ANTES de instalar nada, mostrando version actual,
-#       version requerida y el comando exacto de correccion.
-#   2/4 Si falta la carpeta node_modules, ejecuta "npm run inst"
-#       (= npm ci --ignore-scripts). Nunca usa "npm install". Si falla, aborta
+# Lo que hace, en 4 pasos visibles (spec lanzador v1.2):
+#   1/4 Comprueba la toolchain (Node/npm segun "engines" de package.json).
+#       Node: SIN auto-instalacion; si no cumple, aborta ANTES de instalar
+#       nada, mostrando version actual, version requerida y guia de correccion.
+#       npm: SI se auto-corrige con "npm install --global --ignore-scripts
+#       npm@12.1.0" y re-comprueba; solo si sigue sin cumplir, aborta con guia.
+#   2/4 Verifica dependencias y ejecuta "npm run inst" (= npm ci
+#       --ignore-scripts, nunca "npm install") si falta node_modules, si
+#       package-lock.json es mas nuevo que node_modules, si falta
+#       node_modules/.package-lock.json o si los symlinks del workspace
+#       (node_modules/@zombie-defense/*) estan rotos. Si falla, aborta
 #       sin arrancar nada.
-#   3/4 Comprueba que los puertos del dev (cliente + master + workers, leidos de
-#       vite.config.ts) esten libres. Si alguno esta ocupado, aborta sin dejar
-#       procesos a medias e indica el puerto y como inspeccionarlo con netstat.
-#       Nunca cambia de puertos automaticamente.
+#   3/4 Comprueba que los puertos del dev (leidos de vite.config.ts) esten
+#       libres. El puerto del cliente (URL/sonda) es SIEMPRE server.port
+#       explicito (9000 en vite.config.ts), nunca $Ports[0]. Si alguno esta
+#       ocupado, aborta sin dejar procesos a medias e indica el puerto y como
+#       inspeccionarlo con netstat. Nunca cambia de puertos automaticamente.
 #   4/4 Arranca "npm run dev" en primer plano (delega GAME_ENV=dev y todas las
-#       vars dev en los scripts existentes) y abre http://localhost:9000/ en el
-#       navegador cuando el cliente responde, salvo SKIP_BROWSER_OPEN=true.
-#       Para detener: Ctrl+C en esta consola.
+#       vars dev en los scripts existentes) y abre http://localhost:<server.port>/
+#       en el navegador cuando el cliente responde, salvo SKIP_BROWSER_OPEN=true.
+#       Para detener: Ctrl+C en esta consola. Contrato pausa+exit: pausa
+#       (Read-Host) solo en fallo para que la ventana de doble-clic no se
+#       cierre sola; en exito sale con el codigo de "npm run dev" sin pausa
+#       (Iniciar-Juego.cmd solo pausa si EXITCODE != 0).
 #
-# No modifica ningun script existente, ni vite.config, ni el servidor, ni
-# paquetes/dependencias, ni variables globales de ExecutionPolicy.
+# No modifica vite.config, ni el servidor, ni paquetes/dependencias mas alla de
+# "npm run inst", ni variables globales de ExecutionPolicy (Bypass de un solo
+# proceso en Iniciar-Juego.cmd / dev:simple). Rutas con espacios: siempre
+# -LiteralPath + Join-Path. Compatible con Windows PowerShell 5.1.
 
 $ErrorActionPreference = "Stop"
 
@@ -137,25 +148,101 @@ try {
 }
 $npmVersion = $null
 if (-not [System.Version]::TryParse($npmRaw.Trim(), [ref]$npmVersion)) {
-  Fail "No se pudo interpretar la version de npm (salida: $npmRaw)." "Actualiza npm con el comando del README y reintenta."
+  Fail "No se pudo interpretar la version de npm (salida: $npmRaw)." "Actualiza npm con 'npm install --global --ignore-scripts npm@12.1.0' (comando del README) y reintenta."
 }
+# v1.2 decision R1: npm SI se auto-corrige (Node NO). Re-check tras el intento.
 if (-not (Test-VersionInRange $npmVersion $npmRange.Min $npmRange.Max)) {
-  Fail "npm $npmVersion no cumple el requisito (requerido: $($npmRange.Text), actual: $npmVersion)." "Ejecuta 'npm install --global --ignore-scripts npm@12.1.0' (comando del README) y reintenta. Este lanzador no actualiza npm por ti."
+  Write-Warn "npm $npmVersion no cumple (requerido: $($npmRange.Text)). Intentando auto-correccion..."
+  Write-Host "   Ejecutando: npm install --global --ignore-scripts npm@12.1.0" -ForegroundColor Yellow
+  & npm install --global --ignore-scripts npm@12.1.0
+  if ($LASTEXITCODE -ne 0) {
+    Fail "La auto-actualizacion de npm fallo (codigo $LASTEXITCODE)." "Ejecuta a mano 'npm install --global --ignore-scripts npm@12.1.0' (comando del README) y reintenta."
+  }
+  try {
+    $npmRaw = (& npm --version) | Select-Object -First 1
+  } catch {
+    Fail "npm no responde tras la auto-actualizacion." "Ejecuta a mano 'npm install --global --ignore-scripts npm@12.1.0' y reintenta."
+  }
+  $npmVersion = $null
+  if (-not [System.Version]::TryParse($npmRaw.Trim(), [ref]$npmVersion)) {
+    Fail "No se pudo interpretar la version de npm tras actualizar (salida: $npmRaw)." "Ejecuta a mano 'npm install --global --ignore-scripts npm@12.1.0' y reintenta."
+  }
+  if (-not (Test-VersionInRange $npmVersion $npmRange.Min $npmRange.Max)) {
+    Fail "npm $npmVersion sigue sin cumplir el requisito (requerido: $($npmRange.Text))." "Ejecuta a mano 'npm install --global --ignore-scripts npm@12.1.0' (comando del README) y reintenta."
+  }
+  Write-Ok "npm actualizado a $npmVersion (requerido: $($npmRange.Text))."
+} else {
+  Write-Ok "npm $npmVersion cumple ($($npmRange.Text))."
 }
-Write-Ok "npm $npmVersion cumple ($($npmRange.Text))."
 
-# --- 2/4 Dependencias ---------------------------------------------------------
+# --- 2/4 Dependencias (v1.2: auto "npm run inst" si falta/lock nuevo/symlinks rotos)
 Write-Step "2/4 Comprobando dependencias..."
 
-if (-not (Test-Path -LiteralPath (Join-Path $RepoRoot "node_modules"))) {
-  Write-Host "   node_modules no existe. Instalando con 'npm run inst' (npm ci --ignore-scripts)..." -ForegroundColor Yellow
+$NodeModulesPath = Join-Path $RepoRoot "node_modules"
+$LockPath = Join-Path $RepoRoot "package-lock.json"
+$NeedInst = $false
+$NeedReason = ""
+if (-not (Test-Path -LiteralPath $NodeModulesPath)) {
+  $NeedInst = $true
+  $NeedReason = "node_modules no existe"
+} elseif (-not (Test-Path -LiteralPath $LockPath)) {
+  Fail "Falta package-lock.json ($LockPath)." "Restaura package-lock.json del repo y reintenta. No uses 'npm install'."
+} else {
+  $lockTime = (Get-Item -LiteralPath $LockPath).LastWriteTimeUtc
+  $modulesTime = (Get-Item -LiteralPath $NodeModulesPath).LastWriteTimeUtc
+  if ($lockTime -gt $modulesTime) {
+    $NeedInst = $true
+    $NeedReason = "package-lock.json es mas nuevo que node_modules"
+  } elseif (-not (Test-Path -LiteralPath (Join-Path $NodeModulesPath ".package-lock.json"))) {
+    $NeedInst = $true
+    $NeedReason = "falta node_modules/.package-lock.json (instalacion incompleta)"
+  } else {
+    # Verificacion de symlinks del workspace (junctions en Windows).
+    # Roto = el enlace existe pero su destino (packages/...) ya no existe.
+    $ScopePath = Join-Path $NodeModulesPath "@zombie-defense"
+    if (-not (Test-Path -LiteralPath $ScopePath)) {
+      $NeedInst = $true
+      $NeedReason = "falta node_modules/@zombie-defense (workspace sin enlazar)"
+    } else {
+      $links = Get-ChildItem -LiteralPath $ScopePath -ErrorAction SilentlyContinue
+      if (($links -eq $null) -or (@($links).Count -eq 0)) {
+        $NeedInst = $true
+        $NeedReason = "node_modules/@zombie-defense vacio (workspace sin enlazar)"
+      } else {
+        foreach ($link in @($links)) {
+          $targetOk = $true
+          try {
+            $t = $link.Target
+            if (($t -eq $null) -or (@($t).Count -eq 0)) {
+              if (-not (Test-Path -LiteralPath $link.FullName)) { $targetOk = $false }
+            } else {
+              foreach ($one in @($t)) {
+                if (-not (Test-Path -LiteralPath ([string]$one))) { $targetOk = $false; break }
+              }
+            }
+          } catch {
+            $targetOk = $false
+          }
+          if (-not $targetOk) {
+            $NeedInst = $true
+            $NeedReason = "symlink roto: node_modules/@zombie-defense/$($link.Name)"
+            break
+          }
+        }
+      }
+    }
+  }
+}
+
+if ($NeedInst) {
+  Write-Host "   $NeedReason. Instalando con 'npm run inst' (npm ci --ignore-scripts)..." -ForegroundColor Yellow
   & npm run inst
   if ($LASTEXITCODE -ne 0) {
     Fail "'npm run inst' fallo (codigo $LASTEXITCODE)." "Lee el error de arriba (suele ser red o caché de npm), corrigelo y reintenta. No uses 'npm install'."
   }
-  Write-Ok "Dependencias instaladas."
+  Write-Ok "Dependencias instaladas ($NeedReason)."
 } else {
-  Write-Ok "node_modules ya existe; no se instala nada."
+  Write-Ok "Dependencias al dia (node_modules, lock y symlinks verificados); no se instala nada."
 }
 
 # --- 3/4 Puertos --------------------------------------------------------------

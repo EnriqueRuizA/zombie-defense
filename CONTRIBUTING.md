@@ -8,6 +8,7 @@ We welcome contributions from everyone. By participating in this project, you ag
 
 <!-- Propuesta (O2/D1): dominio provisional; Discord/Crowdin/GitHub pendientes
      de que el coordinador fije las URLs definitivas (no inventar). -->
+
 - **Game**: [https://zombie-defense.io/](https://zombie-defense.io/)
 - **Discord**: [Join the Development Discord](https://discord.gg/K9zernJB5z)
 - **Translations**: [Crowdin Project](https://crowdin.com/project/openfront-mls)
@@ -86,7 +87,7 @@ Using AI tools is fine — but you **MUST** understand the code you are submitti
   npm run dev
   ```
   This starts the dev server and the game server, and opens your browser.
-- **Easiest on Windows**: double-click `Iniciar-Juego.cmd` in the repo root, or run `npm run dev:simple`. It checks the Node/npm versions from `package.json` (`engines`), runs `npm run inst` if `node_modules` is missing, verifies the dev ports (client 9000, master 3000, workers 3001/3002) are free, then starts `npm run dev` and opens the browser (skip with `$env:SKIP_BROWSER_OPEN="true"`).
+- **Easiest on Windows**: double-click `Iniciar-Juego.cmd` in the repo root, or run `npm run dev:simple`. It checks the Node/npm versions from `package.json` (`engines`; Node never auto-updates, npm below the range auto-updates with `npm install --global --ignore-scripts npm@12.1.0` and re-checks), runs `npm run inst` when `node_modules` is missing, `package-lock.json` is newer, or workspace symlinks are broken, verifies the dev ports (client URL always explicit `server.port`: 9000; master 3000, workers 3001/3002) are free, then starts `npm run dev` and opens the browser (skip with `$env:SKIP_BROWSER_OPEN="true"`).
 - **Client Only**:
   ```bash
   npm run start:client
