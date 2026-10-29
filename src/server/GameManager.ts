@@ -48,6 +48,18 @@ export class GameManager {
     );
   }
 
+  /**
+   * Every game in lobby phase, regardless of public/private/listed state.
+   * Local mode advertises all of them (docs/LocalMode.md R7/R8): a lobby is
+   * joinable until it starts or fills, so there is no listing flag to filter
+   * on.
+   */
+  public lobbies(): GameServer[] {
+    return Array.from(this.games.values()).filter(
+      (g) => g.phase() === GamePhase.Lobby,
+    );
+  }
+
   joinClient(client: Client, gameID: GameID): JoinResult | "not_found" {
     const game = this.games.get(gameID);
     if (!game) return "not_found";

@@ -29,7 +29,7 @@ function sendWorkerReady(worker: EventEmitter, workerId: number) {
 function createService(numWorkers: number): MasterLobbyService {
   vi.spyOn(ServerEnv, "numWorkers").mockReturnValue(numWorkers);
   const log = { info: vi.fn(), error: vi.fn() } as any;
-  return new MasterLobbyService({} as any, log);
+  return new MasterLobbyService(log);
 }
 
 function startAllWorkers(

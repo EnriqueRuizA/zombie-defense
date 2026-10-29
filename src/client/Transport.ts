@@ -49,7 +49,6 @@ import { ClientEnv, NoServerError } from "src/client/ClientEnv";
 import { getPlayToken } from "./Auth";
 import { LobbyConfig } from "./ClientGameRunner";
 import { clientPlatform } from "./ClientPlatform";
-import { isDesktopShell } from "./DesktopShell";
 import { showInGameConfirm } from "./InGameModal";
 import {
   SendKickPlayerIntentEvent,
@@ -603,7 +602,7 @@ export class Transport {
     // the sessionStorage latch stops a loop if the fresh map still
     // misroutes (a real bug), falling through to the dialog instead. Not on
     // desktop: its shell owns navigation and updates its map at boot.
-    if (reason === CloseReason.WrongWorker && !isDesktopShell()) {
+      if (reason === CloseReason.WrongWorker) {
       const gameID = this.lobbyConfig.gameID;
       const latch = `wrong-worker-redirect:${gameID}`;
       if (sessionStorage.getItem(latch) === null) {

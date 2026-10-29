@@ -28,10 +28,18 @@ trabajo ya realizado y evitando perder cambios. El resultado debe:
   **sin stage**. Hay archivos nuevos sin trackear:
   `docs/LocalMode.md`, `docs/CasualMode.md`, `src/client/LobbyApi.ts`,
   `src/server/Leaderboard*.ts` y tests asociados.
-- La última medición completa de TypeScript fue **164 errores en 27 archivos**.
-  Los 9 commits de tests redujeron parte de esos errores, pero falta re-medir.
-- `developer-muse` no está disponible (`Model not found`). El trabajo de cliente
-  fue iniciado por `developer-mimo` y quedó incompleto.
+- `typecheck`, `lint`, `build-prod` y la suite completa de tests están **verdes**:
+  `npm test` → 405 archivos / 4953 tests pasados, 1 skipped.
+- `resources/lang/en.json`: 1196 claves no usadas eliminadas.
+- `tests/NationGoldPerMinute.test.ts`: snapshot actualizado y verificado determinista.
+- `tests/MapConsistency.test.ts`: nombres de Luna sincronizados con el manifiesto.
+- Todos los agentes de OpenCode usan modelos gratuitos sin límite:
+  - `coordinator.md`: `opencode/beam-free`
+  - `developer-muse.md`: `opencode/beam-free` (reemplazó `opencode/muse-spark-1.3-contributor-free`, inválido)
+  - `developer-mimo.md`: `opencode/beam-free` (reemplazó `opencode/mimo-v2.6-flash-free`)
+  - `designer.md`: `opencode/beam-free` (añadido)
+  - `qa.md`: `opencode/beam-free` (añadido)
+- Archivo de memoria creado: `.opencode/memory.md`.
 - `docs/LocalMode.md` es la especificación aprobada; `docs/CasualMode.md` queda
   como contexto histórico hasta la limpieza final.
 
@@ -214,10 +222,11 @@ Cada criterio de `docs/LocalMode.md` (AC1-AC15) debe quedar marcado como
 
 ## 8. Próximos pasos inmediatos
 
-1. Commitear `plan.md` + `docs/LocalMode.md`.
-2. Re-ejecutar `npx tsc --noEmit` y volcar el resultado a un archivo temporal
-   para clasificar los errores restantes.
-3. Ejecutar el lote 1 de la Fase 1 (cuentas/API/login) con stage explícito.
-4. Repetir por lotes hasta que el cliente no importe módulos eliminados.
-5. Pasar a Fase 2 (identidad local y home) y después Fase 3 (servidor).
-6. No abrir QA hasta que `typecheck` y el build local estén estables.
+1. Validar configuración de agentes: `opencode agent list` (hecho: todos registrados con `opencode/beam-free`).
+2. Ejecutar smoke test local de dos workers (`NUM_WORKERS=2`): health, lobby creación, visibilidad cruzada, inicio de partida.
+3. Commitear `plan.md` + `docs/LocalMode.md` + `.opencode/memory.md` + cambios de agentes (autorización requerida para commits).
+4. Re-ejecutar `npx tsc --noEmit`, `npm run lint`, `npm test` tras cada lote relevante.
+5. Ejecutar el lote 1 de la Fase 1 (cuentas/API/login) con stage explícito.
+6. Repetir por lotes hasta que el cliente no importe módulos eliminados.
+7. Pasar a Fase 2 (identidad local y home) y después Fase 3 (servidor).
+8. No abrir QA hasta que `typecheck` y el build local estén estables.

@@ -1,9 +1,7 @@
 import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { desktopSteamLocale } from "./DesktopShell";
-import "./LanguageModal";
-import { LanguageModal } from "./LanguageModal";
+import type { LanguageModal } from "./LanguageModal";
 import { formatDebugTranslation } from "./Utils";
 
 import en from "../../resources/lang/en.json";
@@ -111,13 +109,9 @@ export class LangSelector extends LitElement {
    * good, because a saved choice outranks both of these.
    */
   private defaultLocale(): string {
-    const osLocale = navigator.language;
-    const steamLocale = desktopSteamLocale();
-    if (steamLocale === null) return osLocale;
-    return this.getClosestSupportedLang(steamLocale) === "en"
-      ? osLocale
-      : steamLocale;
-  }
+        const osLocale = navigator.language;
+        return osLocale;
+      }
 
   private async initializeLanguage() {
     // A saved choice is the last word on every platform. Everything else is

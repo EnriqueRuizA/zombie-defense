@@ -3,6 +3,9 @@ node_modules
 .worktrees/
 out/
 static/
+# Casual mode: the local CSV leaderboard (docs/CasualMode.md). Runtime data,
+# never committed — Master rewrites it on every confirmed game.
+data/
 coverage/
 TODO.txt
 resources/images/.DS_Store

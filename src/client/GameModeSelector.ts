@@ -1,10 +1,8 @@
 import { GameMapType, GameType } from "@zombie-defense/engine-api/game/GameTypes";
-import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { PublicGameInfo, PublicGames } from "@zombie-defense/shared/WireSchemas";
 import { html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";
-import { getDesktopSessionState } from "./Auth";
 import "./components/IOSAddToHomeScreenBanner";
 import {
   canJoinTrustedLobby,
@@ -12,18 +10,7 @@ import {
   mapAspectRatios,
   trustLockIcon,
   trustRequiredDialog,
-  viewerIsSignedIn,
-  viewerIsTrusted,
 } from "./components/LobbyCard";
-import {
-  getDesktopUpdateState,
-  isDesktopShell,
-  multiplayerAllowed,
-  multiplayerAllowedForSession,
-  type DesktopSessionState,
-  type DesktopUpdateState,
-} from "./DesktopShell";
-import { gamePortal } from "./GamePortal";
 import type { HostLobbyModal } from "./HostLobbyModal";
 import { showInGameAlert } from "./InGameModal";
 import type { JoinLobbyModal } from "./JoinLobbyModal";
@@ -40,7 +27,6 @@ import {
   type BackendReachabilityDetail,
 } from "./ServerList";
 import type { SinglePlayerModal } from "./SinglePlayerModal";
-import { lastUserMeResponse } from "./UserMeBroadcast";
 import { UsernameInput } from "./UsernameInput";
 import {
   calculateServerTimeOffset,
@@ -138,34 +124,8 @@ export function multiplayerAllowedForBackend(backendOutage: boolean): boolean {
  * "reachability does not apply here" is a named decision rather than a
  * `false` literal someone has to interpret.
  */
-export function shouldBlockMultiplayerAction(
-  update: DesktopUpdateState | null,
-  session: DesktopSessionState | null,
-  backendOutage: boolean,
-): boolean {
-  if (update !== null && !multiplayerAllowed(update)) return true;
-  if (session !== null && !multiplayerAllowedForSession(session)) return true;
-  if (!multiplayerAllowedForBackend(backendOutage)) return true;
-  return false;
-}
-
-/**
- * Whether the public-lobby feed should be closed rather than kept open.
- *
- * A gated desktop session refuses every join the feed could offer, so keeping
- * the socket open only spends a connection on cards nobody can use and shows
- * a spinner that never resolves into anything playable. Close it and say
- * "offline" instead; it reopens when the session comes back.
- *
- * Reachability is deliberately NOT an input, by the rule at the top of this
- * file: the feed is socket-sourced, and the list API's health says nothing
- * about the game server behind it. The update state is not either -- a
- * pending update is not "offline".
- */
-export function lobbyFeedSuspended(
-  session: DesktopSessionState | null,
-): boolean {
-  return session !== null && !multiplayerAllowedForSession(session);
+export function shouldBlockMultiplayerAction(backendOutage: boolean): boolean {
+  return !multiplayerAllowedForBackend(backendOutage);
 }
 
 /**
@@ -173,21 +133,13 @@ export function lobbyFeedSuspended(
  * socket: a public or hosted lobby card, in either browser, and every join
  * that reaches Main's funnel (shouldBlockJoin below wraps this).
  *
- * Reachability is not an input, by the rule at the top of this file: the card
- * is in front of the player because a game server sent it over a socket that
- * is still open, so the server-list API's health cannot make joining it
- * wrong. The desktop update and session states still apply -- they are
- * statements about this client, not about any server.
- *
- * A function rather than `shouldBlockMultiplayerAction(u, s, false)` at four
- * call sites so the dimming and the click-through of a given control cannot
- * drift apart, and so grep finds every place the rule is exercised.
+ * Local build: there is no desktop session to gate on and no separate
+ * list-API to be unhealthy, so a socket-sourced action is never blocked —
+ * the socket the card arrived over is itself the proof the game server is
+ * reachable.
  */
-export function shouldBlockSocketSourcedAction(
-  update: DesktopUpdateState | null,
-  session: DesktopSessionState | null,
-): boolean {
-  return shouldBlockMultiplayerAction(update, session, false);
+export function shouldBlockSocketSourcedAction(): boolean {
+  return false;
 }
 
 /**
@@ -220,19 +172,10 @@ export function shouldBlockSocketSourcedAction(
  * buttons -- the feedback is the gate going away.
  */
 export function reportMultiplayerRefusal(backendOutage: boolean): void {
-  // Optional-call the method rather than dispatching an event: the bar is a
-  // sibling custom element that may not have upgraded yet, and `?.wiggle?.()`
-  // degrades to a silent no-op in that case instead of firing an event with
-  // no listener.
-  (
-    document.querySelector("desktop-status-bar") as
-      | (HTMLElement & { wiggle?: () => void })
-      | null
-  )?.wiggle?.();
-  // Keyed on the shell, not on the element: <desktop-status-bar> is in
-  // index.html on every build and simply renders nothing on the web, so its
-  // presence proves nothing about whether the player can see a reason.
-  if (!isDesktopShell() && backendOutage) {
+  // Local build: no desktop status bar exists to wiggle, and the list API is
+  // a local stand-in that never reports an outage, so this only ever runs
+  // when a caller passes `true` by hand.
+  if (backendOutage) {
     if (manualRetryAvailable()) {
       retryServerList().catch((err: unknown) => {
         // retryServerList never rejects; belt and braces, so a change there
@@ -254,10 +197,9 @@ export function reportMultiplayerRefusal(backendOutage: boolean): void {
  * shouldBlockMultiplayerAction above.
  */
 export function joinIsGateable(lobby: JoinLobbyEvent): boolean {
-  return (
-    lobby.gameStartInfo?.config.gameType !== GameType.Singleplayer &&
-    lobby.gameRecord === undefined
-  );
+  // Local build: there are no archived replays to join, so only the
+  // single-player exemption remains.
+  return lobby.gameStartInfo?.config.gameType !== GameType.Singleplayer;
 }
 
 /**
@@ -286,24 +228,18 @@ export function joinIsGateable(lobby: JoinLobbyEvent): boolean {
  * comes from -- hold to the same rule for the same reason, so a card is
  * neither dimmed nor refused over a list-API outage.
  */
-export function shouldBlockJoin(
-  lobby: JoinLobbyEvent,
-  update: DesktopUpdateState | null,
-  session: DesktopSessionState | null,
-): boolean {
+export function shouldBlockJoin(lobby: JoinLobbyEvent): boolean {
   if (!joinIsGateable(lobby)) return false;
-  return shouldBlockSocketSourcedAction(update, session);
+  return shouldBlockSocketSourcedAction();
 }
 
 @customElement("game-mode-selector")
 export class GameModeSelector extends LitElement {
   @state() private lobbies: PublicGames | null = null;
   @state() private inputValid: boolean = true;
-  @state() private desktopUpdateState: DesktopUpdateState | null = null;
   @state() private viewerTrusted: boolean = false;
   @state() private viewerSignedIn: boolean = false;
   @state() private showTrustRequired: boolean = false;
-  @state() private desktopSessionState: DesktopSessionState | null = null;
   // The DEBOUNCED outage signal, not the raw per-attempt one: see
   // multiplayerAllowedForBackend for why one missed heartbeat must not dim
   // these buttons.
@@ -349,7 +285,6 @@ export class GameModeSelector extends LitElement {
     // itself (download, stage, then its own reload button, see
     // DesktopUpdateBar). Reloading here would only re-run the old overlay,
     // reconnect, and trigger this again until the download finishes.
-    if (isDesktopShell()) return;
     // A versioned replay shell is pinned to the archived game's build on
     // purpose (VersionedReplay.ts), but its baked-in serverHost points at a
     // live deployment running a newer build — so the lobby socket's commit
@@ -399,34 +334,14 @@ export class GameModeSelector extends LitElement {
       "username-validity-change",
       this.handleValidityChange,
     );
-    document.addEventListener(
-      "desktop-update-state",
-      this.onDesktopUpdateState,
-    );
-    document.addEventListener("userMeResponse", this.onUserMe);
-    // play-page renders this after Main may already have broadcast.
-    const last = lastUserMeResponse();
-    if (last !== null) this.applyUserMe(last.response);
-    if (isDesktopShell()) {
-      // Seed BOTH from their current values. This element is rendered by
-      // <play-page> on a Lit microtask, so it cannot exist yet when the status
-      // bar dispatches the update bridge's synchronous replay -- without the
-      // seed the update half of the gate stays null and silently never
-      // applies (OPE-396).
-      this.desktopUpdateState = getDesktopUpdateState();
-      this.desktopSessionState = getDesktopSessionState();
-    }
-    // After the session seed above: a shell that already knows it has no
-    // session must not open a feed it will close on the next tick.
+    // Local-only build: no desktop update/session bridge and no account
+    // profile broadcast (docs/LocalMode.md R1/R5). The viewer is always the
+    // local identity, signed in and never trusted by any server-side rule.
+    this.viewerSignedIn = true;
+    this.viewerTrusted = false;
     this.start();
-    document.addEventListener(
-      "desktop-session-state",
-      this.onDesktopSessionState,
-    );
-    // Seeded unconditionally, unlike the two above: the backend is just as
-    // unreachable on the web, and the heartbeat's first attempts often settle
-    // before this element exists (it is started in Main's initialize, we are
-    // rendered by <play-page> later), so the event alone would miss them.
+    // Seeded unconditionally: the local ServerList never reports an outage,
+    // so this stays false for the whole session.
     this.backendOutage = backendUnreachableConfirmed();
     document.addEventListener(
       "backend-reachability",
@@ -452,15 +367,6 @@ export class GameModeSelector extends LitElement {
       this.handleValidityChange,
     );
     document.removeEventListener(
-      "desktop-update-state",
-      this.onDesktopUpdateState,
-    );
-    document.removeEventListener("userMeResponse", this.onUserMe);
-    document.removeEventListener(
-      "desktop-session-state",
-      this.onDesktopSessionState,
-    );
-    document.removeEventListener(
       "backend-reachability",
       this.onBackendReachability,
     );
@@ -483,40 +389,6 @@ export class GameModeSelector extends LitElement {
 
   private handleValidityChange = (e: Event) => {
     this.inputValid = (e as CustomEvent).detail?.isValid ?? true;
-  };
-
-  private onDesktopUpdateState = (e: Event) => {
-    this.desktopUpdateState = (e as CustomEvent<DesktopUpdateState>).detail;
-  };
-
-  private onUserMe = (e: Event) => {
-    this.applyUserMe((e as CustomEvent<UserMeResponse | false>).detail);
-  };
-
-  private applyUserMe(me: UserMeResponse | false): void {
-    this.viewerSignedIn = viewerIsSignedIn(me);
-    this.viewerTrusted = viewerIsTrusted(me);
-    // A portal sign-in surfaces as a userMeResponse without a linked
-    // identity, so re-read the SDK profile alongside it.
-    if (gamePortal.isOnGamePortal()) {
-      void gamePortal.getUserProfile().then((user) => {
-        if (user !== null) this.viewerSignedIn = true;
-      });
-    }
-  }
-
-  private onDesktopSessionState = (e: Event) => {
-    const next = (e as CustomEvent<DesktopSessionState>).detail;
-    const wasSuspended = lobbyFeedSuspended(this.desktopSessionState);
-    this.desktopSessionState = next;
-    const suspended = lobbyFeedSuspended(next);
-    if (suspended === wasSuspended || !this.feedWanted) return;
-    if (suspended) {
-      this.closeLobbyFeed();
-    } else {
-      this.feedGaveUp = false;
-      this.lobbySocket.start();
-    }
   };
 
   private onBackendReachability = (e: Event) => {
@@ -558,42 +430,27 @@ export class GameModeSelector extends LitElement {
   private openLobbyFeed(refreshList = false) {
     this.feedWanted = true;
     this.feedGaveUp = false;
-    if (lobbyFeedSuspended(this.desktopSessionState)) {
-      // The session may have dropped while Main had the feed stopped, in
-      // which case the snapshot from before the game is still here and its
-      // cards would render as joinable.
-      this.lobbies = null;
-      return;
-    }
     this.lobbySocket.start({ refreshList });
   }
 
   /**
-   * Whether an empty hero slot should say "offline" instead of spinning. The
-   * feed is closed on a gated session, so nothing is loading; on a confirmed
-   * outage it may still be connecting, but a spinner that the status bar
-   * contradicts reads as broken, and the feed reconnects on its own if the
-   * server answers.
+   * Whether an empty hero slot should say "offline" instead of spinning. On a
+   * confirmed outage it may still be connecting, but a spinner that the
+   * status bar contradicts reads as broken, and the feed reconnects on its
+   * own if the server answers.
    */
   private offlineForLobbies(): boolean {
-    return (
-      lobbyFeedSuspended(this.desktopSessionState) ||
-      this.backendOutage ||
-      this.feedGaveUp
-    );
+    return this.backendOutage || this.feedGaveUp;
   }
 
   private renderLobbiesUnavailable() {
-    // A gated desktop session has its remedy in the status bar, and the feed
-    // stays closed until it is taken, so a Retry here could only do nothing.
-    const canRetry = !lobbyFeedSuspended(this.desktopSessionState);
-    // "Offline" is only ever said of a gated desktop session. An outage is
-    // our servers not answering, which is not the player being offline.
-    const message = !canRetry
-      ? "mode_selector.offline_lobbies"
-      : this.backendOutage
-        ? "mode_selector.servers_unreachable"
-        : "mode_selector.lobbies_unreachable";
+    // "Offline" is only ever said of a gated desktop session, which this
+    // build does not have. An outage is our servers not answering, which is
+    // not the player being offline.
+    const message = this.backendOutage
+      ? "mode_selector.servers_unreachable"
+      : "mode_selector.lobbies_unreachable";
+    const canRetry = true;
     return html`<div
       class="flex flex-col items-center justify-center gap-3 h-44 sm:h-full rounded-xl bg-surface/60 px-6 text-center text-sm font-medium text-white/60"
     >
@@ -795,33 +652,19 @@ export class GameModeSelector extends LitElement {
    * merely stops being actionable.
    */
   private blockedFromApiAction(): boolean {
-    if (
-      !shouldBlockMultiplayerAction(
-        this.desktopUpdateState,
-        this.desktopSessionState,
-        this.backendOutage,
-      )
-    )
-      return false;
+    if (!shouldBlockMultiplayerAction(this.backendOutage)) return false;
     reportMultiplayerRefusal(this.backendOutage);
     return true;
   }
 
   /**
-   * The same, for the public-lobby card: the desktop states still refuse, a
-   * list-API outage never does. Its lobby came over a live game-server socket
-   * (the rule at the top of this file), so there is no reachability reason to
-   * refuse and nothing to retry -- hence `false` to the refusal report, which
-   * leaves the desktop wiggle as the only feedback.
+   * The same, for the public-lobby card: a list-API outage never refuses it.
+   * Its lobby came over a live game-server socket (the rule at the top of
+   * this file), so there is no reachability reason to refuse and nothing to
+   * retry.
    */
   private blockedFromLobbyJoin(): boolean {
-    if (
-      !shouldBlockSocketSourcedAction(
-        this.desktopUpdateState,
-        this.desktopSessionState,
-      )
-    )
-      return false;
+    if (!shouldBlockSocketSourcedAction()) return false;
     reportMultiplayerRefusal(false);
     return true;
   }
@@ -943,12 +786,7 @@ export class GameModeSelector extends LitElement {
     adornment: TemplateResult | typeof nothing = nothing,
   ) {
     const blocked =
-      gated &&
-      shouldBlockMultiplayerAction(
-        this.desktopUpdateState,
-        this.desktopSessionState,
-        this.backendOutage,
-      );
+      gated && shouldBlockMultiplayerAction(this.backendOutage);
     return html`
       <button
         @click=${onClick}
@@ -1006,10 +844,7 @@ export class GameModeSelector extends LitElement {
       timeDisplay,
       timeDisplayUppercase,
       disabled: !this.inputValid,
-      blocked: shouldBlockSocketSourcedAction(
-        this.desktopUpdateState,
-        this.desktopSessionState,
-      ),
+      blocked: shouldBlockSocketSourcedAction(),
       viewerTrusted: this.viewerTrusted,
       onClick: () => this.validateAndJoin(lobby),
     });

@@ -1,7 +1,7 @@
 ---
 description: Implement features and fix defects from specs (instance B, MiMo Flash). Use for coding, refactors, regression tests and technical reports in parallel with developer-muse on disjoint files.
 mode: subagent
-model: opencode/mimo-v2.6-flash-free
+model: opencode/beam-free
 temperature: 0.2
 permission:
   edit: allow

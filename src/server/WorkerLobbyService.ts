@@ -21,11 +21,11 @@ import {
 import { logger } from "./Logger";
 import { ServerEnv } from "./ServerEnv";
 
-// The game config advertised for a listed private lobby: everything the
-// host configured minus host-only fields. The server already rejects
-// enabling the whitelist or host cheats while listed; stripping them here
-// just keeps host-only data off the wire. A new host-only GameConfig field
-// must be added to this delete list.
+/**
+ * Host-only fields are stripped from the lobby config before it is
+ * advertised: a local lobby is joinable by anyone, so whitelists, name
+ * reveals, host cheats and pool siblings never need to leave the server.
+ */
 function publicLobbyGameConfig(gc: GameConfig): GameConfig {
   const sanitized = { ...gc };
   delete sanitized.allowedPublicIds;
@@ -36,27 +36,25 @@ function publicLobbyGameConfig(gc: GameConfig): GameConfig {
   return sanitized;
 }
 
+/**
+ * One worker's view of the local lobby list (docs/LocalMode.md R7/R8).
+ *
+ * Every game in lobby phase, with a free slot, is advertised as a plain local
+ * lobby. There is no listing flag, no public/private distinction, no
+ * featured/queued metadata and no cap: a lobby exists in the list for exactly
+ * as long as the worker reports it in lobby phase, so it disappears on start,
+ * on fill and when it is reaped.
+ */
 export class WorkerLobbyService {
   private readonly lobbiesWss: WebSocketServer;
-  // Keyed by socket, valued by the platform the client named in the
-  // upgrade URL's ?platform= (see LobbySocket.ts), for the per-platform gauge.
   private readonly lobbyClients: Map<WebSocket, ClientPlatform | "unknown"> =
     new Map();
   // Most recent snapshot from master, serialized on demand for new
   // connections so they don't have to wait for the next broadcast.
   private lastPublicGames: InternalPublicGames | null = null;
-  // Fingerprint (sorted per-lobby JSON of everything clients receive except
-  // player counts) of the last full we broadcast, or null if we've never
-  // broadcast one. When it changes we send a fresh full; otherwise a
-  // counts-only delta is enough. Null (not "") is used so that an
-  // empty-lobby first broadcast still emits a full.
+  // Fingerprint of the last full snapshot sent to browsers. When it changes a
+  // fresh full is sent; otherwise a counts-only delta is enough.
   private lastFullGameIds: string | null = null;
-  // Deployment-active flag from the master's broadcast (see
-  // MasterLobbiesBroadcastSchema.active). Stamped onto every full snapshot so
-  // pinned tabs on a draining deployment get told to reload, and read by the
-  // ranked check-in loop so a draining server stops offering matches too
-  // (RankedCheckin.ts, OPE-469).
-  private deploymentActive = true;
 
   constructor(
     private readonly server: http.Server,
@@ -74,12 +72,23 @@ export class WorkerLobbyService {
   }
 
   /**
-   * Whether the master last said this deployment may take new games. True
-   * until the first broadcast arrives, so a worker that has not yet heard
-   * from its master behaves as it always has.
+   * Local mode never drains: the single server has nowhere to route players
+   * to. Kept for the (scheduled-for-deletion) ranked loop call site.
    */
   isDeploymentActive(): boolean {
-    return this.deploymentActive;
+    return true;
+  }
+
+  /**
+   * Listing/queue feature stubs. Local mode advertises every lobby, so there
+   * is no per-creator listing registry and no cap to enforce.
+   */
+  creatorHasListedLobby(_creatorID: string, _gameID: string): boolean {
+    return false;
+  }
+
+  hostedLobbyCount(): number {
+    return 0;
   }
 
   /** Browsers currently connected to this worker's /lobbies socket. */
@@ -112,61 +121,11 @@ export class WorkerLobbyService {
     }
 
     const msg = result.data;
-    switch (msg.type) {
-      case "lobbiesBroadcast":
-        // The master resolved a duplicate-creator race: clear the loser's
-        // listed flag so this worker's state follows the broadcast. Done
-        // before sendMyLobbiesToMaster so the next report reflects it.
-        for (const gameID of msg.delistGameIDs ?? []) {
-          const game = this.gm.game(gameID);
-          if (game?.isListed()) {
-            game.setListed(false);
-            this.log.info(`delisted by master: duplicate creator`, { gameID });
-          }
-        }
-        // Flag flips force a full broadcast (by busting the fingerprint):
-        // already-connected clients must hear about a drain promptly, not at
-        // the next structural lobby change.
-        if ((msg.active ?? true) !== this.deploymentActive) {
-          this.deploymentActive = msg.active ?? true;
-          this.lastFullGameIds = null;
-        }
-        this.lastPublicGames = msg.publicGames;
-        // Forward message to all clients
-        this.broadcastLobbiesToClients(msg.publicGames);
-        // Update master with my lobby info
-        this.sendMyLobbiesToMaster();
-        break;
-      case "createGame": {
-        if (this.gm.game(msg.gameID) !== null) {
-          this.log.warn(`Game ${msg.gameID} already exists, skipping create`);
-          return;
-        }
-        this.log.info(`Creating public game ${msg.gameID} from master`);
-        const game = this.gm.createGame(
-          msg.gameID,
-          msg.gameConfig,
-          undefined,
-          undefined,
-          msg.publicGameType,
-        );
-        if (game === null) {
-          this.log.warn(`Game ${msg.gameID} already exists, skipping create`);
-        }
-        break;
-      }
-      case "updateLobby": {
-        const game = this.gm.game(msg.gameID);
-        if (!game) {
-          this.log.warn("cannot update game, not found", {
-            gameID: msg.gameID,
-          });
-          return;
-        }
-        game.setStartsAt(msg.startsAt);
-        break;
-      }
-    }
+    this.lastPublicGames = msg.publicGames;
+    this.broadcastLobbiesToClients(msg.publicGames);
+    // Update master with my lobby info, so the next snapshot includes any
+    // lobby that appeared since this broadcast.
+    this.sendMyLobbiesToMaster();
   }
 
   sendReady(workerId: number) {
@@ -178,107 +137,26 @@ export class WorkerLobbyService {
   }
 
   private sendMyLobbiesToMaster() {
-    // Matchmaking games have a Public gameType (so they appear in
-    // publicLobbies()) but no publicGameType: they are invite-only and must
-    // never be advertised, and the master rejects entries without one.
-    const publicLobbies = this.gm
-      .publicLobbies()
-      .map((g) => ({ game: g, info: g.gameInfo() }))
-      .filter(({ info }) => info.publicGameType !== undefined)
-      .map(({ game, info }) => {
-        return {
-          gameID: info.gameID,
-          numClients: info.clients?.length ?? 0,
-          startsAt: info.startsAt,
-          gameConfig: info.gameConfig,
-          publicGameType: info.publicGameType!,
-          createdAt: game.createdAt,
-        } satisfies InternalGameInfo;
-      });
-    // Subscriber-listed private lobbies. creatorID (a hash of the creator's
-    // persistentID) rides along for the one-listed-lobby-per-creator check;
-    // sanitizeGames strips it before anything reaches browsers. The config is
-    // reduced to the publicLobbyGameConfig allowlist. A lobby the host paid
-    // to queue is reported as Special with its queuedAt, which puts it right
-    // behind the counting-down Special lobby.
-    const hostedLobbies = this.gm.listedLobbies().map((g) => {
-      const gi = g.gameInfo();
+    const lobbies = this.gm.lobbies().map((game) => {
+      const info = game.gameInfo();
       return {
-        gameID: gi.gameID,
-        numClients: gi.clients?.length ?? 0,
-        startsAt: gi.startsAt,
-        gameConfig: gi.gameConfig && publicLobbyGameConfig(gi.gameConfig),
-        publicGameType: g.isQueued() ? "special" : "hosted",
-        queuedAt: g.queuedAt(),
-        creatorID: g.hashedCreatorID(),
-        createdAt: g.createdAt,
-        // Already sanitised on the way in (GameServer.setFeatured), so nothing
-        // unsanitised can reach a browser even if another producer appears.
-        label: g.lobbyLabel(),
-        accent: g.lobbyAccent(),
-        featured: g.isFeatured() ? true : undefined,
-        autoStartAt: gi.autoStartAt,
-        custom: g.isFeatured() ? undefined : true,
+        gameID: info.gameID,
+        numClients: info.clients?.length ?? 0,
+        startsAt: info.startsAt,
+        gameConfig:
+          info.gameConfig && publicLobbyGameConfig(info.gameConfig),
+        publicGameType: "hosted",
+        createdAt: game.createdAt,
       } satisfies InternalGameInfo;
     });
     this.sendToMaster({
       type: "lobbyList",
-      lobbies: [...publicLobbies, ...hostedLobbies],
-      liveGames: this.gm.activeGames(),
+      lobbies,
     } satisfies WorkerLobbyList);
   }
 
-  // Whether the creator (hashed persistentID) already has a listed lobby
-  // other than `excludeGameID`. Checks the cluster-wide view from the last
-  // master broadcast plus this worker's own lobbies (fresher than the
-  // broadcast interval). A lobby the host paid to queue is broadcast under
-  // special, and still counts as their one listing.
-  public creatorHasListedLobby(
-    hashedCreatorID: string,
-    excludeGameID: string,
-  ): boolean {
-    const broadcast = [
-      ...(this.lastPublicGames?.games["hosted"] ?? []),
-      ...(this.lastPublicGames?.games["special"] ?? []),
-    ];
-    if (
-      broadcast.some((l) => {
-        if (l.gameID === excludeGameID || l.creatorID !== hashedCreatorID) {
-          return false;
-        }
-        // Broadcast entries lag a delist by up to two master cycles. For
-        // games this worker owns, local state is authoritative — a
-        // just-delisted lobby must not block the creator from listing a
-        // new one.
-        const local = this.gm.game(l.gameID);
-        return local === null || local.isListed();
-      })
-    ) {
-      return true;
-    }
-    return this.gm
-      .listedLobbies()
-      .some(
-        (g) =>
-          g.id !== excludeGameID && g.hashedCreatorID() === hashedCreatorID,
-      );
-  }
-
-  // Cluster-wide count of listed hosted lobbies: the master broadcast plus
-  // this worker's own listed lobbies that haven't reached it yet. Approximate
-  // by up to a broadcast round-trip; the master's cap is the backstop.
-  public hostedLobbyCount(): number {
-    const broadcast = this.lastPublicGames?.games["hosted"] ?? [];
-    const broadcastIds = new Set(broadcast.map((l) => l.gameID));
-    const localExtra = this.gm
-      .listedLobbies()
-      .filter((g) => !g.isQueued() && !broadcastIds.has(g.id)).length;
-    return broadcast.length + localExtra;
-  }
-
-  // Strips worker/master-internal fields (creatorID, createdAt, queuedAt)
-  // before lobby info is sent to browser clients, converting
-  // InternalGameInfo to the browser-facing PublicGameInfo.
+  // Strips the master/worker-internal creation time before lobby info is
+  // sent to browser clients.
   private sanitizeGames(
     games: InternalPublicGames["games"],
   ): PublicGames["games"] {
@@ -288,12 +166,7 @@ export class WorkerLobbyService {
       InternalGameInfo[],
     ][]) {
       sanitized[type] = list.map(
-        ({
-          creatorID: _creatorID,
-          createdAt: _createdAt,
-          queuedAt: _queuedAt,
-          ...rest
-        }): PublicGameInfo => rest,
+        ({ createdAt: _createdAt, ...rest }): PublicGameInfo => rest,
       );
     }
     return sanitized;
@@ -329,7 +202,7 @@ export class WorkerLobbyService {
               serverTime: this.lastPublicGames.serverTime,
               games: this.sanitizeGames(this.lastPublicGames.games),
               gitCommit: ServerEnv.gitCommit(),
-              active: this.deploymentActive,
+              active: true,
             } satisfies PublicLobbyMessage),
           );
         }
@@ -341,9 +214,6 @@ export class WorkerLobbyService {
         });
 
         ws.on("error", (error) => {
-          // ws raises WS_ERR_* for a malformed frame from the peer (e.g. a
-          // reserved close code from a bot or proxy): the peer's fault, not
-          // ours, so it must not drown real server errors.
           const code = (error as { code?: unknown }).code;
           if (typeof code === "string" && code.startsWith("WS_ERR_")) {
             this.log.warn("Lobbies WebSocket peer protocol error", { code });
@@ -367,11 +237,6 @@ export class WorkerLobbyService {
   }
 
   private broadcastLobbiesToClients(publicGames: InternalPublicGames) {
-    // Per-lobby token is the JSON of exactly what clients receive, minus the
-    // player count: hosted lobbies can change config without a gameID
-    // change, and anything a client could render must trigger a fresh full.
-    // Fingerprinting the sanitized payload keeps "what forces a full" and
-    // "what clients see" from drifting apart.
     const sanitizedGames = this.sanitizeGames(publicGames.games);
     const lobbyTokens: string[] = [];
     for (const list of Object.values(sanitizedGames)) {
@@ -391,7 +256,7 @@ export class WorkerLobbyService {
         serverTime: publicGames.serverTime,
         games: sanitizedGames,
         gitCommit: ServerEnv.gitCommit(),
-        active: this.deploymentActive,
+        active: true,
       };
       this.lastFullGameIds = fingerprint;
     } else {
@@ -425,7 +290,7 @@ export class WorkerLobbyService {
 }
 
 // The platform a lobby client announced in its upgrade URL. Anything missing
-// or unrecognised (an older bundle, a hand-rolled client) counts as unknown.
+// or unrecognised counts as unknown.
 function lobbyClientPlatform(
   url: string | undefined,
 ): ClientPlatform | "unknown" {

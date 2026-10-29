@@ -1,7 +1,7 @@
 import { LitElement, html, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";
-import { gamePortal } from "../GamePortal";
+
 import { UserSettings } from "../UserSettings";
 import { copyToClipboard, showToast, translateText } from "../Utils";
 
@@ -76,9 +76,6 @@ export class CopyButton extends LitElement {
 
   private async resolveCopyText(): Promise<string | null> {
     if (this.copyText) return this.copyText;
-    if (gamePortal.isOnGamePortal()) {
-      return gamePortal.createInviteLink(this.lobbyId);
-    }
     if (!this.lobbyId) return "";
     return await this.buildCopyUrl();
   }

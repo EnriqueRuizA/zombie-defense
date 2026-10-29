@@ -15,7 +15,6 @@ import {
 } from "./StatsConstants";
 // DesktopShell.ts imports nothing, so this cannot introduce an import cycle
 // (verified with madge: 58 cycles before and after, none involving it).
-import { isDesktopShell } from "./DesktopShell";
 
 export function getDefaultKeybinds(isMac: boolean): Record<string, string> {
   return {
@@ -917,7 +916,6 @@ export class UserSettings {
    * cannot drift apart the next time the default moves.
    */
   private defaultMasterVolume(): number {
-    if (isDesktopShell()) return AUDIO_DEFAULTS.master;
     const chosenBefore = AUDIO_VOLUME_KEYS.some(
       (key) => this.getCached(key) !== null,
     );

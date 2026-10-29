@@ -3,13 +3,11 @@ import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { EventBus } from "@zombie-defense/shared/EventBus";
 import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { createNextLobby } from "../../Api";
+import { createNextLobby } from "../../LobbyApi";
 import { ClientEnv } from "../../ClientEnv";
 import "../../components/DoomsdayClockPanel";
 import "../../components/OvertimePanel";
 import { Controller } from "../../Controller";
-import { isDesktopShell } from "../../DesktopShell";
-import { gamePortal } from "../../GamePortal";
 import { showInGameAlert, showInGameConfirm } from "../../InGameModal";
 import { TogglePauseIntentEvent } from "../../InputHandler";
 import { PauseGameIntentEvent, SendWinnerEvent } from "../../Transport";
@@ -56,11 +54,9 @@ export class GameRightSidebar extends LitElement implements Controller {
   @state()
   private timer: number = 0;
 
-  // Portals provide their own fullscreen control around the game frame, and the
-  // desktop shell owns its window mode from the settings Display tab, so hide
-  // ours on both.
-  private readonly hideFullscreenButton =
-    gamePortal.isOnGamePortal() || isDesktopShell();
+  // Local build: no portal frame and no desktop shell own this window, so the
+  // in-game fullscreen control always shows.
+  private readonly hideFullscreenButton = false;
   private hasWinner = false;
   private isLobbyCreator = false;
   private isPrivateLobby = false;
@@ -231,11 +227,6 @@ export class GameRightSidebar extends LitElement implements Controller {
 
   private onPauseButtonClick() {
     this.isPaused = !this.isPaused;
-    if (this.isPaused) {
-      gamePortal.gameplayStop();
-    } else {
-      gamePortal.gameplayStart();
-    }
     this.eventBus.emit(new PauseGameIntentEvent(this.isPaused));
   }
 
@@ -275,8 +266,6 @@ export class GameRightSidebar extends LitElement implements Controller {
       );
       if (!isConfirmed) return;
     }
-    await gamePortal.requestMidgameAd();
-    await gamePortal.gameplayStop();
     // redirect to the home page
     window.location.href = homeHref();
   }

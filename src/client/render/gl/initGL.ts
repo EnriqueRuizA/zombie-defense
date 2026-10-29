@@ -98,23 +98,23 @@ export class GLUnavailableError extends Error {
 }
 
 /**
- * Report the WebGL2 GPU-init outcome to analytics (Google Tag). Fires on every
- * session so we can size the share of users on a software or missing WebGL2
- * context. `renderer` is the unmasked GPU string for non-ok outcomes, empty
- * otherwise.
+ * Record the WebGL2 GPU-init outcome.
+ *
+ * Local-only build (docs/LocalMode.md R2/R6): there is no analytics sink, so
+ * the outcome is only kept on the console. The call sites stay so the gate's
+ * own messages remain the single place that decides what the player sees.
  */
 export function trackGLInit(
   status: "ok" | "software" | "unsupported" | "limited",
   renderer: string,
   maxTextureSize?: number,
 ): void {
-  window.gtag?.("event", "gl_init", {
-    status,
-    renderer: status === "ok" ? "" : renderer,
-    ...(maxTextureSize !== undefined && {
-      max_texture_size: maxTextureSize,
-    }),
-  });
+  if (status === "ok") return;
+  console.info(
+    `[gl_init] ${status}${renderer !== "" ? ` renderer=${renderer}` : ""}${
+      maxTextureSize !== undefined ? ` maxTextureSize=${maxTextureSize}` : ""
+    }`,
+  );
 }
 
 /**

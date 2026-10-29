@@ -2,8 +2,6 @@ import { GameMapType } from "@zombie-defense/engine-api/game/GameTypes";
 import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
 import { PublicGameInfo } from "@zombie-defense/shared/WireSchemas";
 import { html, nothing, svg, TemplateResult } from "lit";
-import { responseHasLinkedIdentity } from "../AccountIdentity";
-import { gamePortal } from "../GamePortal";
 import { terrainMapFileLoader } from "../TerrainMapFileLoader";
 import { notableLobbySettings } from "../utilities/LobbySettingsSummary";
 import { getMapName, getModifierLabels, translateText } from "../Utils";
@@ -11,87 +9,41 @@ import "./ConfirmDialog";
 import { hideFloatingTooltip, showFloatingTooltip } from "./FloatingTooltip";
 
 /**
- * Whether the signed-in player may join trusted-only lobbies, from the
- * userMeResponse Main dispatches. Logged out, an API without the field, and a
- * failed computation (null) all read as untrusted.
+ * Whether the viewer has an account to become trusted on.
+ *
+ * Local-only build (docs/LocalMode.md): there are no accounts, so no viewer
+ * is ever signed in and no lobby is ever trust-gated.
  */
-export function viewerIsTrusted(userMe: UserMeResponse | false): boolean {
-  return userMe !== false && userMe.player.trustTier === "trusted";
+export function viewerIsSignedIn(_userMe: UserMeResponse | false): boolean {
+  return false;
 }
 
-/**
- * Whether the viewer has an account to become trusted on. A guest session
- * still resolves to a UserMeResponse, so a linked identity (Discord, Google,
- * Steam, email) is what counts. Callers on a portal must OR in the SDK
- * profile themselves; it isn't on the API response.
- */
-export function viewerIsSignedIn(userMe: UserMeResponse | false): boolean {
-  return responseHasLinkedIdentity(userMe);
-}
-
-/** Whether the viewer may join `lobby`: it is open, or they are trusted. */
+/** Whether the viewer may join `lobby`: always, locally (R7). */
 export function canJoinTrustedLobby(
-  lobby: PublicGameInfo,
-  viewerTrusted: boolean,
+  _lobby: PublicGameInfo,
+  _viewerTrusted: boolean,
 ): boolean {
-  return lobby.gameConfig?.trusted !== true || viewerTrusted;
+  return true;
 }
 
 /** Where the trust popup is shown: a trusted-only lobby, or ranked. */
 export type TrustRequiredContext = "lobby" | "ranked";
 
-const TRUST_REQUIRED_KEYS: Record<
-  TrustRequiredContext,
-  {
-    title: string;
-    body: string;
-    bodyCrazyGames: string;
-    bodySignedOut: string;
-    bodySignedOutCrazyGames: string;
-  }
-> = {
-  lobby: {
-    title: "public_lobby.trust_required_title",
-    body: "public_lobby.trust_required_body",
-    bodyCrazyGames: "public_lobby.trust_required_body_crazygames",
-    bodySignedOut: "public_lobby.trust_required_body_signed_out",
-    bodySignedOutCrazyGames:
-      "public_lobby.trust_required_body_signed_out_crazygames",
-  },
-  ranked: {
-    title: "mode_selector.ranked_trust_required_title",
-    body: "mode_selector.ranked_trust_required_body",
-    bodyCrazyGames: "mode_selector.ranked_trust_required_body_crazygames",
-    bodySignedOut: "mode_selector.ranked_trust_required_body_signed_out",
-    bodySignedOutCrazyGames:
-      "mode_selector.ranked_trust_required_body_signed_out_crazygames",
-  },
-};
-
 /**
- * Popup shown instead of attempting to join a trusted-only lobby, or ranked,
- * when the viewer can't get in (the server would refuse them anyway). Tells
- * them how to become trusted rather than letting the join fail: a signed-out
- * viewer is told to sign in first, since trust only attaches to an account.
- * Portals have no purchases, so their variants only suggest playing more
- * games.
+ * Popup shown instead of attempting to join a trusted-only lobby.
+ *
+ * Never reachable in a local build — `canJoinTrustedLobby` always returns
+ * true — but kept so the call sites that still reference it compile without
+ * carrying any account or portal wording.
  */
 export function trustRequiredDialog(
-  signedIn: boolean,
+  _signedIn: boolean,
   onClose: () => void,
-  context: TrustRequiredContext = "lobby",
+  _context: TrustRequiredContext = "lobby",
 ): TemplateResult {
-  const keys = TRUST_REQUIRED_KEYS[context];
-  const body = gamePortal.isOnGamePortal()
-    ? signedIn
-      ? keys.bodyCrazyGames
-      : keys.bodySignedOutCrazyGames
-    : signedIn
-      ? keys.body
-      : keys.bodySignedOut;
   return html`<confirm-dialog
-    .heading=${translateText(keys.title)}
-    .message=${translateText(body)}
+    .heading=${translateText("public_lobby.trust_required_title")}
+    .message=${translateText("public_lobby.trust_required_body")}
     variant="warning"
     .showClose=${true}
     .buttons=${"confirmOnly"}

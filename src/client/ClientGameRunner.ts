@@ -27,8 +27,7 @@ import {
   WireGameStartInfo,
 } from "@zombie-defense/shared/WireSchemas";
 import { ClientEnv } from "../client/ClientEnv";
-import { reloadForUpdate, translateText } from "../client/Utils";
-import { isDesktopShell } from "./DesktopShell";
+import { translateText } from "../client/Utils";
 import { GameMetrics } from "./GameMetrics";
 import { showInGameAlert } from "./InGameModal";
 import {
@@ -45,11 +44,7 @@ import {
   TickMetricsEvent,
   ToggleRenderDebugGuiEvent,
 } from "./InputHandler";
-import { rememberLobbyRoster } from "./LobbyRosterLevels";
-import { pagePin } from "./PagePin";
 import { groupTokenOf, loggableStartMessage } from "./PresenceGroup";
-import { versionedPathForMismatchedGame } from "./ServerList";
-import { reportGameError } from "./Telemetry";
 import {
   loadCachedTerrainMap,
   terrainMapFileLoader,
@@ -223,12 +218,6 @@ export function joinLobby(
       // Server tells us our assigned clientID
       clientID = message.myClientID;
       eventBus.emit(new LobbyInfoEvent(message.lobby, message.myClientID));
-      // Kept past game start for the in-game level badges.
-      rememberLobbyRoster(
-        message.lobby.gameID,
-        message.lobby.clients,
-        message.myClientID,
-      );
       // Preload the map while still in the lobby so game start can reuse the
       // cached result instead of blocking on the download in the short
       // prestart->start window. The preload is debounced: it only fires once
@@ -371,49 +360,11 @@ export function joinLobby(
         console.info(
           `version mismatch: bundle ${ClientEnv.gitCommit()}, server ${message.gitCommit}`,
         );
-        // The game's server runs a different build than this bundle. On the
-        // desktop the shell updates its local overlay itself, so just say
-        // what's happening and let its update bar take it from there.
-        //
-        // On the web, in order: this host's own `/v/<commit>/` page, which
-        // keeps the loaded document and the Turnstile token; else the
-        // game's host, whose shell serves the matching bundle (and map);
-        // else this tab is simply stale (left open across a deploy), so
-        // reload. See docs/MultiServer.md (OPE-471).
-        if (isDesktopShell()) {
-          void showInGameAlert(translateText("update_available.desktop"));
-        } else {
-          const versioned = versionedPathForMismatchedGame(
-            lobbyConfig.gameID,
-            message.gitCommit,
-          );
-          const r = ClientEnv.resolveGame(lobbyConfig.gameID);
-          if (versioned !== null) {
-            window.location.href = versioned;
-          } else if (r.kind === "cross") {
-            window.location.href = `https://${r.host}/game/${lobbyConfig.gameID}${window.location.search}`;
-          } else if (pagePin() !== null) {
-            // A pinned `/v/<commit>/` page must not reload. The pin comes
-            // from PagePin (captured at boot), not from the live pathname:
-            // updateJoinUrlForShare has already rewritten the address bar to
-            // the version-free share URL by the time any mismatch can
-            // arrive, and reading it here would take the branch below.
-            // reloadForUpdate
-            // strips the pin — right for an ordinary stale tab, fatal here:
-            // it lands on `latest`, whose handleUrl sees this same game on
-            // this same older server and pins the page straight back, one
-            // lap per click. Nothing this page can fetch is the build it
-            // needs (that is what a mismatch on a pinned page MEANS: the
-            // version's page is not being served), so say so and stop.
-            void showInGameAlert(translateText("update_available.message"));
-          } else {
-            showInGameAlert(translateText("update_available.message")).then(
-              () => {
-                reloadForUpdate();
-              },
-            );
-          }
-        }
+        // The game's server runs a different build than this bundle. The
+        // local build serves one bundle from this origin, so there is no
+        // other version's page to navigate to: say so and stop
+        // (docs/LocalMode.md R1).
+        void showInGameAlert(translateText("update_available.message"));
       } else {
         showErrorModal(
           message.error,
@@ -1659,7 +1610,7 @@ function showErrorModal(
     return;
   }
 
-  reportGameError(error, message, gameID, clientID, heading);
+  console.error(`game error [${heading}]: ${error}`, { message, gameID, clientID });
 
   const translatedError = translateText(error);
   const displayError = translatedError === error ? error : translatedError;

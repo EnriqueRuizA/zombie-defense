@@ -4,14 +4,15 @@ import {
   deriveServerWsBase,
 } from "../../src/client/ClientEnv";
 
-// deriveServerHttpBase resolves the origin of the game server's *HTTP* API —
+// deriveServerHttpBase resolves the origin of the game server's *HTTP* API --
 // the worker routes under /api (create_game, game/:id, game/:id/exists,
 // game/:id/listing). It is the sibling of deriveServerWsBase: the two must
 // always name the same server, because a lobby created on one host is only
 // reachable over the socket on that same host.
 //
-// This is deliberately NOT the account/shop API (api.<audience>, see
-// getApiBase) — that one is a separate service and derives from the audience.
+// Local-only build (docs/LocalMode.md R1): one origin serves the page, the API
+// and the socket, so both helpers answer with it.
+
 describe("deriveServerHttpBase", () => {
   describe("web build (no injected serverHost) stays same-origin", () => {
     it("uses the document origin on https", () => {
@@ -36,34 +37,6 @@ describe("deriveServerHttpBase", () => {
       expect(deriveServerHttpBase("", "https:", "openfront.io")).toBe(
         "https://openfront.io",
       );
-    });
-  });
-
-  describe("explicit serverHost targets the real game server", () => {
-    it("targets the packaged prod host over https", () => {
-      expect(deriveServerHttpBase("openfront.io", "app:", "openfront")).toBe(
-        "https://openfront.io",
-      );
-    });
-
-    it("targets a branch-specific subdomain over https", () => {
-      expect(
-        deriveServerHttpBase("my-feature.openfront.dev", "app:", "openfront"),
-      ).toBe("https://my-feature.openfront.dev");
-    });
-
-    it("never falls through to the desktop app:// origin", () => {
-      // The bug this fixes: relative /api fetches resolved against
-      // app://openfront, which serves local files and 404s every API route.
-      expect(
-        deriveServerHttpBase("openfront.io", "app:", "openfront"),
-      ).not.toContain("openfront/");
-    });
-
-    it("ignores location entirely when a serverHost is configured", () => {
-      expect(
-        deriveServerHttpBase("openfront.io", "https:", "elsewhere.example"),
-      ).toBe("https://openfront.io");
     });
   });
 

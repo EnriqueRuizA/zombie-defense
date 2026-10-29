@@ -24,19 +24,6 @@ function fakeGame(): GameView {
   } as unknown as GameView;
 }
 
-// A desktop shell with a display bridge. The sidebar must never touch it: the
-// button is not rendered there, and window mode lives in the settings Display
-// tab instead.
-function installDesktopShell() {
-  const bridge = {
-    getPrefs: vi.fn(),
-    setPrefs: vi.fn(),
-    subscribe: vi.fn(),
-  };
-  window.openfrontDesktop = { shell: { api: 3 }, display: bridge };
-  return bridge;
-}
-
 async function mount(): Promise<TestSidebar> {
   const el = document.createElement("game-right-sidebar") as TestSidebar;
   el.game = fakeGame();
@@ -67,13 +54,13 @@ function clickFullscreen(el: TestSidebar): void {
 }
 
 // Elements mounted by a test are removed by the global DOM teardown in
-// tests/domTeardown.ts, which runs after this file's own hooks. Only the
-// globals this file installs need undoing here.
+// tests/domTeardown.ts, which runs after this file's own hooks.
 afterEach(() => {
-  window.openfrontDesktop = undefined;
   vi.useRealTimers();
 });
 
+// Local-only build (docs/LocalMode.md R2): there is no desktop shell and no
+// display bridge, so HTML fullscreen is the only path.
 describe("GameRightSidebar fullscreen button", () => {
   let requestFullscreen: ReturnType<typeof vi.fn>;
   let exitFullscreen: ReturnType<typeof vi.fn>;
@@ -100,13 +87,10 @@ describe("GameRightSidebar fullscreen button", () => {
   });
 
   afterEach(() => {
-    window.openfrontDesktop = undefined;
     vi.useRealTimers();
   });
 
-  // The web build, and any shell older than the display bridge. Unchanged.
-  it("uses HTML fullscreen with no desktop shell", async () => {
-    window.openfrontDesktop = undefined;
+  it("enters HTML fullscreen", async () => {
     const el = await mount();
 
     clickFullscreen(el);
@@ -114,8 +98,7 @@ describe("GameRightSidebar fullscreen button", () => {
     expect(exitFullscreen).not.toHaveBeenCalled();
   });
 
-  it("leaves HTML fullscreen the same way on the web", async () => {
-    window.openfrontDesktop = undefined;
+  it("leaves HTML fullscreen the same way", async () => {
     const el = await mount();
     (document as { fullscreenElement: Element | null }).fullscreenElement =
       document.documentElement;
@@ -125,32 +108,7 @@ describe("GameRightSidebar fullscreen button", () => {
     expect(requestFullscreen).not.toHaveBeenCalled();
   });
 
-  // On the desktop the shell owns its window mode from the settings Display
-  // tab, so the sidebar offers no fullscreen button at all -- and must not
-  // reach for the display bridge either.
-  it("does not render the button on the desktop shell", async () => {
-    const bridge = installDesktopShell();
-    const el = await mount();
-
-    expect(fullscreenButton(el)).toBeUndefined();
-    expect(bridge.getPrefs).not.toHaveBeenCalled();
-    expect(bridge.subscribe).not.toHaveBeenCalled();
-  });
-
-  it("ignores HTML fullscreen changes on the desktop", async () => {
-    installDesktopShell();
-    const el = await mount();
-
-    (document as { fullscreenElement: Element | null }).fullscreenElement =
-      document.documentElement;
-    document.dispatchEvent(new Event("fullscreenchange"));
-    await flush(el);
-    expect(fullscreenButton(el)).toBeUndefined();
-    expect(requestFullscreen).not.toHaveBeenCalled();
-  });
-
-  it("still tracks HTML fullscreen changes on the web", async () => {
-    window.openfrontDesktop = undefined;
+  it("tracks HTML fullscreen changes", async () => {
     const el = await mount();
     expect(fullscreenButton(el)!.src).not.toContain("ExitFullscreen");
 

@@ -1,14 +1,11 @@
 import type { ClientPlatform } from "@zombie-defense/shared/WireSchemas";
-import { isDesktopShell } from "./DesktopShell";
-import { gamePortal } from "./GamePortal";
 
-// The desktop shell is only distributed through Steam, so the shell itself
-// (not a working Steam client, which may be absent) is the signal.
+/**
+ * Which platform this client is running on.
+ *
+ * Local-only build (docs/LocalMode.md): there is no desktop shell and no
+ * game portal, so every client is the plain web build.
+ */
 export function clientPlatform(): ClientPlatform {
-  if (isDesktopShell()) return "steam";
-  if (typeof window !== "undefined") {
-    const portal = gamePortal.name();
-    if (portal !== null) return portal;
-  }
   return "web";
 }

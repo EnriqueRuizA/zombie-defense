@@ -65,9 +65,9 @@ describe("LocalServer edge cases", () => {
     );
 
     expect(() => server.start()).toThrow("missing gameStartInfo");
-    // endGame -> archiveGameRecord hits the same guard (and stops the
-    // turn-check interval start() had already begun).
-    expect(() => server.endGame()).toThrow("missing gameStartInfo");
+    // endGame archives nothing (R11), so it has no second copy of the guard
+    // to trip -- it just ends.
+    expect(() => server.endGame()).not.toThrow();
   });
 
   it("reports a desync when a replay hash disagrees with the archived one", () => {

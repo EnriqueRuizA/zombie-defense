@@ -1,23 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { isOnCrazyGames } = vi.hoisted(() => ({
-  isOnCrazyGames: vi.fn(() => false),
-}));
-vi.mock("../../src/client/CrazyGamesSDK", () => ({
-  crazyGamesSDK: {
-    isOnCrazyGames,
-    getUsername: vi.fn(async () => null),
-    getUserProfile: vi.fn(async () => null),
-    showAuthPrompt: vi.fn(async () => null),
-    addAuthListener: vi.fn(),
-  },
-}));
 vi.mock("@zombie-defense/shared/AssetUrls", () => ({
   assetUrl: (path: string) => path,
 }));
 
-// Rendering play-page mounts its children too (steam-wishlist, cosmetic
-// background, …), and some reach for browser APIs jsdom doesn't ship.
+// Rendering play-page mounts its children too, and some reach for browser
+// APIs jsdom doesn't ship.
 vi.stubGlobal(
   "ResizeObserver",
   class {
@@ -29,6 +17,9 @@ vi.stubGlobal(
 
 import { PlayPage } from "../../src/client/components/PlayPage";
 
+// Local-only build (docs/LocalMode.md): no news bell, no account menu, no
+// platform SDK -- the mobile top bar's right slot is the utility cluster and
+// nothing else. The local nick lives in the identity row below it.
 describe("play-page mobile top bar", () => {
   let el: PlayPage;
 
@@ -41,10 +32,11 @@ describe("play-page mobile top bar", () => {
     await el.updateComplete;
   }
 
+  beforeEach(mount);
+
   afterEach(() => {
     el?.remove();
     vi.clearAllMocks();
-    isOnCrazyGames.mockReturnValue(false);
   });
 
   const rightSlot = () =>
@@ -52,25 +44,13 @@ describe("play-page mobile top bar", () => {
       c.tagName.toLowerCase(),
     );
 
-  describe("off CrazyGames", () => {
-    beforeEach(mount);
-
-    it("puts the bell/help icons beside the profile menu", () => {
-      expect(rightSlot()).toEqual(["nav-utility-icons", "nav-account-menu"]);
-    });
+  it("puts the utility icons in the right slot, with no account menu", () => {
+    expect(rightSlot()).toEqual(["nav-utility-icons"]);
   });
 
-  describe("on CrazyGames", () => {
-    beforeEach(async () => {
-      isOnCrazyGames.mockReturnValue(true);
-      await mount();
-    });
-
-    it("renders the same controls — the menu covers their sign-in too", () => {
-      // News and Help left the hamburger, so the icons have to be here for
-      // CrazyGames players; the profile menu's own "Sign in" item hands off to
-      // their SDK prompt, so no platform-specific button is needed.
-      expect(rightSlot()).toEqual(["nav-utility-icons", "nav-account-menu"]);
-    });
+  it("renders the same controls on every platform", () => {
+    // clientPlatform() is always "web" in this build, so there is no
+    // platform-specific branch to diverge: the slot reads the same for all.
+    expect(rightSlot()).toEqual(["nav-utility-icons"]);
   });
 });

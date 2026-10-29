@@ -1,9 +1,7 @@
 import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { composeVersionDisplay, desktopVersion } from "../DesktopShell";
 import { currentGameVersion } from "../GameVersion";
-import "./SteamWishlistButton";
 
 @customElement("page-footer")
 export class Footer extends LitElement {
@@ -12,21 +10,12 @@ export class Footer extends LitElement {
   // guaranteed to exist at the moment this module is first imported.
   private readonly gameVersion = currentGameVersion();
 
-  // Starts as the game version alone and gains the shell version once the
-  // bridge answers, so the line is never blank while that call is in flight.
+  // The local build has no shell to add a version to: the line is the game
+  // version alone.
   @state() private versionLabel = this.gameVersion;
 
   createRenderRoot() {
     return this;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    // desktopVersion() resolves null off the desktop shell and on its own
-    // timeout, so this can only ever leave the label as-is or extend it.
-    void desktopVersion().then((shellVersion) => {
-      this.versionLabel = composeVersionDisplay(this.gameVersion, shellVersion);
-    });
   }
 
   render() {

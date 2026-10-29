@@ -4,11 +4,9 @@ import { deriveServerWsBase } from "../../src/client/ClientEnv";
 // deriveServerWsBase resolves the game-server WebSocket origin used by both the
 // public-lobby socket (LobbySocket) and the in-game socket (Transport).
 //
-// The web build injects no serverHost, so it must keep the historical
-// same-origin behaviour (derive scheme + host from window.location). The
-// desktop app loads from app://openfront — where location.host is not a real
-// server — and injects an EXPLICIT game-server host (the host is branch-variable
-// on dev and not derivable from the API audience), which is targeted over TLS.
+// Local-only build (docs/LocalMode.md R1): there is no injected serverHost and
+// no desktop shell -- every client derives scheme + host from window.location,
+// so the game server is always this page's own origin.
 describe("deriveServerWsBase", () => {
   describe("web build (no injected serverHost) is unchanged", () => {
     it("uses same-origin wss on https", () => {
@@ -31,34 +29,6 @@ describe("deriveServerWsBase", () => {
 
     it("treats an empty serverHost as absent (web fallback)", () => {
       expect(deriveServerWsBase("", "https:", "openfront.io")).toBe(
-        "wss://openfront.io",
-      );
-    });
-  });
-
-  describe("desktop build (explicit serverHost) targets the real game server", () => {
-    it("targets the packaged prod host over wss", () => {
-      expect(deriveServerWsBase("openfront.io", "app:", "openfront")).toBe(
-        "wss://openfront.io",
-      );
-    });
-
-    it("targets the dev default host over wss", () => {
-      expect(
-        deriveServerWsBase("main.openfront.dev", "app:", "openfront"),
-      ).toBe("wss://main.openfront.dev");
-    });
-
-    it("targets a branch-specific subdomain over wss", () => {
-      expect(
-        deriveServerWsBase("my-feature.openfront.dev", "app:", "openfront"),
-      ).toBe("wss://my-feature.openfront.dev");
-    });
-
-    it("ignores location entirely when a serverHost is configured", () => {
-      // Even under http/https, an explicit host wins — the desktop origin
-      // (app:) must never fall through to window.location.host.
-      expect(deriveServerWsBase("openfront.io", "https:", "openfront")).toBe(
         "wss://openfront.io",
       );
     });

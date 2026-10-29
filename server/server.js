@@ -3,8 +3,8 @@
 // ordenados por tick + snapshots a 10 Hz. Sin dependencias: `node server/server.js [--port 8137]`.
 // Modelo v0 = retransmisor autoritativo de sala (la sim autoritativa total llega en oleada 1).
 var http = require('http');
-var ROOM = require('./room.js');
-var WS = require('./ws.js');
+var ROOM = require('./room.cjs');
+var WS = require('./ws.cjs');
 
 var PORT = 8137;
 for (var ai = 2; ai < process.argv.length; ai++) {
@@ -15,8 +15,9 @@ var rooms = {}; // code -> room
 var clients = new Set();
 
 function getRoom(code) {
-  code = String(code || '').toUpperCase().slice(0, 8) || 'SC-' + ((Math.random() * 900 + 100) | 0);
-  if (!rooms[code]) rooms[code] = ROOM.createRoom(code, (Math.random() * 1e9) | 0);
+  code = String(code ?? '').toUpperCase().slice(0, 8);
+  if (code.length === 0) code = 'SC-' + ((Math.random() * 900 + 100) | 0);
+  rooms[code] ??= ROOM.createRoom(code, (Math.random() * 1e9) | 0);
   return rooms[code];
 }
 
@@ -119,7 +120,7 @@ setInterval(function () {
     if (room.tick % 10 === 0) broadcast(room, { t: 'tick', tick: room.tick, roster: ROOM.roster(room) });
     // Limpieza: sala vacía 60 s.
     var n = ROOM.roster(room).filter(Boolean).length;
-    if (n === 0) { room.emptyTicks = (room.emptyTicks || 0) + 1; if (room.emptyTicks > 600) delete rooms[k]; }
+    if (n === 0) { room.emptyTicks = (room.emptyTicks ?? 0) + 1; if (room.emptyTicks > 600) delete rooms[k]; }
     else room.emptyTicks = 0;
   });
 }, 100);

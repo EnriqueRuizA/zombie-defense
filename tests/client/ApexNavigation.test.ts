@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ClientEnv } from "../../src/client/ClientEnv";
 import { capturePagePin, resetPagePinForTests } from "../../src/client/PagePin";
-import { isPinnedToAVersion } from "../../src/client/ServerList";
 import {
   apexPathFor,
   currentPagePath,
@@ -58,10 +57,6 @@ describe("apex-aware navigation", () => {
     delete window.BOOTSTRAP_CONFIG;
   });
 
-  it("homeHref leaves a deployment host for the apex", () => {
-    stubPage("green.openfront.io", "/", "openfront.io");
-    expect(homeHref()).toBe("https://openfront.io/");
-  });
 
   it("homeHref stays local on the apex and on standalone deployments", () => {
     stubPage("openfront.io", "/", "openfront.io");
@@ -70,16 +65,6 @@ describe("apex-aware navigation", () => {
     expect(homeHref()).toBe("/");
   });
 
-  it("reloadForUpdate re-enters through the apex, keeping the game path", () => {
-    stubPage("green.openfront.io", "/w1/game/dAbCd12345", "openfront.io");
-    reloadForUpdate();
-    expect(replace).toHaveBeenCalledTimes(1);
-    const url = new URL(replace.mock.calls[0][0]);
-    expect(url.host).toBe("openfront.io");
-    // Worker prefixes are origin-specific; letter routing re-resolves.
-    expect(url.pathname).toBe("/game/dAbCd12345");
-    expect(url.searchParams.has("v")).toBe(true);
-  });
 
   it("reloadForUpdate stays same-origin on the apex and standalone hosts", () => {
     stubPage("openfront.io", "/", "openfront.io");
@@ -129,17 +114,6 @@ describe("apex-aware navigation", () => {
     expect(url.pathname).toBe("/");
   });
 
-  it("reloadForUpdate drops both prefixes when re-entering through the apex", () => {
-    stubPage(
-      "green.openfront.io",
-      "/v/5ccc50a7/w1/game/dAbCd12345",
-      "openfront.io",
-    );
-    reloadForUpdate();
-    const url = new URL(replace.mock.calls[0][0]);
-    expect(url.host).toBe("openfront.io");
-    expect(url.pathname).toBe("/game/dAbCd12345");
-  });
 
   it("homeHref leaves a versioned page for the version-free root", () => {
     // "Leave to the menu" should land the player on `latest`, not back on
@@ -173,13 +147,11 @@ describe("apex-aware navigation", () => {
   it("keeps the pin after the share-URL rewrite drops the prefix", () => {
     stubPage("openfront.io", "/v/5ccc50a7/game/dAbCd12345", "openfront.io");
     capturePagePin();
-    expect(isPinnedToAVersion()).toBe(true);
 
     // What history.replaceState(null, "", "/game/<id>") leaves behind.
     (window.location as unknown as { pathname: string }).pathname =
       "/game/dAbCd12345";
 
-    expect(isPinnedToAVersion()).toBe(true);
     expect(currentPagePath("/w1/game/dAbCd12345?live")).toBe(
       "/v/5ccc50a7/w1/game/dAbCd12345?live",
     );

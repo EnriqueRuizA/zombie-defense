@@ -1,6 +1,5 @@
 import "./components/ConfirmDialog";
 import { ConfirmDialog } from "./components/ConfirmDialog";
-import { gamePortal } from "./GamePortal";
 import { translateText } from "./Utils";
 
 /**
@@ -14,18 +13,16 @@ import { translateText } from "./Utils";
  * resume it once dismissed.
  */
 function showDialog(props: Partial<ConfirmDialog>): Promise<boolean> {
-  const dialog = document.createElement("confirm-dialog") as ConfirmDialog;
-  Object.assign(dialog, props);
+      const dialog = document.createElement("confirm-dialog") as ConfirmDialog;
+      Object.assign(dialog, props);
 
-  gamePortal.gameplayStop();
-  document.body.appendChild(dialog);
+      document.body.appendChild(dialog);
 
-  return new Promise<boolean>((resolve) => {
-    const done = (result: boolean) => {
-      dialog.remove();
-      gamePortal.gameplayStart();
-      resolve(result);
-    };
+      return new Promise<boolean>((resolve) => {
+        const done = (result: boolean) => {
+          dialog.remove();
+          resolve(result);
+        };
     dialog.addEventListener("confirm", () => done(true));
     dialog.addEventListener("cancel", () => done(false));
   });

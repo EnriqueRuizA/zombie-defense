@@ -1,7 +1,7 @@
 ---
 description: Implement features and fix defects from specs (instance A, Muse Spark). Use for coding, refactors, regression tests and technical reports in parallel with developer-mimo on disjoint files.
 mode: subagent
-model: opencode/muse-spark-1.3-contributor-free
+model: opencode/beam-free
 temperature: 0.2
 permission:
   edit: allow

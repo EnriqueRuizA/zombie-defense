@@ -14,7 +14,6 @@ import { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import { DoomsdayClockSpeed } from "@zombie-defense/engine-lib/game/DoomsdayClock";
 import { stripVersionPrefix } from "@zombie-defense/shared/ServerList";
 import IntlMessageFormat from "intl-messageformat";
-import { ClientEnv } from "./ClientEnv";
 import type { LangSelector } from "./LangSelector";
 import { pagePin } from "./PagePin";
 import { Platform } from "./Platform";
@@ -866,11 +865,9 @@ export function getSecondsUntilServerTimestamp(
  */
 export function reloadForUpdate(): void {
   const url = new URL(window.location.href);
-  const siteHost = ClientEnv.siteHost();
-  if (siteHost !== undefined && url.host !== siteHost) {
-    url.protocol = "https:";
-    url.host = siteHost;
-  }
+  // Local-only build: this origin is the only one serving the page, so the
+  // reload stays on it. The unique query string still beats the shared-cache
+  // TTL the shell is served with.
   // Both prefixes encode what this reload exists to leave behind, whichever
   // host answers it. `/v/<commit>/` is immutable by design (multi-server
   // v2): it pins the bundle, so reloading it as-is re-serves the very
@@ -929,10 +926,7 @@ export function currentPagePath(path: string): string {
  * the same reason: "/" is version-free, so a player leaving to the menu
  * lands on `latest` rather than back on the build they were leaving.
  */
-export function homeHref(): string {
-  const siteHost = ClientEnv.siteHost();
-  if (siteHost !== undefined && window.location.host !== siteHost) {
-    return `https://${siteHost}/`;
+  export function homeHref(): string {
+    // Local-only build: there is no apex deployment to prefer over this host.
+    return "/";
   }
-  return "/";
-}

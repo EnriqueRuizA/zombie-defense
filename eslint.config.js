@@ -17,6 +17,8 @@ export default [
     ignores: [
       "src/server/gatekeeper/**",
       "tests/pathfinding/playground/**",
+      "server/**",
+      "tests/net.legacy.cjs",
       ".claude/**",
     ],
   },

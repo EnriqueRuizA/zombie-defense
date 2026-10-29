@@ -74,6 +74,8 @@ import {
   IntentActor,
   IntentOutcome,
 } from "./IntentAuthorization";
+import { LeaderboardRow } from "./LeaderboardStore";
+import { buildLeaderboardRows } from "./LeaderboardSubmit";
 import { ListingState } from "./ListingState";
 import { identityFor, MatchTelemetryRecorder } from "./MatchTelemetryRecorder";
 import { friendsLookup, NameVisibility } from "./NameVisibility";
@@ -174,6 +176,12 @@ export interface GameServerDeps {
   // so a test can pin a value it can assert on; production always takes the
   // random default.
   mintGroupToken: () => string;
+  // Casual mode (docs/CasualMode.md): where a confirmed game's leaderboard
+  // rows go instead of the external archive. The default sends the IPC
+  // message the master writes to data/leaderboard.csv — a no-op outside a
+  // cluster worker, which is exactly what tests and single-process runs need.
+  casualMode: () => boolean;
+  leaderboardSubmit: (gameID: string, rows: LeaderboardRow[]) => void;
 }
 
 // 16 URL-safe characters of CSPRNG output — 12 bytes is exactly 16 base64url
@@ -196,6 +204,12 @@ export function defaultGameServerDeps(): GameServerDeps {
     telemetry: noopMatchTelemetryEmitter,
     telemetryBuildHash: "DEV",
     mintGroupToken,
+    casualMode: () => ServerEnv.casualMode(),
+    // process.send is undefined outside a cluster worker (tests, single
+    // process), so this degrades to a no-op exactly where it should.
+    leaderboardSubmit: (gameID, rows) => {
+      process.send?.({ type: "leaderboardSubmit", gameID, rows });
+    },
   };
 }
 
@@ -1012,6 +1026,10 @@ export class GameServer {
   // normally in hand when start() builds the game start info. Best effort:
   // on timeout/error the game starts with organic bot names.
   private fetchTribes(): void {
+    // Casual mode has no API to buy tribe names from; organic bot names.
+    if (this.deps.casualMode()) {
+      return;
+    }
     if (!this.isPublic() || this.gameConfig.bots === 0) {
       return;
     }
@@ -2131,6 +2149,14 @@ export class GameServer {
       },
     );
     this.telemetry.noteArchiveAttempted();
+    // Casual mode has no external API to hand the record to (D2). The
+    // confirmed leaderboard rows go to the master over IPC instead — the
+    // master is the only process that writes data/leaderboard.csv (R20) —
+    // and nothing else about the game leaves the worker.
+    if (this.deps.casualMode()) {
+      this.submitLeaderboard(winner, statsAgreed, endTime);
+      return;
+    }
     this.deps.archive(
       createPartialGameRecord(
         this.id,
@@ -2148,6 +2174,70 @@ export class GameServer {
         statsAgreed,
       ),
     );
+  }
+
+  // Build the rows this game earned and hand them over (docs/CasualMode.md).
+  // Every gate lives in buildLeaderboardRows; here we only translate a skip
+  // into the log line the operator greps for (R12).
+  private submitLeaderboard(
+    winner: { winner?: Winner; allPlayersStats: AllPlayersStats } | null,
+    statsAgreed: boolean,
+    endTime: number,
+  ) {
+    if (winner === null) {
+      this.log.info("leaderboardSkipped", {
+        gameID: this.id,
+        reason: "noWinner",
+      });
+      return;
+    }
+    let params: {
+      minDurationS: number;
+      minHumans: number;
+      scope: "all" | "winners";
+      maxName: number;
+    };
+    try {
+      const cfg = ServerEnv.leaderboardConfig();
+      params = {
+        minDurationS: cfg.minDurationS,
+        minHumans: cfg.minHumans,
+        scope: cfg.scope,
+        maxName: cfg.maxName,
+      };
+    } catch (error) {
+      // Boot already validated this; a bad value at submit time is a
+      // misconfiguration, not a reason to fail the game.
+      this.log.error("invalid leaderboard config", {
+        gameID: this.id,
+        error: String(error),
+      });
+      return;
+    }
+    const result = buildLeaderboardRows(
+      {
+        gameID: this.id,
+        gameType: this.gameStartInfo.config.gameType,
+        statsAgreed,
+        winner: winner.winner,
+        allPlayersStats: winner.allPlayersStats,
+        players: this.gameStartInfo.players.map((p) => ({
+          clientID: p.clientID,
+          username: p.username,
+        })),
+        startTimeMs: this._startTime ?? 0,
+        endTimeMs: endTime,
+      },
+      params,
+    );
+    if (result.rows.length === 0) {
+      this.log.info("leaderboardSkipped", {
+        gameID: this.id,
+        reason: result.reason ?? "noRows",
+      });
+      return;
+    }
+    this.deps.leaderboardSubmit(this.id, result.rows);
   }
 
   // A player reporting another. The API resolves both clientIDs through this

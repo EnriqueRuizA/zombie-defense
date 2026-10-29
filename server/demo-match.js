@@ -4,7 +4,7 @@
 // Imprime RESULT OK si ambos ven roster de 2 e intercambian inputs.
 var net = require('net');
 var crypto = require('crypto');
-var WS = require('./ws.js');
+var WS = require('./ws.cjs');
 
 function arg(name, def) {
   var i = process.argv.indexOf(name);

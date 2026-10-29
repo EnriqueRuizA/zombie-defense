@@ -3,15 +3,10 @@ import { sanitizeClanTag } from "@zombie-defense/shared/SharedUtil";
 import { html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { translateText } from "../client/Utils";
-import { getUserMe, invalidateUserMe } from "./Api";
-import { checkClanTagOwnership } from "./ClanApi";
-import { verifiedBadge } from "./components/ui/VerifiedBadge";
-import { gamePortal } from "./GamePortal";
 import { showInGameAlert, showInGameConfirm } from "./InGameModal";
 import {
   accountNameHeld,
   accountVerifiedName,
-  clampUsername,
   genAnonUsername,
   LAPSE_NOTICE_KEY,
   lapseNoticeMarker,
@@ -22,13 +17,6 @@ import {
   type ClaimGrace,
   type ResolvedPlayerName,
 } from "./PlayerName";
-import {
-  parseSteamGrantStore,
-  STEAM_GRANT_NOTICE_KEY,
-  steamGrantEnded,
-  steamGrantEndedShown,
-} from "./SteamGrantNotices";
-import { steamSDK } from "./SteamSDK";
 import {
   MAX_CLAN_TAG_LENGTH,
   MAX_USERNAME_LENGTH,
@@ -153,11 +141,11 @@ export class UsernameInput extends LitElement {
   // never receives.
   private claimGraceTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // Clans aren't supported on portals — hide the tag input and never submit one.
-  private readonly onGamePortal = gamePortal.isOnGamePortal();
-  // Steam identity is fixed for the session (no login/logout events like
-  // the portals), so it's only used to seed the name once in connectedCallback.
-  private readonly onSteam = steamSDK.isOnSteam();
+  // Local-only build: no game portal and no Steam handoff (docs/LocalMode.md
+  // R2/R5), so both platform flags are pinned false and the identity is the
+  // local nick alone.
+  private readonly onGamePortal = false;
+  private readonly onSteam = false;
 
   @property({ type: String }) validationError: string = "";
   // Ownership-check feedback (i18n key) shown inline beneath the tag input. Only
@@ -242,23 +230,11 @@ export class UsernameInput extends LitElement {
   }
 
   private refreshUserMe(opts: { fresh?: boolean } = {}): Promise<boolean> {
-    // Membership also changes server-side (kicked, or a request approved)
-    // without invalidating this tab's cache, so a plain refresh would re-read
-    // the page-load snapshot.
-    if (opts.fresh) invalidateUserMe();
-    const gen = ++this.userMeGen;
-    return getUserMe().then((me) => {
-      // Superseded: a newer refresh is in flight and will do this itself.
-      if (gen !== this.userMeGen) return false;
-      // `false` here is a transient failure — a network error or non-200,
-      // cached either way — so keep the snapshot rather than silently
-      // dropping the player to their free-form name. An expired session is
-      // not this: clearing the session announces itself (see Auth).
-      if (me === false) return false;
-      this.userMe = me;
-      this.applyVerifiedPreference();
-      return true;
-    });
+    // Local-only build: there is no profile endpoint to refresh. `false` is
+    // the same answer a signed-out player gets, so every consumer that keys
+    // off membership/subscription state stays in its "no account" branch.
+    void opts;
+    return Promise.resolve(false);
   }
 
   private toggleClanMenu = () => {
@@ -413,30 +389,9 @@ export class UsernameInput extends LitElement {
     // side think a notice is pending while the other thinks it is spent.
     const marker = lapseNoticeMarker(grace);
     if (localStorage.getItem(lapseNoticeKey) === marker) return;
-    // A former Steam grant holder never subscribed, so "your subscription
-    // ended... resubscribe" is the sentence that convinces them the game hid
-    // one. This notice is the first thing they see after the month ends, so
-    // it carries the sign-off and marks it shown below, or the boot sequencer
-    // would say it all again next launch. An admin comp or Discord-role grant
-    // with an end date never subscribed either: it gets the same shape
-    // without naming Steam or who granted it.
-    const endedGrant = steamGrantEnded(
-      parseSteamGrantStore(localStorage.getItem(STEAM_GRANT_NOTICE_KEY)),
-      this.userMe,
-      Date.now(),
-    );
-    const afterGrant = endedGrant !== null;
-    const key = !afterGrant
-      ? grace.atRisk
-        ? "username.lapse_notice_at_risk"
-        : "username.lapse_notice"
-      : endedGrant.steam
-        ? grace.atRisk
-          ? "username.lapse_notice_after_grant_at_risk"
-          : "username.lapse_notice_after_grant"
-        : grace.atRisk
-          ? "username.lapse_notice_after_free_access_at_risk"
-          : "username.lapse_notice_after_free_access";
+    const key = grace.atRisk
+      ? "username.lapse_notice_at_risk"
+      : "username.lapse_notice";
     const message = translateText(key, {
       name: grace.name,
       date: formatClaimDate(grace.expiresAt),
@@ -458,17 +413,6 @@ export class UsernameInput extends LitElement {
     // player dismisses it, and an unawaited promise that never settles would
     // let a second announcement through.
     localStorage.setItem(lapseNoticeKey, marker);
-    if (afterGrant && this.userMe !== null && this.userMe !== false) {
-      localStorage.setItem(
-        STEAM_GRANT_NOTICE_KEY,
-        JSON.stringify(
-          steamGrantEndedShown(
-            parseSteamGrantStore(localStorage.getItem(STEAM_GRANT_NOTICE_KEY)),
-            this.userMe.player.publicId,
-          ),
-        ),
-      );
-    }
     void showInGameAlert(message);
   }
 
@@ -587,7 +531,7 @@ export class UsernameInput extends LitElement {
   }
 
   private startClanCheck() {
-    const gen = ++this.clanCheckGen;
+    this.clanCheckGen++;
     const tag = this.clanTag;
     this.clanTagOwnershipError = "";
     this.emitValidity();
@@ -596,25 +540,19 @@ export class UsernameInput extends LitElement {
       this.clanCheck = Promise.resolve(null);
       return;
     }
-    // Membership already in hand answers this. checkClanTagOwnership would
-    // otherwise re-read getUserMe, which after a failed refresh holds a cached
-    // false — it would take the player for a member of nothing and reject the
-    // very clan they just picked from their own list. The server re-checks the
-    // tag at join either way (see Matchmaking).
+    // Membership already in hand answers this. Local-only build has no clan
+    // API and no clan list, so anything past the empty-tag check can only be
+    // a tag the player typed by hand — report it as not owned rather than
+    // asking a server that does not exist.
     if (this.myClans().some((c) => c.tag.toUpperCase() === tag.toUpperCase())) {
       this.clanCheckPending = false;
       this.clanCheck = Promise.resolve(tag);
       return;
     }
-    this.clanCheckPending = true;
-    this.clanCheck = checkClanTagOwnership(tag).then((res) => {
-      if (gen === this.clanCheckGen) {
-        this.clanTagOwnershipError = res.error ?? "";
-        this.clanCheckPending = false;
-        this.emitValidity();
-      }
-      return res.tag;
-    });
+    this.clanCheckPending = false;
+    this.clanTagOwnershipError = "username.tag_not_member";
+    this.clanCheck = Promise.resolve(null);
+    this.emitValidity();
   }
 
   connectedCallback() {
@@ -637,86 +575,9 @@ export class UsernameInput extends LitElement {
     // toggling rather than removed — so treat it as keeping the comment
     // honest rather than fixing a live bug.
     this.refreshClaimGrace();
-    // userMeResponse is dispatched once and can fire before this connects.
-    // Cached, so this re-reads that response rather than refetching.
-    void getUserMe().then((me) => {
-      if (this.userMe !== null) return;
-      this.userMe = me;
-      this.applyVerifiedPreference();
-    });
-    // Captured before loadStoredUsername(), which — when nothing is stored —
-    // fills in a fresh anon username AND persists it immediately. Checking
-    // localStorage afterwards would therefore never see it as empty.
-    //
-    // Reseedable, not one-shot: the old gate was "nothing stored at all", so a
-    // single launch before the persona landed (or before this fix, when a
-    // decorated persona was rejected outright) left a generated Anon… name in
-    // localStorage that nothing would ever replace. A name we generated is
-    // ours to overwrite; a name the player typed never is.
-    const reseedable = this.onSteam && this.storedNameIsGenerated();
+    // Local-only build: no portal identity provider and no Steam persona seed,
+    // so the stored nick (or a fresh anon one) is the whole identity.
     this.loadStoredUsername();
-    // On a portal the account username is applied here but never persisted
-    // (see loadStoredUsername / validateAndStore), so logging out — which
-    // reloads the whole page — falls back to a fresh guest username instead of
-    // keeping the account name. addAuthListener only fires on login; portals
-    // refresh the page on logout, so there is no logout event to handle.
-    gamePortal.getUsername().then((username) => {
-      if (username) {
-        this.baseUsername = clampUsername(username);
-        this.usernameIsGenerated = false;
-        this.validateAndStore();
-      }
-    });
-    gamePortal.addAuthListener((user) => {
-      if (user) {
-        this.baseUsername = clampUsername(user.username);
-        this.usernameIsGenerated = false;
-        this.validateAndStore();
-      }
-    });
-    // Seed the in-game name from the Steam persona whenever the name in hand
-    // is one we generated. Unlike the portals, Steam persists normally (see
-    // validateAndStore's onGamePortal guard), and there's no logout event to
-    // handle since the Steam identity is fixed for the session.
-    if (reseedable) {
-      // The anon name loadStoredUsername() just generated. Only overwrite it if
-      // the player hasn't typed their own name while getUser() was in flight,
-      // so a late Steam result never clobbers a name they entered.
-      const generated = this.baseUsername;
-      // Store the seeding promise so the join path can await it (see
-      // whenSeeded). The chain never rejects — on any failure we keep the
-      // generated name — so awaiting it can only delay, never block, a join.
-      this.steamSeedReady = steamSDK
-        .getUser()
-        .then((user) => {
-          // Both halves matter. The text check catches the player typing
-          // while getUser() was in flight; the ownership flag catches them
-          // typing and then restoring the same text, which leaves the name
-          // looking untouched but makes it theirs (see handleUsernameChange).
-          if (this.baseUsername !== generated) return;
-          if (!this.usernameIsGenerated) return;
-          this.persona = user?.name ?? null;
-          // storedName is deliberately null: whatever is stored is a name we
-          // generated, which this is entitled to replace. So this is branch 3
-          // then 4 — the sanitised persona, or the same generated name back
-          // when none of it survives. Either way the player can start a game.
-          const seeded = resolvePlayerName({
-            verifiedName: null,
-            verifiedOptIn: false,
-            storedName: null,
-            persona: this.persona,
-            generatedName: generated,
-          });
-          this.baseUsername = seeded.name;
-          // Still ours if nothing of the persona survived, so a later launch
-          // (or a renamed Steam account) gets another go at it.
-          this.usernameIsGenerated = seeded.source === "generated";
-          this.validateAndStore();
-        })
-        .catch(() => {
-          // Swallow: keep the generated name so the player can always play.
-        });
-    }
   }
 
   disconnectedCallback() {
@@ -801,14 +662,14 @@ export class UsernameInput extends LitElement {
       <!-- The name field takes whatever the tag picker and trailing button
            leave, so the row always fills the strip. -->
       <div class="flex items-center w-full h-full gap-1.5 sm:gap-2">
-        ${this.renderClanControl()} ${this.renderNameControl()}
+        ${this.renderNameControl()}
       </div>
       <!-- One positioned slot, stacked. An error and the reservation reminder
            are not alternatives: the error is transient and self-inflicted
            (mid-edit on a free-form name), while the reminder is a 30-day
            countdown the player cannot recover once it lapses. Hiding the
            second behind the first put the time-critical one last. -->
-      ${this.validationError || this.clanTagOwnershipError || this.claimGrace
+      ${this.validationError || this.claimGrace
         ? html`<div
             class="absolute top-full left-0 z-50 w-full mt-1 flex flex-col gap-1"
           >
@@ -819,9 +680,7 @@ export class UsernameInput extends LitElement {
                 >
                   ${this.validationError}
                 </div>`
-              : this.clanTagOwnershipError
-                ? this.renderClanTagOwnershipError()
-                : null}
+              : null}
             ${this.renderClaimGrace()}
           </div>`
         : null}
@@ -1012,66 +871,10 @@ export class UsernameInput extends LitElement {
     `;
   }
 
-  // Name field. Verified play swaps the free-text input for a badge-led chip so
-  // the state reads as "this is my account name", not "the input broke".
+  // Name field. Local-only build: the free-text input is the whole control —
+  // no verified-name chip and no store-redirecting toggle beside it.
   private renderNameControl() {
-    return html`
-      ${this.verifiedActive
-        ? this.renderVerifiedChip()
-        : this.renderNameInput()}
-      <!-- The buttons differ in width, so this resizes the name field — which
-           is transparent and left-aligned, so only its invisible right edge
-           moves. -->
-      <div class="no-game-portal shrink-0 h-full max-h-[44px]">
-        ${this.verifiedActive
-          ? this.renderUseCustomButton()
-          : this.renderUseVerifiedButton()}
-      </div>
-    `;
-  }
-
-  private renderVerifiedChip() {
-    return html`
-      <div
-        class="flex items-center gap-1.5 ${NAME_BOX}"
-        title=${translateText("username.verified_active_hint")}
-      >
-        <!-- Check trails the name, as everywhere else it is rendered. The name
-             shrinks rather than grows, so the mark keeps hugging it. -->
-        <span class="min-w-0 truncate text-white ${NAME_TEXT}"
-          >${this.verifiedName() ?? ""}</span
-        >
-        ${verifiedBadge("w-5 h-5 sm:w-6 sm:h-6", "text-aquarius")}
-      </div>
-    `;
-  }
-
-  private renderUseCustomButton() {
-    return html`
-      <button
-        type="button"
-        class="flex h-full aspect-square items-center justify-center rounded-lg border border-white/15 bg-black/25 text-white/70 transition-colors hover:border-white/30 hover:bg-black/40 hover:text-white cursor-pointer"
-        title=${translateText("username.verified_use_custom")}
-        aria-label=${translateText("username.verified_use_custom")}
-        @click=${this.handleVerifiedToggle}
-      >
-        <!-- Icon only; the label lives in title/aria-label. Sized to the
-             verified badge so the two buttons read as a pair. -->
-        <svg
-          viewBox="0 0 24 24"
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M12 20h9"></path>
-          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
-        </svg>
-      </button>
-    `;
+    return html`${this.renderNameInput()}`;
   }
 
   private renderNameInput() {
@@ -1086,43 +889,6 @@ export class UsernameInput extends LitElement {
         aria-label=${translateText("username.enter_username")}
         class="text-left text-white placeholder-white/50 transition-colors text-ellipsis hover:bg-white/5 focus:bg-white/5 focus:outline-none focus:ring-2 focus:ring-malibu-blue/60 ${NAME_BOX} ${NAME_TEXT}"
       />
-    `;
-  }
-
-  private renderUseVerifiedButton() {
-    const eligible = this.verifiedName() !== null;
-    const held = accountNameHeld(this.userMe);
-    const hint = held
-      ? translateText("username.verified_held_hint", {
-          name:
-            (this.userMe === false ? undefined : this.userMe?.player)
-              ?.usernameBase ?? "",
-        })
-      : translateText("username.verified_use_hint");
-    return html`
-      <button
-        type="button"
-        class="group flex h-full w-full items-center justify-center gap-1.5 rounded-lg border px-2 transition-colors cursor-pointer select-none ${eligible
-          ? "border-malibu-blue/50 bg-malibu-blue/10 hover:border-malibu-blue/80 hover:bg-malibu-blue/20"
-          : "border-white/10 bg-black/20 hover:border-white/25 hover:bg-black/35"}"
-        title=${hint}
-        aria-pressed="false"
-        @click=${this.handleVerifiedToggle}
-      >
-        ${verifiedBadge(
-          "w-5 h-5 transition-colors",
-          eligible
-            ? "text-aquarius"
-            : "text-white/25 group-hover:text-white/45",
-          null,
-        )}
-        <span
-          class="hidden sm:inline text-sm font-medium whitespace-nowrap transition-colors ${eligible
-            ? "text-white"
-            : "text-white/60 group-hover:text-white/90"}"
-          >${translateText("username.verified_use")}</span
-        >
-      </button>
     `;
   }
 

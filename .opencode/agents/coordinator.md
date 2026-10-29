@@ -1,7 +1,7 @@
 ---
 description: Coordinate the design, implement, QA and fix cycle for one feature or issue. Use for orchestrating designer, developer instances and QA subagents.
 mode: primary
-model: opencode/muse-spark-1.3-contributor-free
+model: opencode/beam-free
 temperature: 0.2
 steps: 30
 permission:

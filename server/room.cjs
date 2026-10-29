@@ -6,7 +6,9 @@ var FACTIONS = { terran: 1, zerg: 1, protoss: 1 };
 var MAX_LOG = 5000;
 
 function createRoom(code, seed) {
-  return { code: String(code || '').toUpperCase().slice(0, 8), seed: (seed | 0) || 1, tick: 0, slots: [null, null, null, null], log: [] };
+  var n = seed | 0;
+  if (n === 0) n = 1;
+  return { code: String(code ?? '').toUpperCase().slice(0, 8), seed: n, tick: 0, slots: [null, null, null, null], log: [] };
 }
 
 function freeSlot(room) {

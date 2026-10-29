@@ -66,6 +66,9 @@ const playlist = new MapPlaylist();
 // Worker setup
 export async function startWorker() {
   log.info(`Worker starting...`);
+  // Same guard as the master: a casual build must never point at production
+  // (docs/CasualMode.md).
+  ServerEnv.assertCasualBoot();
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -96,6 +99,11 @@ export async function startWorker() {
 
   setTimeout(
     () => {
+      // Casual mode schedules its own lobbies locally: there is no ranking to
+      // check in for and no deployment-active flag to follow.
+      if (ServerEnv.casualMode()) {
+        return;
+      }
       // The ranked loop follows the deployment-active flag the master pushes
       // to this worker (OPE-469): a draining, standby or fenced server keeps
       // the games it has but stops offering new matches.
@@ -120,7 +128,11 @@ export async function startWorker() {
     ServerEnv.jwtIssuer() + "/reserved_clan_tags",
     log,
   );
-  privilegeRefresher.start();
+  // Casual mode polls nothing: with no start(), get() answers with the
+  // fail-open checker, which is exactly the local, account-free behaviour.
+  if (!ServerEnv.casualMode()) {
+    privilegeRefresher.start();
+  }
 
   // Ahead of everything that can reject a request — the worker-prefix check
   // below and the rate limiter further down — so that a 404 or a 429 still
@@ -627,7 +639,9 @@ export async function startWorker() {
         // API. Runs before the rejoin attempt so a pre-start identity
         // change on refresh is screened before it is applied.
         let verifySkipped = false;
-        if (ServerEnv.env() !== GameEnv.Dev) {
+        // Casual mode has no join_verify endpoint (and no Turnstile): the
+        // locally screened name is the identity, exactly as in Dev.
+        if (ServerEnv.env() !== GameEnv.Dev && !ServerEnv.casualMode()) {
           const game = gm.game(clientMsg.gameID);
           const stored = game?.storedIdentity(persistentId) ?? null;
           const isReadmit = game?.wasAdmitted(persistentId) ?? false;

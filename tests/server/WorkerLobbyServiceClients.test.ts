@@ -13,6 +13,7 @@ describe("WorkerLobbyService.connectedClients", () => {
     const gm = {
       publicLobbies: vi.fn().mockReturnValue([]),
       listedLobbies: vi.fn().mockReturnValue([]),
+      lobbies: vi.fn().mockReturnValue([]),
       game: vi.fn().mockReturnValue(null),
       activeGames: vi.fn().mockReturnValue(0),
     };

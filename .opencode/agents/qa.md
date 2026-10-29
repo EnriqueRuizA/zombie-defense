@@ -1,6 +1,7 @@
 ---
 description: Validate implementations against acceptance criteria without editing code. Use for QA plans, test runs, defect reports and integration risks.
 mode: subagent
+model: opencode/beam-free
 temperature: 0.1
 permission:
   edit: deny

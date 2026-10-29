@@ -6,7 +6,9 @@
   },
   "ignorePatterns": [
     "src/server/gatekeeper/**",
-    "tests/pathfinding/playground/**"
+    "tests/pathfinding/playground/**",
+    "server/**",
+    "tests/net.legacy.cjs"
   ],
   "categories": {
     "correctness": "off",

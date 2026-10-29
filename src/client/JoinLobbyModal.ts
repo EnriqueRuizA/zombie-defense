@@ -5,7 +5,6 @@ import { EventBus } from "@zombie-defense/shared/EventBus";
 import {
   ClientInfo,
   GameInfo,
-  GameRecordSchema,
   LobbyInfoEvent,
   PublicGameInfo,
 } from "@zombie-defense/shared/WireSchemas";
@@ -21,22 +20,17 @@ import {
   renderDuration,
   translateText,
 } from "../client/Utils";
-import { getApiBase } from "./Api";
-import { gamePortal } from "./GamePortal";
 import { SendSpectateEvent } from "./LobbyEvents";
 import { PublicLobbySocket } from "./LobbySocket";
 import { JoinLobbyEvent } from "./Main";
 import { ensureServerList, redirectToGameVersion } from "./ServerList";
 import { terrainMapFileLoader } from "./TerrainMapFileLoader";
 import { normaliseMapKey } from "./Utils";
-import { findVersionedShell } from "./VersionedReplay";
 import { BaseModal } from "./components/BaseModal";
 import "./components/CopyButton";
 import { GameStartAlertController } from "./components/GameStartAlertController";
 import "./components/LobbyPlayerView";
-import { inviteFriendsButton } from "./components/ui/InviteFriendsButton";
 import { DEFAULT_TITLE_CLASS, modalHeader } from "./components/ui/ModalHeader";
-import { openReplayViewer } from "./replay/ReplayEntry";
 import { nationsConfigToSlider } from "./utilities/GameConfigHelpers";
 import {
   lobbySettingTagText,
@@ -140,13 +134,10 @@ export class JoinLobbyModal extends BaseModal {
     // yet counts as "off" too — the URL-join and accepted-invite paths render
     // this header before the first lobby_info, and that window must not show
     // a button the config may be about to forbid.
-    const isPublicFfa =
-      this.gameConfig?.gameType === GameType.Public &&
-      this.gameConfig.gameMode !== GameMode.Team;
-    const invite =
-      this.gameConfig === null || isPublicFfa
-        ? undefined
-        : inviteFriendsButton();
+    // Local build: there is no friends API to invite through, so the header
+    // never shows an invite button (docs/LocalMode.md R2). The share link in
+    // the copy button is the way in.
+    const invite = undefined;
     return modalHeader({
       // titleContent (not title) so the bell can sit at the right edge of the
       // title row via ml-auto, next to the copy/invite cluster.
@@ -688,9 +679,7 @@ export class JoinLobbyModal extends BaseModal {
   }
 
   private updateHistory(url: string): void {
-    if (!gamePortal.isOnGamePortal()) {
-      history.replaceState(null, "", url);
-    }
+    history.replaceState(null, "", url);
   }
 
   // --- Game config rendering ---
@@ -1162,82 +1151,17 @@ export class JoinLobbyModal extends BaseModal {
     return false;
   }
 
+  /**
+   * Local-only build: there is no archive API and no versioned replay shell,
+   * so an id that is not an active lobby simply does not exist
+   * (docs/LocalMode.md R11/R13). The callers render their "not found" message
+   * on this answer.
+   */
   private async checkArchivedGame(
-    lobbyId: string,
+    _lobbyId: string,
   ): Promise<
     "success" | "redirected" | "not_found" | "version_mismatch" | "error"
   > {
-    const archiveResponse = await fetch(`${getApiBase()}/game/${lobbyId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (archiveResponse.status === 404) {
-      return "not_found";
-    }
-    if (archiveResponse.status !== 200) {
-      return "error";
-    }
-
-    const archiveData = await archiveResponse.json();
-    const parsed = GameRecordSchema.safeParse(archiveData);
-    if (!parsed.success) {
-      return "version_mismatch";
-    }
-
-    const gitCommit = ClientEnv.gitCommit();
-    if (gitCommit !== "DEV" && parsed.data.gitCommit !== gitCommit) {
-      const safeLobbyId = this.sanitizeForLog(lobbyId);
-      console.warn(
-        `Git commit hash mismatch for game ${safeLobbyId}`,
-        archiveData.details,
-      );
-      if (await this.redirectToVersionedShell(lobbyId)) {
-        return "redirected";
-      }
-      return "version_mismatch";
-    }
-
-    // If the modal closes as part of joining the replay, do not leave/reset URL
-    this.leaveLobbyOnClose = false;
-
-    // This build can replay it, so open the replay viewer if the player
-    // turned it on (and it hasn't sent this game back to the classic replay).
-    if (openReplayViewer(lobbyId, parsed.data)) {
-      this.close();
-      return "success";
-    }
-
-    this.dispatchEvent(
-      new CustomEvent("join-lobby", {
-        detail: {
-          gameID: lobbyId,
-          gameRecord: parsed.data,
-          source: "private",
-        } as JoinLobbyEvent,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    return "success";
-  }
-
-  // The record was produced by a different build. replay.<domain>/<gameId>
-  // serves the matching versioned shell (uploaded by update.sh on every
-  // deploy); if it exists, navigate there and let that build replay the game
-  // (#4934).
-  private async redirectToVersionedShell(lobbyId: string): Promise<boolean> {
-    const url = await findVersionedShell(
-      ClientEnv.jwtAudience(),
-      lobbyId,
-      window.location.hostname,
-    );
-    if (url === null) {
-      return false;
-    }
-    window.location.href = url;
-    return true;
+    return "not_found";
   }
 }

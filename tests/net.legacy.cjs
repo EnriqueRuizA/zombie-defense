@@ -2,8 +2,8 @@
 // tests/net.test.js — puerta oleada 0: lógica de sala + codec WS. Sin sockets.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const ROOM = require('../server/room.js');
-const WS = require('../server/ws.js');
+const ROOM = require('../server/room.cjs');
+const WS = require('../server/ws.cjs');
 
 test('sala: join asigna slots 0-3 y rechaza el 5º', () => {
   const r = ROOM.createRoom('SC-1', 42);

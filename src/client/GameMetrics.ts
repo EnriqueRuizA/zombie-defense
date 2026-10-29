@@ -1,4 +1,3 @@
-import { reportMeasurement } from "./Telemetry";
 
 /**
  * In-game performance metrics for Grafana: frame interval, sim tick
@@ -96,25 +95,14 @@ export class GameMetrics {
   }
 
   flush(): void {
-    const values: Record<string, number> = {};
-    for (const [series, samples] of [
-      ["frame_time", this.frameTime],
-      ["tick_execution", this.tickExecution],
-      ["tick_interval", this.tickInterval],
-      ["ws_rtt", this.roundTrip],
-    ] as const) {
-      const summary = percentiles(samples);
-      if (summary === undefined) continue;
-      for (const [key, value] of Object.entries(summary)) {
-        values[`${series}_${key}`] = value;
-      }
-      samples.length = 0;
-    }
-    if (Object.keys(values).length === 0) return;
-    reportMeasurement("game_perf", values, {
-      gameID: this.gameID,
-      clientID: this.clientID ?? "",
-    });
+    // Local-only build: there is no telemetry collector to report to
+    // (docs/LocalMode.md R2/R6), so a window's samples are drained and
+    // dropped. The samplers stay: they are what the game's own debug readout
+    // would use, and they cost one array push per frame.
+    this.frameTime.length = 0;
+    this.tickExecution.length = 0;
+    this.tickInterval.length = 0;
+    this.roundTrip.length = 0;
   }
 
   // Animation frames stop while the tab is hidden, so the first frame back

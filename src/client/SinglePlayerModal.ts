@@ -10,13 +10,11 @@ import {
 import { TeamCountConfig } from "@zombie-defense/engine-api/Schemas";
 import { DoomsdayClockSpeed } from "@zombie-defense/engine-lib/game/DoomsdayClock";
 import { UserMeResponse } from "@zombie-defense/shared/ApiSchemas";
-import { assetUrl } from "@zombie-defense/shared/AssetUrls";
 import { generateID } from "@zombie-defense/shared/SharedUtil";
 import { PlayerCosmetics } from "@zombie-defense/shared/WireSchemas";
 import { html, TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { translateText } from "../client/Utils";
-import { responseHasLinkedIdentity } from "./AccountIdentity";
 import "./components/baseComponents/Button";
 import "./components/baseComponents/Modal";
 import { BaseModal } from "./components/BaseModal";
@@ -25,12 +23,10 @@ import { MEDAL_ORDER, medalIcon } from "./components/map/Medals";
 import "./components/ToggleInputCard";
 import { modalHeader } from "./components/ui/ModalHeader";
 import { getPlayerCosmetics, prewarmCosmetics } from "./Cosmetics";
-import { gamePortal } from "./GamePortal";
 import { GameStartingModal } from "./GameStartingModal";
 import { showInGameAlert } from "./InGameModal";
 import { JoinLobbyEvent } from "./Main";
 import { fallbackPlayerName, ResolvedPlayerName } from "./PlayerName";
-import { lastUserMeResponse } from "./UserMeBroadcast";
 import { UsernameInput } from "./UsernameInput";
 import { UserSettings } from "./UserSettings";
 import {
@@ -227,25 +223,12 @@ export class SinglePlayerModal extends BaseModal {
 
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener(
-      "userMeResponse",
-      this.handleUserMeResponse as EventListener,
-    );
-    // It loads on demand (see LazyModals), usually after Main's broadcast
-    // went out.
-    const last = lastUserMeResponse();
-    if (last !== null) {
-      this.userMeResponse = last.response;
-      this.applyAchievements(last.response);
-    }
+    // Local-only build: there is no account profile to receive, so no
+    // userMeResponse listener (docs/LocalMode.md R5/R11).
     void this.loadNationCount();
   }
 
   disconnectedCallback() {
-    document.removeEventListener(
-      "userMeResponse",
-      this.handleUserMeResponse as EventListener,
-    );
     super.disconnectedCallback();
   }
 
@@ -288,18 +271,9 @@ export class SinglePlayerModal extends BaseModal {
   };
 
   private renderNotLoggedInBanner(): TemplateResult {
-    if (gamePortal.isOnGamePortal()) {
-      return html``;
-    }
-    return html`<button
-      class="px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-lg bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 whitespace-nowrap shrink-0 cursor-pointer hover:bg-yellow-500/30"
-      @click=${() => {
-        this.close();
-        window.showPage?.("page-account");
-      }}
-    >
-      ${translateText("single_modal.sign_in_for_achievements")}
-    </button>`;
+    // Local-only build: there is no account page to sign into, so the
+    // "sign in for achievements" banner never shows (docs/LocalMode.md R11).
+    return html``;
   }
 
   private applyAchievements(userMe: UserMeResponse | false) {
@@ -335,26 +309,10 @@ export class SinglePlayerModal extends BaseModal {
       title: translateText("main.solo") || "Solo",
       onBack: () => this.close(),
       ariaLabel: translateText("common.back"),
-      rightContent: responseHasLinkedIdentity(this.userMeResponse)
-        ? html`<button
-              @click=${this.toggleAchievements}
-              class="flex items-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all shrink-0 ${this
-                .showAchievements
-                ? "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"
-                : "text-white/60"}"
-            >
-              <img
-                src=${assetUrl("images/MedalIconWhite.svg")}
-                class="w-4 h-4 opacity-80 shrink-0"
-                style="${this.showAchievements ? "" : "filter: grayscale(1);"}"
-              />
-              <span
-                class="text-xs font-bold uppercase tracking-wider whitespace-nowrap"
-                >${translateText("single_modal.toggle_achievements")}</span
-              >
-            </button>
-            ${this.showAchievements ? this.renderMedalOverview() : null}`
-        : this.renderNotLoggedInBanner(),
+      // Local-only build: the achievements toggle lived on account progress
+      // (userMeResponse.player.achievements), which no longer exists, so the
+      // header slot stays empty (docs/LocalMode.md R5/R11).
+      rightContent: this.renderNotLoggedInBanner(),
     });
   }
 
@@ -579,14 +537,6 @@ export class SinglePlayerModal extends BaseModal {
 
         <!-- Footer Action -->
         <div class="p-6 border-t border-white/10 bg-black/20 shrink-0">
-          ${responseHasLinkedIdentity(this.userMeResponse) &&
-          this.hasOptionsChanged()
-            ? html`<div
-                class="mb-4 px-4 py-3 rounded-xl bg-yellow-500/20 border border-yellow-500/30 text-yellow-400 text-xs font-bold uppercase tracking-wider text-center"
-              >
-                ${translateText("single_modal.options_changed_no_achievements")}
-              </div>`
-            : null}
           <o-button
             variant="primary"
             width="block"
@@ -1035,13 +985,9 @@ export class SinglePlayerModal extends BaseModal {
    * immediately.
    */
   private awaitMidgameAd(): Promise<void> {
-    return withDeadline(
-      gamePortal.requestMidgameAd(),
-      MIDGAME_AD_DEADLINE_MS,
-      () => {
-        console.warn("Midgame ad never signalled completion; starting anyway");
-      },
-    );
+    // Local-only build: there are no portal ads to wait for
+    // (docs/LocalMode.md R2), so a start never blocks on one.
+    return Promise.resolve();
   }
 
   private async startGame() {

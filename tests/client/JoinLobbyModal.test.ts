@@ -2,23 +2,6 @@ import { render } from "lit";
 import type { MockInstance } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const presenceMocks = vi.hoisted(() => ({
-  isAvailable: vi.fn(() => false),
-  openInviteDialog: vi.fn(async () => true),
-}));
-
-// The desktop bridge is absent in a browser and in jsdom. Mocking the module
-// lets each test state which shell it is running in, which is the only thing
-// the invite button is gated on.
-vi.mock("../../src/client/DesktopPresence", () => ({
-  desktopPresence: {
-    isAvailable: presenceMocks.isAvailable,
-    openInviteDialog: presenceMocks.openInviteDialog,
-    set: vi.fn(),
-    consumePendingInvite: vi.fn(async () => null),
-    subscribeInvites: vi.fn(() => () => undefined),
-  },
-}));
 
 const alertMocks = vi.hoisted(() => ({
   construct: vi.fn(),
@@ -244,27 +227,20 @@ describe("JoinLobbyModal spectate link", () => {
   });
 });
 
-// OPE-205. Steam's invite dialog is reachable only through the in-game
-// overlay, so this button is desktop-shell-only: desktopPresence.isAvailable()
-// checks shell.api >= 2, which is false in a browser and on an older depot's
-// shell. These tests pin the gating and the wiring; whether the dialog
-// actually renders is OPE-200's acceptance criterion and needs a packaged
-// Steam build to verify.
-describe("JoinLobbyModal Steam invite button", () => {
+// Local-only build (docs/LocalMode.md R2/R6): no desktop shell, no Steam
+// overlay -- the joined-lobby header is the copy button alone.
+describe("JoinLobbyModal header", () => {
   const INVITE = "[data-test-invite-friends]";
 
   function renderHeader(modal: JoinLobbyModal): HTMLElement {
     const container = document.createElement("div");
     render(
-      (
-        modal as unknown as { renderHeaderSlot(): unknown }
-      ).renderHeaderSlot() as never,
+      (modal as unknown as { renderHeaderSlot(): unknown }).renderHeaderSlot() as never,
       container,
     );
     return container;
   }
 
-  // A joined lobby whose config has arrived; private FFA unless overridden.
   function lobbyModal(config?: {
     gameType: GameType;
     gameMode: GameMode;
@@ -279,92 +255,12 @@ describe("JoinLobbyModal Steam invite button", () => {
     return modal;
   }
 
-  beforeEach(() => {
-    presenceMocks.isAvailable.mockReset().mockReturnValue(false);
-    presenceMocks.openInviteDialog.mockReset().mockResolvedValue(true);
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("is absent in a browser", () => {
-    presenceMocks.isAvailable.mockReturnValue(false);
-
+  it("offers no invite button, before or after joining", () => {
+    expect(renderHeader(new JoinLobbyModal()).querySelector(INVITE)).toBeNull();
     expect(renderHeader(lobbyModal()).querySelector(INVITE)).toBeNull();
   });
 
-  it("is absent before joining a lobby, even on the desktop shell", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-    const modal = new JoinLobbyModal();
-
-    // There is nothing to invite anyone into until a lobby is joined.
-    expect(renderHeader(modal).querySelector(INVITE)).toBeNull();
-  });
-
-  it("appears in a joined private lobby on the desktop shell", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-
-    expect(renderHeader(lobbyModal()).querySelector(INVITE)).not.toBeNull();
-  });
-
-  // The URL-join and accepted-Steam-invite paths render this header before
-  // the first lobby_info delivers the config. That window must not show a
-  // button the config may be about to forbid.
-  it("is absent while the lobby's config is still unknown", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-    const modal = lobbyModal();
-    (modal as unknown as { gameConfig: unknown }).gameConfig = null;
-
-    expect(renderHeader(modal).querySelector(INVITE)).toBeNull();
-  });
-
-  it("opens the Steam invite dialog when clicked", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-    const button =
-      renderHeader(lobbyModal()).querySelector<HTMLButtonElement>(INVITE);
-
-    button?.click();
-
-    expect(presenceMocks.openInviteDialog).toHaveBeenCalledOnce();
-  });
-
-  // The bridge resolves false when Steam is absent or the overlay refuses.
-  // Nothing in the lobby should break on that -- the click is best-effort.
-  it("survives the bridge reporting failure", async () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-    presenceMocks.openInviteDialog.mockResolvedValue(false);
-    const button =
-      renderHeader(lobbyModal()).querySelector<HTMLButtonElement>(INVITE);
-
-    expect(() => button?.click()).not.toThrow();
-    await Promise.resolve();
-  });
-
-  // Inviting Steam friends into a public FFA match encourages teaming, so
-  // the button is suppressed exactly there and nowhere else.
-  it("is absent in a public FFA lobby", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-    const modal = lobbyModal({
-      gameType: GameType.Public,
-      gameMode: GameMode.FFA,
-    });
-
-    expect(renderHeader(modal).querySelector(INVITE)).toBeNull();
-  });
-
-  it("appears in a public team lobby", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
-    const modal = lobbyModal({
-      gameType: GameType.Public,
-      gameMode: GameMode.Team,
-    });
-
-    expect(renderHeader(modal).querySelector(INVITE)).not.toBeNull();
-  });
-
   it("does not suppress the private-lobby copy button", () => {
-    presenceMocks.isAvailable.mockReturnValue(true);
     const modal = lobbyModal();
     vi.spyOn(
       modal as unknown as { isPrivateLobby(): boolean },
@@ -374,10 +270,9 @@ describe("JoinLobbyModal Steam invite button", () => {
     const header = renderHeader(modal);
 
     expect(header.querySelector("copy-button")).not.toBeNull();
-    expect(header.querySelector(INVITE)).not.toBeNull();
+    expect(header.querySelector(INVITE)).toBeNull();
   });
 });
-
 describe("JoinLobbyModal map preview", () => {
   const PREVIEW = "[data-test-map-preview]";
   const SETTINGS = "[data-test-lobby-settings]";
