@@ -559,28 +559,6 @@ export class HelpModal extends BaseModal {
             </div>
 
             <div class="grid grid-cols-1 gap-6">
-              <!-- Leaderboard -->
-              <div
-                class="bg-black/20 rounded-xl border border-white/10 p-6 flex flex-col md:flex-row gap-6 hover:bg-white/5 transition-colors"
-              >
-                <div class="flex flex-col items-center gap-3 shrink-0">
-                  <span
-                    class="text-xs font-bold uppercase tracking-wider text-blue-300"
-                    >${translateText("help_modal.ui_leaderboard")}</span
-                  >
-                  <img
-                    src=${assetUrl("images/helpModal/leaderboard2.webp")}
-                    alt="Leaderboard"
-                    class="rounded-lg shadow-lg border border-white/20 max-w-[200px]"
-                    loading="lazy"
-                  />
-                </div>
-                <div
-                  class="flex items-center text-white/70 text-sm leading-relaxed"
-                >
-                  <p>${translateText("help_modal.ui_leaderboard_desc")}</p>
-                </div>
-              </div>
 
               <!-- Control Panel -->
               <div

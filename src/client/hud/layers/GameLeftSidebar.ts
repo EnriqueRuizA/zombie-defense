@@ -15,10 +15,6 @@ import type { PlayerStats } from "./PlayerStats";
 import { SpawnBarVisibleEvent } from "./SpawnTimer";
 import "./TeamStats";
 import type { TeamStats } from "./TeamStats";
-const playerStatsRegularIcon = assetUrl(
-  "images/LeaderboardIconRegularWhite.svg",
-);
-const playerStatsSolidIcon = assetUrl("images/LeaderboardIconSolidWhite.svg");
 const teamStatsRegularIcon = assetUrl("images/TeamIconRegularWhite.svg");
 const teamStatsSolidIcon = assetUrl("images/TeamIconSolidWhite.svg");
 
@@ -130,15 +126,6 @@ export class GameLeftSidebar extends LitElement implements Controller {
               }
             }}
           >
-            <img
-              src=${this.isPlayerStatsShown
-                ? playerStatsSolidIcon
-                : playerStatsRegularIcon}
-              alt=${translateText("help_modal.icon_alt_player_leaderboard") ||
-              "Player Leaderboard Icon"}
-              width="20"
-              height="20"
-            />
           </div>
           ${this.isTeamGame
             ? html`
