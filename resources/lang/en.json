@@ -1101,7 +1101,6 @@
     "notify_off": "Play a sound when the game starts",
     "notify_on": "Game start alert is on",
     "notify_started": "Your game is starting!",
-    "see_all": "See all {count}",
     "started": "Started",
     "starting_game": "Starting…",
     "starting_in": "Starting in {time}",
@@ -1116,7 +1115,6 @@
     "trusted_locked": "Trusted accounts only. Your account isn't trusted yet.",
     "trusted_tooltip_title": "Trusted lobby",
     "trusted_unlocked": "Trusted accounts only. Your account is trusted.",
-    "upcoming": "Upcoming",
     "waiting_for_players": "Waiting for players"
   },
   "radial_menu": {

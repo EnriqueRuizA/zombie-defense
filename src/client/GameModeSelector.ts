@@ -623,7 +623,6 @@ export class GameModeSelector extends LitElement {
                 )}
               </div>`
             : nothing}
-          ${this.renderUpcomingHeading()}
         </section>
 
         ${this.showTrustRequired
@@ -675,11 +674,6 @@ export class GameModeSelector extends LitElement {
     window.showPage?.("page-ranked");
   };
 
-  private openDetailedView = () => {
-    if (!this.validateUsername()) return;
-    window.showPage?.("page-detailed-view");
-  };
-
   private openSinglePlayerModal = () => {
     if (!this.validateUsername()) return;
     whenModalLoaded("single-player-modal", () =>
@@ -711,64 +705,9 @@ export class GameModeSelector extends LitElement {
     );
   };
 
-  // Number of open hosted lobbies waiting in the browser; shown as a chip
+// Number of open hosted lobbies waiting in the browser; shown as a chip
   // on the Join button.
-  /**
-   * The heading over the upcoming column, and the way to the lobby browser now
-   * that the Detailed View button is gone. Heading and link are one control:
-   * side by side they were two runs of small uppercase text, and neither read
-   * as clickable. A heading may hold a button, so the h2 survives.
-   *
-   * Dims and stops responding on an invalid username, as the button it
-   * replaces did: openDetailedView's own check is a silent backstop that
-   * assumes its control already looks disabled.
-   */
-  /** Heading over the upcoming column; also the link to the lobby browser. */
-  private renderUpcomingHeading() {
-    const count = this.advertisedLobbyCount();
-    return html`
-      <h2 class="min-w-0 sm:row-start-1">
-        <button
-          @click=${this.openDetailedView}
-          ?disabled=${!this.inputValid}
-          class="group/upcoming flex w-full items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.04] py-1.5 pl-2.5 pr-1.5 transition-colors hover:border-malibu-blue/50 hover:bg-malibu-blue/15 ${this
-            .inputValid
-            ? ""
-            : DISABLED}"
-        >
-          <span
-            class="truncate text-sm font-bold uppercase tracking-widest text-white/70 group-hover/upcoming:text-white"
-            >${translateText("public_lobby.upcoming")}</span
-          >
-          <span
-            class="flex shrink-0 items-center gap-0.5 rounded bg-malibu-blue py-0.5 pl-2 pr-1 text-xs font-bold uppercase tracking-wider text-white group-hover/upcoming:bg-aquarius"
-          >
-            ${count > 0
-              ? translateText("public_lobby.see_all", { count })
-              : nothing}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              class="size-4"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
-        </button>
-      </h2>
-    `;
-  }
 
-  /** Every lobby the browser lists, hosted included. */
-  private advertisedLobbyCount(): number {
-    return Object.values(this.lobbies?.games ?? {}).flat().length;
-  }
 
   private hostedLobbyCount(): number {
     return this.lobbies?.games?.hosted?.length ?? 0;
