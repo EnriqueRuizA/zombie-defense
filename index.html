@@ -135,9 +135,6 @@
     </style>
 
     <!-- SEO -->
-    <!-- Propuesta (O2/D1): dominio provisional zombie-defense.io.
-         Sustituir por el dominio definitivo cuando exista; no inventar otros. -->
-    <link rel="canonical" href="https://zombie-defense.io/" />
     <meta
       name="description"
       content="Conquer the world in this multiplayer battle royale! Expand your nation, eliminate opponents, and dominate the map in this fast-paced IO game."
@@ -190,22 +187,15 @@
       Never add a placeholder the Steam shell does not supply: openfront-desktop
       renders this same template itself and a missing local is a ReferenceError,
       i.e. a blank window. Guarding an existing one is safe — the shell supplies
-      a value and the line still emits.
-
-      casualMode (docs/CasualMode.md) is the one NEW local: it is typeof-guarded
-      exactly like the optional locals below, so a shell that does not supply it
-      gets no line. A casual page carries casualMode and no turnstileSiteKey; a
-      normal page carries the key and no casualMode — the line below is
-      deliberately a single guard for both.
-    -->
+       a value and the line still emits.
+     -->
     <script>
       window.BOOTSTRAP_CONFIG = {
         gitCommit: <%- gitCommit %>,
         assetManifest: <%- assetManifest %>,
         cdnBase: <%- cdnBase %>,
-        gameEnv: <%- gameEnv %>,<%- typeof cluster !== "undefined" && cluster ? "\n        cluster: " + cluster + "," : "" %><%- typeof instanceLetter !== "undefined" && instanceLetter ? "\n        instanceLetter: " + instanceLetter + "," : "" %>
-        <%- typeof casualMode !== "undefined" && casualMode ? "casualMode: " + casualMode + "," : typeof turnstileSiteKey !== "undefined" && turnstileSiteKey ? "turnstileSiteKey: " + turnstileSiteKey + "," : "" %>
-        jwtAudience: <%- jwtAudience %>,<%- typeof stripePublishableKey !== "undefined" && stripePublishableKey ? "\n        stripePublishableKey: " + stripePublishableKey + "," : "" %><%- typeof faroCollectorUrl !== "undefined" && faroCollectorUrl ? "\n        faroCollectorUrl: " + faroCollectorUrl + "," : "" %><%- typeof instanceId !== "undefined" && instanceId ? "\n        instanceId: " + instanceId + "," : "" %><%- typeof serverHost !== "undefined" && serverHost ? "\n        serverHost: " + serverHost + "," : "" %><%- typeof siteHost !== "undefined" && siteHost ? "\n        siteHost: " + siteHost + "," : "" %>
+gameEnv: <%- gameEnv %>,<%- typeof cluster !== "undefined" && cluster ? "\n        cluster: " + cluster + "," : "" %><%- typeof instanceLetter !== "undefined" && instanceLetter ? "\n        instanceLetter: " + instanceLetter + "," : "" %>
+         jwtAudience: <%- jwtAudience %>,<%- typeof stripePublishableKey !== "undefined" && stripePublishableKey ? "\n        stripePublishableKey: " + stripePublishableKey + "," : "" %><%- typeof faroCollectorUrl !== "undefined" && faroCollectorUrl ? "\n        faroCollectorUrl: " + faroCollectorUrl + "," : "" %><%- typeof instanceId !== "undefined" && instanceId ? "\n        instanceId: " + instanceId + "," : "" %><%- typeof serverHost !== "undefined" && serverHost ? "\n        serverHost: " + serverHost + "," : "" %><%- typeof siteHost !== "undefined" && siteHost ? "\n        siteHost: " + siteHost + "," : "" %>
       };
       // Set here rather than from the bundle so the first paint already has the
       // desktop layout. The shell's preload defines openfrontDesktop before
@@ -229,65 +219,6 @@
         "--mobile-logo-image-url",
         `url("<%- mobileLogoImageUrl %>")`,
       );
-    </script>
-
-    <!-- CrazyGames SDK -->
-    <script
-      src="https://sdk.crazygames.com/crazygames-sdk-v3.js"
-      async
-    ></script>
-
-    <% if (typeof casualMode === "undefined" || !casualMode) { -%>
-
-    <!-- Cloudflare Turnstile -->
-    <script
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-      async
-      defer
-    ></script>
-    <% } -%>
-
-    <script data-cfasync="false">
-      window.ramp = window.ramp || {};
-      window.ramp.que = window.ramp.que || [];
-      window.ramp.passiveMode = true;
-    </script>
-
-    <script>
-      window.googletag = window.googletag || { cmd: [] };
-      googletag.cmd.push(function () {
-        googletag.pubads().set("page_url", "http://zombie-defense.io ");
-      });
-    </script>
-
-    <!-- Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=AW-16702609763"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag("js", new Date());
-      gtag("config", "AW-16702609763");
-    </script>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-WQGQQ8RDN4"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-WQGQQ8RDN4");
     </script>
   </head>
 
@@ -625,19 +556,6 @@
       });
     </script>
 
-    <!-- Analytics -->
-    <script
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon='{"token": "03d93e6fefb349c28ee69b408fa25a13"}'
-    ></script>
     <script type="module" src="/src/client/Main.ts"></script>
-    <footer>
-      <script
-        data-cfasync="false"
-        async
-        src="//cdn.intergient.com/1025558/75940/ramp.js"
-      ></script>
-    </footer>
   </body>
 </html>
