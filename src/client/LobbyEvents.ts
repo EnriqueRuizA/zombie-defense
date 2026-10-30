@@ -16,8 +16,3 @@ export class SendUpdateGameConfigIntentEvent implements GameEvent {
 export class SendToggleGameStartTimer implements GameEvent {
   constructor() {}
 }
-
-// Switch between playing and watching from the lobby screen.
-export class SendSpectateEvent implements GameEvent {
-  constructor(public readonly spectator: boolean) {}
-}

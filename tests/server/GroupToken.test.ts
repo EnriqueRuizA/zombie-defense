@@ -76,7 +76,7 @@ describe("GameServer group token", () => {
       persistentID: "host-pid",
     });
     const player = makeClient({ clientID: cid("p2") });
-    const spectator = makeClient({ clientID: cid("cast"), spectator: true });
+    const spectator = makeClient({ clientID: cid("cast"),  });
     [host, player, spectator].forEach((c) => game.joinClient(c));
 
     vi.advanceTimersByTime(1000);
@@ -96,7 +96,7 @@ describe("GameServer group token", () => {
   it("repeats the same token in the start message every client gets", () => {
     const game = makeGame({ id: cid("start") });
     const player = makeClient({ clientID: cid("p1") });
-    const spectator = makeClient({ clientID: cid("cast"), spectator: true });
+    const spectator = makeClient({ clientID: cid("cast"),  });
     [player, spectator].forEach((c) => game.joinClient(c));
     vi.advanceTimersByTime(1000);
 
@@ -123,7 +123,7 @@ describe("GameServer group token", () => {
 
     const game = makeGame({ id: cid("quiet"), log });
     const player = makeClient({ clientID: cid("p1") });
-    const spectator = makeClient({ clientID: cid("cast"), spectator: true });
+    const spectator = makeClient({ clientID: cid("cast"),  });
     [player, spectator].forEach((c) => game.joinClient(c));
     vi.advanceTimersByTime(3000);
     startGame(game);

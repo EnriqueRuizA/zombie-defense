@@ -21,12 +21,11 @@ const asHost = {
   isAdminBot: false,
 };
 
-function makeClient(id: string, spectator = false) {
+function makeClient(id: string) {
   return harnessClient({
     clientID: cid(id),
     persistentID: `${id}-pid`,
     publicId: `${id}-pub`,
-    spectator,
   });
 }
 
@@ -62,8 +61,6 @@ describe("private lobby player cap", () => {
     expect(game.joinClient(makeClient("p1"))).toBe("joined");
     expect(game.joinClient(makeClient("p2"))).toBe("joined");
     expect(game.joinClient(makeClient("p3"))).toBe("rejected");
-    // Spectators take no seat, so a full lobby is still watchable.
-    expect(game.joinClient(makeClient("cast", true))).toBe("joined");
   });
 
   it("lets the host clear the cap with null", () => {

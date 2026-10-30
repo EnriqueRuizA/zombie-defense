@@ -1222,7 +1222,7 @@ export class HostLobbyModal extends BaseModal {
   // Players holding a seat. Spectators take none, matching the server's
   // listing check.
   private seatedPlayerCount(): number {
-    return this.clients.filter((c) => c.spectator !== true).length;
+    return this.clients.length;
   }
 
   private handleStartDelayValueKeyDown = (e: KeyboardEvent) => {

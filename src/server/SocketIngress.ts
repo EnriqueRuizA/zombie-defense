@@ -15,33 +15,20 @@ import { MatchTelemetryRecorder } from "./MatchTelemetryRecorder";
 export const KICK_REASON_TOO_MUCH_DATA = "kick_reason.too_much_data";
 export const KICK_REASON_INVALID_MESSAGE = "kick_reason.invalid_message";
 
-// Messages that speak for a player in the simulation, so a spectator may not
-// send them — including hash, which feeds desync agreement, and report, which
-// is one player's word against another's. Ping and rejoin remain connection
-// housekeeping.
-const SPECTATOR_BLOCKED_MESSAGES = new Set([
-  "intent",
-  "winner",
-  "live_stats",
-  "hash",
-  "report",
-]);
-
 // What the ingress needs from the game it feeds.
 export interface SocketIngressView {
   // The wire dictionary, once the game has started (see GameServer.zbinCtx).
   zbinCtx: () => ZbContext | undefined;
   serverTick: () => number;
-  // A message that passed decoding, validation, rate limiting and the
-  // spectator block.
+  // A message that passed decoding, validation and rate limiting.
   onMessage: (client: Client, msg: ClientMessage) => void;
   onClose: (client: Client) => void;
   kick: (clientID: ClientID, reasonKey: string) => void;
 }
 
 // The socket side of a game: attaches the listeners to a client's socket and
-// runs every incoming frame through decode -> validate -> rate-limit ->
-// spectator-block before the game sees it. A frame that fails is dropped or
+// runs every incoming frame through decode -> validate -> rate-limit before
+// the game sees it. A frame that fails is dropped or
 // gets its sender kicked here; what a valid message does is
 // GameServer.handleClientMessage.
 export class SocketIngress {
@@ -177,17 +164,6 @@ export class SocketIngress {
       this.log.debug(`Client message rate limit exceeded, dropping`, {
         clientID: client.clientID,
         type: clientMsg.type,
-      });
-      return;
-    }
-    // A spectator is not in the simulation, so none of what it sends can be
-    // game state. Without this, claiming to spectate is a way past the lobby
-    // cap and into the intent stream.
-    if (client.spectator && SPECTATOR_BLOCKED_MESSAGES.has(clientMsg.type)) {
-      // Debug-only: a spectator probing blocked types produces one line per
-      // message, which dominates warn volume at scale.
-      this.log.debug(`dropping ${clientMsg.type} from spectator`, {
-        clientID: client.clientID,
       });
       return;
     }

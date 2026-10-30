@@ -197,31 +197,6 @@ describe("SocketIngress.receive", () => {
     );
   });
 
-  it("drops what a spectator sends for the simulation, but not housekeeping", () => {
-    const { ingress, view, observed, log } = setup();
-    const spectator = makeClient({ clientID: P1, spectator: true });
-
-    ingress.receive(spectator, spawn());
-    ingress.receive(
-      spectator,
-      clientFrame({ type: "hash", turnNumber: 0, hash: 1 }),
-    );
-    expect(view.onMessage).not.toHaveBeenCalled();
-    // Not a rejection of the intent, just a drop: nothing to attribute.
-    expect(observed()).toEqual([]);
-    // A probing spectator can produce one line per message; must not be warn.
-    expect(log.warn).not.toHaveBeenCalled();
-    expect(log.debug).toHaveBeenCalledWith(
-      expect.stringContaining("from spectator"),
-      expect.objectContaining({ clientID: P1 }),
-    );
-
-    ingress.receive(spectator, clientFrame({ type: "ping", sentAt: 0 }));
-    expect(view.onMessage).toHaveBeenCalledWith(spectator, {
-      type: "ping",
-      sentAt: 0,
-    });
-  });
 });
 
 describe("SocketIngress.attach", () => {

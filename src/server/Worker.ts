@@ -587,7 +587,6 @@ export async function startWorker() {
           const plan = planJoinVerify({
             isReadmit,
             gameStarted: game?.hasStarted() ?? false,
-            turnstileToken: null,
             identityUnchanged:
               stored !== null &&
               stored.username === clientMsg.username &&
@@ -611,7 +610,6 @@ export async function startWorker() {
           if (plan.action === "verify") {
             const verdict = await verifyJoin(
               ip,
-              plan.token,
               clientMsg.username,
               clientMsg.clanTag ?? null,
             );
@@ -799,7 +797,6 @@ export async function startWorker() {
           cosmeticResult.cosmetics,
           publicId,
           friends,
-          false, // spectator support removed (LocalMode R10)
           trusted,
           clientMsg.platform,
           levelBadge,

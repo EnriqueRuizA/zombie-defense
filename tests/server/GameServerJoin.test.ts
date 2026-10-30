@@ -250,8 +250,7 @@ describe("GameServer.joinClient — active game reconnection", () => {
 
     // Client should retain their mapped clientID and not be downgraded to spectator
     expect(game.getClientIdForPersistentId("player-pid")).toBe(cid("orig"));
-    expect(reconnecting.spectator).toBe(false);
-    expect(original.spectator).toBe(false);
+
 
     // Reconnecting client socket received the start message with original clientID
     const startMsg = newWs.sent().find((m) => (m as any).type === "start");
@@ -271,7 +270,6 @@ describe("GameServer.joinClient — active game reconnection", () => {
       persistentID: "late-pid",
     });
     expect(game.joinClient(lateClient)).toBe("started");
-    expect(lateClient.spectator).toBe(false);
     expect(game.getClientIdForPersistentId("late-pid")).toBeNull();
   });
 });

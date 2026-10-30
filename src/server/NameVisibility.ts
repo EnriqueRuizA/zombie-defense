@@ -191,7 +191,6 @@ export class NameVisibility {
           username: this.anonName(viewer, c.clientID),
           clanTag: null,
           clientID: c.clientID,
-          spectator: c.spectator || undefined,
           teamIndex: this.view.teamIndex(c),
         };
       }
@@ -209,7 +208,6 @@ export class NameVisibility {
         clientID: c.clientID,
         friends: teammateOnly ? undefined : friendsFor(c),
         verified: c.cosmetics?.verified,
-        spectator: c.spectator || undefined,
         teamIndex: this.view.teamIndex(c),
         // Only beside a real name — the anonymized branch above omits it, as a
         // level beside an anonymous name would point out the veterans. Kept on
@@ -232,7 +230,7 @@ export function friendsLookup(
     // Spectators are not in the simulation, and friends feed team assignment —
     // a player befriending a caster would be teamed with a clientID that never
     // spawns.
-    if (c.publicId && !c.spectator)
+    if (c.publicId)
       publicIdToClientID.set(c.publicId, c.clientID);
   }
   return (client: Client) => {

@@ -72,23 +72,13 @@ export function isSteamAuthenticated(claims: TokenPayload | null): boolean {
 export function planJoinVerify(args: {
   isReadmit: boolean;
   gameStarted: boolean;
-  turnstileToken: string | null;
   identityUnchanged: boolean;
   steamAuthed: boolean;
 }): JoinVerifyPlan {
   if (!args.isReadmit) {
-    // Steam-authenticated first joins skip the Turnstile siteverify — Steam
-    // ownership (a signed provider="steam" claim, set by infra only after
-    // verifySteamTicket()) is the anti-abuse signal. A null token still runs
-    // the API's name check, so banned/slur names are censored: the join is
-    // VERIFIED (never skipped), it just omits the bot challenge.
-    if (args.steamAuthed) {
-      return { action: "verify", token: null };
-    }
-    if (!args.turnstileToken) {
-      return { action: "reject" };
-    }
-    return { action: "verify", token: args.turnstileToken };
+    // Local mode has no Turnstile: every first join verifies with a null
+    // token (name check only).
+    return { action: "verify", token: null };
   }
   if (args.gameStarted || args.identityUnchanged) {
     return { action: "skip" };
@@ -120,9 +110,8 @@ export function planJoinVerify(args: {
  */
 export async function verifyJoin(
   ip: string,
-  turnstileToken: string | null,
   username: string,
-  clanTag: string | null,
+  clanTag: string | null = null,
 ): Promise<JoinVerifyResponse> {
   try {
     const response = await fetch(`${ServerEnv.jwtIssuer()}/join_verify`, {
@@ -134,7 +123,7 @@ export async function verifyJoin(
         "Content-Type": "application/json",
         "x-api-key": ServerEnv.apiKey(),
       },
-      body: JSON.stringify({ ip, token: turnstileToken, username, clanTag }),
+      body: JSON.stringify({ ip, token: null, username, clanTag }),
     });
     if (!response.ok) {
       return {

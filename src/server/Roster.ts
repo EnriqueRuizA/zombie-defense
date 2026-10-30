@@ -112,10 +112,9 @@ export class Roster {
     return this.connected.includes(client);
   }
 
-  // Connected clients who will actually play. Spectators are excluded
-  // everywhere a "player" is meant: the lobby cap, gameStartInfo, the votes.
+  // Connected clients who will actually play.
   players(): Client[] {
-    return this.connected.filter((c) => !c.spectator);
+    return this.connected;
   }
 
   all(): ReadonlyMap<ClientID, Client> {

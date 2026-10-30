@@ -48,14 +48,13 @@ function makeClient(
   clientID: string,
   persistentID: string,
   publicId: string | undefined,
-  opts: { role?: string | null; spectator?: boolean } = {},
+  opts: { role?: string | null } = {},
 ) {
   return harnessClient({
     clientID,
     persistentID,
     publicId,
     role: opts.role ?? null,
-    spectator: opts.spectator ?? false,
     username: "TestUser",
   });
 }
@@ -153,13 +152,6 @@ describe("GameServer - pool routing (GameConfig.pool)", () => {
     expect(redirectsOf(client)).toEqual([]);
   });
 
-  it("lets spectators watch the member they asked for", () => {
-    const game = makeGame();
-    const client = makeClient(C1, "p1", MOVES, { spectator: true });
-    expect(game.joinClient(client)).toBe("joined");
-    expect(redirectsOf(client)).toEqual([]);
-  });
-
   it("lets admins and root into any member", () => {
     const game = makeGame();
     expect(
@@ -211,21 +203,9 @@ describe("GameServer - pool routing (GameConfig.pool)", () => {
     expect(game.joinClient(client)).toBe("joined");
     game.kickClient(C1);
     expect(game.joinClient(makeClient(C4, "p1", STAYS))).toBe("kicked");
-  });
+   });
 
-  it("refuses a spectator a seat on a member that is not theirs", async () => {
-    // Spectators pick their own member, so the seat toggle is where the pool
-    // gets its say — otherwise joining with spectator: true and flipping is a
-    // way past routing altogether.
-    const game = makeGame();
-    const caster = makeClient(C1, "p1", MOVES, { spectator: true });
-    expect(game.joinClient(caster)).toBe("joined");
-
-    await mockWsOf(caster).emit({ type: "spectate", spectator: false });
-    expect(caster.spectator).toBe(true);
-  });
-
-  it("does not route a player who is already in this game", () => {
+  it("does not route a player who is already in this game", async () => {
     // A mid-game drop reconnects as a fresh join, so routing has to know that
     // this player is here already — structurally, not by trusting that the
     // hash still says the same thing. Here the reason they were admitted (the

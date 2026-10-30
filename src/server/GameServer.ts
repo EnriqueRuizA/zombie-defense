@@ -1,7 +1,5 @@
 import {
-  GameMode,
   GameType,
-  HumansVsNations,
   PlayerInfo,
   PlayerType,
   RANKED_FFA_MIN_PLAYERS,
@@ -202,7 +200,7 @@ export class GameServer {
   // is told once and its votes are ignored from then on.
   private readonly desync = new DesyncDetector();
 
-  // Socket listeners and the decode / validate / rate-limit / spectator-block
+  // Socket listeners and the decode / validate / rate-limit
   // pipeline every frame goes through before handleClientMessage.
   private readonly ingress: SocketIngress;
 
@@ -587,13 +585,12 @@ export class GameServer {
     // spawn. An admitted player reconnecting through the join path keeps
     // their seat. A player whose join lands just after the start meant to
     // play (a last-second click on the lobby), so they are told they missed
-    // it rather than dropped into a game they cannot play. Anyone later
-    // came to watch (a shared link) and joins as a spectator.
+    // it rather than dropped into a game they cannot play.
     if (this.stage === "started") {
       if (this.rejoinClient(client.ws, client.persistentID, 0)) {
         return "joined";
       }
-      // Local mode: no spectators. Late joins are rejected.
+      // Late joins are rejected.
       this.log.info("cannot add client, game already started", {
         clientID: client.clientID,
       });
@@ -609,10 +606,7 @@ export class GameServer {
       return "started";
     }
 
-    // Spectators take no slot: they never spawn, so a full lobby is still
-    // watchable and a caster can never displace a player.
     if (
-      !client.spectator &&
       this.gameConfig.maxPlayers &&
       this.playerCount() >= this.gameConfig.maxPlayers
     ) {
@@ -691,8 +685,7 @@ export class GameServer {
     }
 
     // Client connection accepted. Added before the first
-    // markClientDisconnected: that call consults the roster to tell a
-    // spectator from a player.
+    // markClientDisconnected.
     this.clients.add(client);
     client.lastPing = Date.now();
     this.markClientDisconnected(client.clientID, false);
@@ -763,7 +756,7 @@ export class GameServer {
   }
 
   // A validated message from a connected client, after SocketIngress has
-  // applied the rate limit and the spectator block.
+  // applied the rate limit.
   private handleClientMessage(client: Client, clientMsg: ClientMessage) {
     // Nothing from a socket that is no longer on the roster reaches the game.
     // Dropping a client (a kick, the stale-ping prune, a close) leaves its
@@ -1065,7 +1058,7 @@ export class GameServer {
             type: "lobby_info",
             lobby: shared ?? this.gameInfo(c.clientID),
             myClientID: c.clientID,
-            // Same value for every recipient, including spectators: the
+            // Same value for every recipient: the
             // point of the token is that one game is one group.
             groupToken: this.groupToken,
           } satisfies ServerLobbyInfoMessage,
@@ -1117,8 +1110,6 @@ export class GameServer {
     // Set last ping to start so we don't immediately stop the game
     // if no client connects/pings.
     this.lastPingUpdate = Date.now();
-
-    this.convertClanOverflowToSpectators();
 
     const friendsFor = friendsLookup(this.clients.active());
 
@@ -1192,44 +1183,9 @@ export class GameServer {
     });
   }
 
-  // Connected clients who will actually play. Spectators are excluded
-  // everywhere a "player" is meant: the lobby cap, and gameStartInfo.
+  // Connected clients who will actually play.
   private playerCount(): number {
     return this.clients.players().length;
-  }
-
-  private convertClanOverflowToSpectators(): void {
-    if (
-      this.gameConfig.gameMode !== GameMode.Team ||
-      this.gameConfig.playerTeams === undefined ||
-      this.gameConfig.playerTeams === HumansVsNations ||
-      this.matchmakingTeams !== undefined ||
-      this.gameConfig.rankedType !== undefined ||
-      this.gameConfig.disableClanTags === true ||
-      this.gameConfig.anonymizeNames === true
-    ) {
-      return;
-    }
-    const playerTeams = this.gameConfig.playerTeams;
-    const nationCount = this.resolveDefaultNationCount();
-    const convertedClientIDs = new Set<ClientID>();
-    let kickedClients = this.findClanOverflowKicks(playerTeams, nationCount);
-    while (kickedClients.length > 0) {
-      for (const client of kickedClients) {
-        client.spectator = true;
-        convertedClientIDs.add(client.clientID);
-        this.log.info("Converted clan overflow player to spectator", {
-          clientID: client.clientID,
-          clanTag: client.clanTag,
-        });
-      }
-      kickedClients = this.findClanOverflowKicks(playerTeams, nationCount);
-    }
-    if (convertedClientIDs.size > 0) {
-      this.intents = this.intents.filter(
-        (i) => !convertedClientIDs.has(i.clientID),
-      );
-    }
   }
 
   private resolveDefaultNationCount(): number {
@@ -1327,46 +1283,20 @@ export class GameServer {
 
   // The join-path view. Both extra guards belong here and NOT in
   // poolTargetForClient: a client that is already in this game is a known
-  // client, and a spectator that later asks for a seat is too, so sharing
+  // client, so sharing
   // either one would make the seat toggle a way past the pool.
   //
   // Already here: a mid-game drop reconnects as a fresh join, and routing it
   // out would take the player out of the game they are playing. (A reconnect
   // that arrives as a rejoin never reaches any of this — rejoinClient hands
   // an existing client a new socket and seats nobody.)
-  //
-  // Spectator: they take no seat on the way in, so a caster can watch whichever
-  // member they asked for.
   private poolRedirectFor(client: Client): GameID | null {
     if (this.getClientIdForPersistentId(client.persistentID) !== null) {
       return null;
     }
-    if (client.spectator) return null;
     return this.poolTargetForClient(client);
   }
 
-  // Switch a client between playing and watching from the lobby screen. Seating
-  // is refused once the game has started (the player list is frozen), when the
-  // lobby is full, when the allowlist does not name them, or when the pool puts
-  // them on another member — the toggle must not be a way past any of them. The
-  // allowlist can gain entries AFTER people are in the lobby
-  // (update_game_config replaces it), so someone admitted before it was set is
-  // not proof they may hold a seat now.
-  private setSpectator(client: Client, spectator: boolean): void {
-    if (client.spectator === spectator) return;
-    if (!spectator) {
-      if (this.stage === "started" || this.ended) return;
-      if (!this.passesAllowlist(client)) return;
-      if (!this.passesTrustGate(client)) return;
-      if (this.poolTargetForClient(client) !== null) return;
-      const max = this.gameConfig.maxPlayers;
-      if (max !== undefined && this.playerCount() >= max) return;
-    }
-    client.spectator = spectator;
-    // The lobby list is derived from this flag, so everyone's view of who is
-    // playing has to be refreshed rather than waiting out the next tick.
-    this.broadcastLobbyInfo();
-  }
 
   // Pin a publicId to a team slot after the lobby exists, so a lobby that fills
   // over time can still seat late joiners with their partners.
@@ -1783,7 +1713,7 @@ export class GameServer {
     this.listing.queue();
   }
 
-  // Players (not spectators) currently seated in the lobby.
+  // Players currently seated in the lobby.
   public numPlayers(): number {
     return this.playerCount();
   }
@@ -1935,11 +1865,7 @@ export class GameServer {
 
   private markClientDisconnected(clientID: string, isDisconnected: boolean) {
     this.clients.setDisconnected(clientID, isDisconnected);
-    // Connection status is tracked for every client, but only a player's reaches
-    // the simulation: a spectator has no entry in gameStartInfo.players, so an
-    // intent naming them refers to nobody — and it is kept in the archived turn
-    // log, where readers take mark_disconnected as a player having dropped.
-    if (this.clients.get(clientID)?.spectator) return;
+    // Connection status is tracked for every client.
     this.addIntent({
       type: "mark_disconnected",
       clientID: clientID,

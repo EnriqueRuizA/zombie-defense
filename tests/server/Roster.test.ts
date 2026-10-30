@@ -159,19 +159,14 @@ describe("Roster", () => {
     expect(roster.pruneStale(T0, 60_000)).toEqual([]);
   });
 
-  it("leaves spectators out of the players and counts each voting IP once", () => {
+  it("counts each voting IP once", () => {
     const roster = new Roster();
     const p1 = makeClient({ clientID: cid("p1"), ip: "1.1.1.1" });
     const p2 = makeClient({ clientID: cid("p2"), ip: "1.1.1.1" });
     const p3 = makeClient({ clientID: cid("p3"), ip: "2.2.2.2" });
-    const s1 = makeClient({
-      clientID: cid("s1"),
-      ip: "3.3.3.3",
-      spectator: true,
-    });
-    for (const c of [p1, p2, p3, s1]) roster.add(c);
+    for (const c of [p1, p2, p3]) roster.add(c);
 
-    expect(roster.active()).toHaveLength(4);
+    expect(roster.active()).toHaveLength(3);
     expect(roster.players()).toEqual([p1, p2, p3]);
     expect(roster.votingUniqueIPs()).toBe(2);
   });

@@ -34,7 +34,6 @@ import {
   ClientReportMessage,
   ClientSendLiveStatsMessage,
   ClientSendWinnerMessage,
-  ClientSpectateMessage,
   LiveStats,
   ReportReason,
   ServerMessage,
@@ -52,7 +51,6 @@ import { clientPlatform } from "./ClientPlatform";
 import { showInGameConfirm } from "./InGameModal";
 import {
   SendKickPlayerIntentEvent,
-  SendSpectateEvent,
   SendToggleGameStartTimer,
   SendUpdateGameConfigIntentEvent,
 } from "./LobbyEvents";
@@ -364,13 +362,6 @@ export class Transport {
     this.subscribe(SendToggleGameStartTimer, (e) =>
       this.onSendToggleGameStartTimer(e),
     );
-    this.subscribe(SendSpectateEvent, (e) => {
-      this.lobbyConfig.spectator = e.spectator;
-      this.sendMsg({
-        type: "spectate",
-        spectator: e.spectator,
-      } satisfies ClientSpectateMessage);
-    });
   }
 
   private subscribe<T extends GameEvent>(

@@ -169,19 +169,7 @@ describe("friendsLookup", () => {
     expect(friendsLookup([alice, bob])(bob)).toBeUndefined();
   });
 
-  it("never resolves a spectator, who is not in the simulation", () => {
-    const alice = makeClient({
-      clientID: "alice",
-      publicId: "alice-pub",
-      friends: ["cast-pub"],
-    });
-    const cast = makeClient({
-      clientID: "cast",
-      publicId: "cast-pub",
-      spectator: true,
-    });
-    expect(friendsLookup([alice, cast])(alice)).toBeUndefined();
-  });
+
 });
 
 describe("admin clan-tag reveal through the start message GameServer sends", () => {

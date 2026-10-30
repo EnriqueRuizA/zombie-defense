@@ -29,7 +29,7 @@ describe("verifyJoin", () => {
     );
     vi.stubGlobal("fetch", fetchMock);
 
-    const verdict = await verifyJoin("1.2.3.4", "tok", "xXblackxX", "CoOl");
+    const verdict = await verifyJoin("1.2.3.4", "xXblackxX", "CoOl");
 
     expect(verdict).toEqual({
       status: "approved",
@@ -39,7 +39,7 @@ describe("verifyJoin", () => {
     const [, init] = fetchMock.mock.calls[0];
     expect(JSON.parse(init.body)).toEqual({
       ip: "1.2.3.4",
-      token: "tok",
+      token: null,
       username: "xXblackxX",
       clanTag: "CoOl",
     });
@@ -54,7 +54,7 @@ describe("verifyJoin", () => {
           jsonResponse({ status: "approved", username: "Alice" }),
         ),
     );
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toEqual({
+    expect(await verifyJoin("ip", "Alice", null)).toEqual({
       status: "approved",
       username: "Alice",
       clanTag: null,
@@ -73,7 +73,7 @@ describe("verifyJoin", () => {
         }),
       ),
     );
-    expect(await verifyJoin("ip", "tok", "xXblackxX", null)).toEqual({
+    expect(await verifyJoin("ip", "xXblackxX", null)).toEqual({
       status: "rejected",
       reason: "token invalid",
     });
@@ -89,7 +89,7 @@ describe("verifyJoin", () => {
     );
     vi.stubGlobal("fetch", fetchMock);
 
-    const verdict = await verifyJoin("ip", null, "xXblackxX", null);
+    const verdict = await verifyJoin("ip", "xXblackxX", null);
 
     expect(verdict).toEqual({
       status: "approved",
@@ -115,7 +115,7 @@ describe("verifyJoin", () => {
         }),
       ),
     );
-    expect(await verifyJoin("ip", "tok", "xXblackxX", "CoOl")).toEqual({
+    expect(await verifyJoin("ip", "xXblackxX", "CoOl")).toEqual({
       status: "error",
       reason: "turnstile timed out",
       degraded: true,
@@ -134,7 +134,7 @@ describe("verifyJoin", () => {
         }),
       ),
     );
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toEqual({
+    expect(await verifyJoin("ip", "Alice", null)).toEqual({
       status: "error",
       reason: "turnstile failed (TimeoutError)",
       degraded: true,
@@ -150,7 +150,7 @@ describe("verifyJoin", () => {
       );
     vi.stubGlobal("fetch", fetchMock);
 
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toEqual({
+    expect(await verifyJoin("ip", "Alice", null)).toEqual({
       status: "error",
       reason: "name check timed out",
       degraded: true,
@@ -164,7 +164,7 @@ describe("verifyJoin", () => {
       .mockResolvedValue(jsonResponse({ message: "bad payload" }, 400));
     vi.stubGlobal("fetch", fetchMock);
 
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toMatchObject({
+    expect(await verifyJoin("ip", "Alice", null)).toMatchObject({
       status: "error",
       degraded: false,
     });
@@ -180,7 +180,7 @@ describe("verifyJoin", () => {
       .mockResolvedValue(jsonResponse({ message: "boom" }, 500));
     vi.stubGlobal("fetch", fetchMock);
 
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toMatchObject({
+    expect(await verifyJoin("ip", "Alice", null)).toMatchObject({
       status: "error",
       degraded: false,
     });
@@ -191,7 +191,7 @@ describe("verifyJoin", () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error("network down"));
     vi.stubGlobal("fetch", fetchMock);
 
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toMatchObject({
+    expect(await verifyJoin("ip", "Alice", null)).toMatchObject({
       status: "error",
       degraded: false,
     });
@@ -204,7 +204,7 @@ describe("verifyJoin", () => {
       .mockResolvedValue(jsonResponse({ approved: true }));
     vi.stubGlobal("fetch", fetchMock);
 
-    expect(await verifyJoin("ip", "tok", "Alice", null)).toMatchObject({
+    expect(await verifyJoin("ip", "Alice", null)).toMatchObject({
       status: "error",
       degraded: false,
     });
@@ -216,25 +216,15 @@ describe("planJoinVerify", () => {
   const firstJoin = {
     isReadmit: false,
     gameStarted: false,
-    turnstileToken: "tok" as string | null,
     identityUnchanged: false,
     steamAuthed: false,
   };
-  const readmit = { ...firstJoin, isReadmit: true, turnstileToken: null };
+  const readmit = { ...firstJoin, isReadmit: true };
 
-  it("verifies a first join with its token", () => {
+  it("verifies a first join with a null token", () => {
     expect(planJoinVerify(firstJoin)).toEqual({
       action: "verify",
-      token: "tok",
-    });
-  });
-
-  it("rejects a first join without a token", () => {
-    expect(planJoinVerify({ ...firstJoin, turnstileToken: null })).toEqual({
-      action: "reject",
-    });
-    expect(planJoinVerify({ ...firstJoin, turnstileToken: "" })).toEqual({
-      action: "reject",
+      token: null,
     });
   });
 
@@ -247,15 +237,7 @@ describe("planJoinVerify", () => {
         gameStarted: true,
         identityUnchanged: true,
       }),
-    ).toEqual({ action: "verify", token: "tok" });
-    expect(
-      planJoinVerify({
-        ...firstJoin,
-        turnstileToken: null,
-        gameStarted: true,
-        identityUnchanged: true,
-      }),
-    ).toEqual({ action: "reject" });
+    ).toEqual({ action: "verify", token: null });
   });
 
   it("verifies a pre-start re-admit with a changed identity using a null token", () => {
@@ -265,10 +247,7 @@ describe("planJoinVerify", () => {
   // A stale token re-sent by the client must not reach the API: it was
   // already redeemed, so re-admits always verify with a null token.
   it("nulls out the token for re-admits even if the client re-sent one", () => {
-    expect(planJoinVerify({ ...readmit, turnstileToken: "stale" })).toEqual({
-      action: "verify",
-      token: null,
-    });
+    expect(planJoinVerify(readmit)).toEqual({ action: "verify", token: null });
   });
 
   it("skips re-admits into a started game (identity updates no longer apply)", () => {
@@ -292,9 +271,9 @@ describe("planJoinVerify", () => {
 
   // Steam ownership stands in for the token: a Steam-authed first join is never
   // rejected for a missing token, and never skips the API (name check still runs).
-  it("verifies a Steam-authed first join with a null token even when no turnstile token is present", () => {
+  it("verifies a Steam-authed first join with a null token", () => {
     expect(
-      planJoinVerify({ ...firstJoin, steamAuthed: true, turnstileToken: null }),
+      planJoinVerify({ ...firstJoin, steamAuthed: true }),
     ).toEqual({ action: "verify", token: null });
   });
 
@@ -329,3 +308,5 @@ describe("isSteamAuthenticated", () => {
     expect(isSteamAuthenticated(null)).toBe(false);
   });
 });
+
+

@@ -43,8 +43,7 @@ vi.mock("../../src/client/Utils", () => ({
 }));
 
 import type { LobbyConfig } from "../../src/client/ClientGameRunner";
-import { SendSpectateEvent } from "../../src/client/LobbyEvents";
-import { Transport } from "../../src/client/Transport";
+import { Transport, PauseGameIntentEvent } from "../../src/client/Transport";
 
 type Script = (ws: FakeWebSocket) => void;
 
@@ -518,7 +517,7 @@ describe("Transport reconnect policy", () => {
       // The watchdog keeps asking and a send finds the socket closed;
       // nothing more happens.
       const sockets = FakeWebSocket.instances.length;
-      eventBus.emit(new SendSpectateEvent(true));
+      eventBus.emit(new PauseGameIntentEvent(true));
       vi.advanceTimersByTime(120_000);
       expect(FakeWebSocket.instances).toHaveLength(sockets);
       expect(showInGameConfirm).toHaveBeenCalledOnce();
@@ -578,7 +577,7 @@ describe("Transport reconnect policy", () => {
       expect(ws.readyState).toBe(FakeWebSocket.CONNECTING);
 
       // Intent A sent while CONNECTING
-      eventBus.emit(new SendSpectateEvent(true));
+      eventBus.emit(new PauseGameIntentEvent(true));
 
       // Socket opens, onconnect runs (sends join)
       ws.serverOpen();
@@ -588,7 +587,7 @@ describe("Transport reconnect policy", () => {
       await Promise.resolve();
 
       // Intent B sent while socket is OPEN, but before server handshake frame
-      eventBus.emit(new SendSpectateEvent(false));
+      eventBus.emit(new PauseGameIntentEvent(false));
 
       // Before handshake, only join message should have been sent
       const sentBeforeHandshake = ws.sent.map((f) =>
@@ -617,11 +616,11 @@ describe("Transport reconnect policy", () => {
       );
       expect(sentAfterHandshake.map((m) => m.type)).toEqual([
         "join",
-        "spectate",
-        "spectate",
+        "intent",
+        "intent",
       ]);
-      expect((sentAfterHandshake[1] as any).spectator).toBe(true);
-      expect((sentAfterHandshake[2] as any).spectator).toBe(false);
+      expect((sentAfterHandshake[1] as any).intent.paused).toBe(true);
+      expect((sentAfterHandshake[2] as any).intent.paused).toBe(false);
     });
   });
 });

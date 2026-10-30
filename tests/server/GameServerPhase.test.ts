@@ -233,25 +233,4 @@ describe("connection status marks in the turn log", () => {
       10: [[P1, false]],
     });
   });
-
-  it("never marks a spectator, whose status the simulation cannot use", () => {
-    const P1 = cid("p1");
-    const CAST = cid("cast");
-    const game = makeGame();
-    const p1 = makeClient({ clientID: P1 });
-    const cast = makeClient({ clientID: CAST, spectator: true });
-    game.joinClient(p1);
-    game.joinClient(cast);
-    startGame(game);
-    const ctx = createGameWireContext([{ clientID: P1 }]);
-
-    cast.lastPing = Date.now() - 31_000;
-    vi.advanceTimersByTime(6 * TURN_MS);
-
-    // Tracked server-side...
-    expect(game.isClientDisconnected(CAST)).toBe(true);
-    // ...but never written into the turn log.
-    const marks = marksSeenBy(mockWsOf(p1), ctx);
-    expect(marks).toEqual({ 0: [[P1, false]] });
-  });
 });

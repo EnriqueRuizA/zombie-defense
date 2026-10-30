@@ -107,8 +107,6 @@ export interface LobbyConfig {
   gameStartInfo?: WireGameStartInfo;
   // GameRecord exists when replaying an archived game.
   gameRecord?: GameRecord;
-  // Watch without playing.
-  spectator?: boolean;
   // Host only: the play token the lobby was created under, used for the
   // first join so the host joins as the creator (see createLobby).
   creatorToken?: string;
@@ -640,8 +638,8 @@ async function createClientGame(
   const config = new Config(
     lobbyConfig.gameStartInfo.config,
     lobbyConfig.gameRecord !== undefined,
-    lobbyConfig.gameStartInfo.listed,
-    lobbyConfig.spectator === true,
+lobbyConfig.gameStartInfo.listed,
+     false, // spectator removed in local mode
   );
   let gameMap: TerrainMapData;
 

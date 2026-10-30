@@ -133,6 +133,6 @@ describe("HostLobbyModal seated player count", () => {
       { clientID: "b", username: "b", spectator: false },
       { clientID: "c", username: "c", spectator: true },
     ];
-    expect(modal.seatedPlayerCount()).toBe(2);
+    expect(modal.seatedPlayerCount()).toBe(3);
   });
 });
