@@ -3,7 +3,6 @@ import { customElement, state } from "lit/decorators.js";
 import { Platform } from "../Platform";
 import { translateText } from "../Utils";
 
-const DISMISSED_KEY = "ios_a2hs_banner_dismissed";
 const LATER_KEY = "ios_a2hs_banner_later";
 
 @customElement("ios-add-to-home-screen-banner")
@@ -19,11 +18,6 @@ export class IOSAddToHomeScreenBanner extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     try {
-      this.dismissed = localStorage.getItem(DISMISSED_KEY) === "true";
-    } catch {
-      this.dismissed = false;
-    }
-    try {
       this.later = sessionStorage.getItem(LATER_KEY) === "true";
     } catch {
       this.later = false;
@@ -31,11 +25,6 @@ export class IOSAddToHomeScreenBanner extends LitElement {
   }
 
   private never() {
-    try {
-      localStorage.setItem(DISMISSED_KEY, "true");
-    } catch {
-      // localStorage unavailable — dismiss for session only
-    }
     this.dismissed = true;
   }
 

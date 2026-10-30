@@ -8,7 +8,6 @@ import {
   canJoinTrustedLobby,
   lobbyCard,
   mapAspectRatios,
-  trustLockIcon,
   trustRequiredDialog,
 } from "./components/LobbyCard";
 import type { HostLobbyModal } from "./HostLobbyModal";
@@ -31,7 +30,6 @@ import { UsernameInput } from "./UsernameInput";
 import {
   calculateServerTimeOffset,
   getGameModeLabel,
-  getGamesPlayed,
   getSecondsUntilServerTimestamp,
   reloadForUpdate,
   renderDuration,
@@ -48,9 +46,6 @@ const DISABLED = "opacity-50 cursor-not-allowed pointer-events-none";
 /** Tutorial card: the panel's gold, dark text for contrast. */
 const TUTORIAL_ACTION =
   "bg-cyber-yellow hover:bg-yellow-300 active:bg-cyber-yellow/80 !text-gray-900 hover:scale-y-105 hover:scale-x-[1.01]";
-
-/** The Tutorial card shows beside Solo until the player has played this many games. */
-const TUTORIAL_CARD_MAX_GAMES = 5;
 
 /**
  * THE REACHABILITY RULE (OPE-439). Stated once, here; every other call site
@@ -538,15 +533,13 @@ export class GameModeSelector extends LitElement {
               PRIMARY_ACTION,
             )}
           </div>
-          ${getGamesPlayed() < TUTORIAL_CARD_MAX_GAMES
-            ? html`<div class="flex-1">
-                ${this.renderSmallActionCard(
-                  translateText("main.tutorial"),
-                  this.startTutorial,
-                  TUTORIAL_ACTION,
-                )}
-              </div>`
-            : nothing}
+          <div class="flex-1">
+            ${this.renderSmallActionCard(
+              translateText("main.tutorial"),
+              this.startTutorial,
+              TUTORIAL_ACTION,
+            )}
+          </div>
         </div>
         <div class="grid grid-cols-3 gap-4 h-14 sm:col-span-2 sm:row-start-4">
           ${this.renderSmallActionCard(
@@ -555,26 +548,6 @@ export class GameModeSelector extends LitElement {
             SECONDARY_ACTION,
             undefined,
             true,
-          )}
-          ${this.renderSmallActionCard(
-            translateText("mode_selector.ranked_title"),
-            this.openRankedMenu,
-            SECONDARY_ACTION,
-            undefined,
-            true,
-            // Ranked admits trusted accounts only. A trusted viewer gets the
-            // green open lock; anyone else meets the red locks and the trust
-            // popup inside the ranked modal. Small, so it clears the label on
-            // narrow (mobile) buttons.
-            this.viewerTrusted
-              ? trustLockIcon(true, {
-                  tooltipTitle: translateText(
-                    "mode_selector.ranked_trust_tooltip_title",
-                  ),
-                  position: "top-1 right-1",
-                  small: true,
-                })
-              : nothing,
           )}
           ${this.renderSmallActionCard(
             translateText("main.join"),
@@ -667,12 +640,6 @@ export class GameModeSelector extends LitElement {
     reportMultiplayerRefusal(false);
     return true;
   }
-
-  private openRankedMenu = () => {
-    if (this.blockedFromApiAction()) return;
-    if (!this.validateUsername()) return;
-    window.showPage?.("page-ranked");
-  };
 
   private openSinglePlayerModal = () => {
     if (!this.validateUsername()) return;

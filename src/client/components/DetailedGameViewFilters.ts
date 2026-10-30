@@ -215,12 +215,6 @@ export function filterAndSortLobbies(
     .sort(compare);
 }
 
-// ---- Saved filter profiles ----
-
-export const FILTER_PROFILES_KEY = "detailed-view-filter-profiles";
-export const MAX_FILTER_PROFILES = 20;
-export const MAX_PROFILE_NAME_LENGTH = 32;
-
 function toStringArray(value: unknown, allowed: readonly string[]): string[] {
   if (!Array.isArray(value)) return [];
   return [...new Set(value.filter((v): v is string => typeof v === "string"))]
@@ -255,80 +249,4 @@ export function normalizeFilters(raw: unknown): LobbyFilters {
   };
 }
 
-/**
- * Profiles are keyed by a user-typed name, so the record is prototype-less:
- * on a plain object `profiles["__proto__"] = …` sets the prototype instead of
- * storing the profile, and `"toString" in profiles` is true for a name nobody
- * saved.
- */
-function emptyProfiles(): Record<string, LobbyFilters> {
-  return Object.create(null) as Record<string, LobbyFilters>;
-}
 
-/** Own-property check, so inherited names aren't mistaken for saved profiles. */
-export function hasFilterProfile(
-  profiles: Record<string, LobbyFilters>,
-  name: string,
-): boolean {
-  return Object.prototype.hasOwnProperty.call(profiles, name);
-}
-
-export function loadFilterProfiles(): Record<string, LobbyFilters> {
-  let parsed: unknown;
-  try {
-    const stored = localStorage.getItem(FILTER_PROFILES_KEY);
-    if (stored === null) return emptyProfiles();
-    parsed = JSON.parse(stored);
-  } catch (error) {
-    console.warn("Failed to read saved lobby filter profiles", error);
-    return emptyProfiles();
-  }
-  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-    return emptyProfiles();
-  }
-  const profiles = emptyProfiles();
-  for (const [name, value] of Object.entries(parsed)) {
-    profiles[name] = normalizeFilters(value);
-  }
-  return profiles;
-}
-
-function persistProfiles(profiles: Record<string, LobbyFilters>) {
-  try {
-    localStorage.setItem(FILTER_PROFILES_KEY, JSON.stringify(profiles));
-  } catch (error) {
-    console.warn("Failed to save lobby filter profiles", error);
-  }
-}
-
-/**
- * Save (or overwrite) a profile. Returns the new profile set; the write is
- * ignored when the name is blank or the cap is already reached by other names.
- */
-export function saveFilterProfile(
-  name: string,
-  filters: LobbyFilters,
-): Record<string, LobbyFilters> {
-  const trimmed = name.trim().slice(0, MAX_PROFILE_NAME_LENGTH);
-  const profiles = loadFilterProfiles();
-  if (trimmed === "") return profiles;
-  if (
-    !hasFilterProfile(profiles, trimmed) &&
-    Object.keys(profiles).length >= MAX_FILTER_PROFILES
-  ) {
-    return profiles;
-  }
-  profiles[trimmed] = normalizeFilters(filters);
-  persistProfiles(profiles);
-  return profiles;
-}
-
-export function deleteFilterProfile(
-  name: string,
-): Record<string, LobbyFilters> {
-  const profiles = loadFilterProfiles();
-  if (!hasFilterProfile(profiles, name)) return profiles;
-  delete profiles[name];
-  persistProfiles(profiles);
-  return profiles;
-}

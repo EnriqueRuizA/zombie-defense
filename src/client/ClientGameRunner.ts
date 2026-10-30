@@ -103,7 +103,6 @@ export interface LobbyConfig {
   clanTagCheck?: Promise<string | null>;
   playerRole: string | null;
   gameID: GameID;
-  turnstileToken: string | null;
   // GameStartInfo only exists when playing a singleplayer game.
   gameStartInfo?: WireGameStartInfo;
   // GameRecord exists when replaying an archived game.

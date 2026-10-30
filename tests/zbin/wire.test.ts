@@ -198,7 +198,6 @@ const CLIENT_MESSAGES: ClientMessage[] = [
     gameID: "gM3xQ1zR",
     username: "alpha",
     clanTag: "ABC",
-    turnstileToken: null,
     cosmetics: {
       flag: "country:us",
       patternName: "stripes_01",

@@ -560,21 +560,6 @@ export class UserSettings {
     this.setCached("settings.nukeAllianceSafetyDuration", val.toString());
   }
 
-  // For development only. Used for testing patterns, set in the console manually.
-  getDevOnlyPattern(): PlayerPattern | undefined {
-    const data = localStorage.getItem("dev-pattern") ?? undefined;
-    if (data === undefined) return undefined;
-    return {
-      name: "dev-pattern",
-      patternData: data,
-      colorPalette: {
-        name: "dev-color-palette",
-        primaryColor: localStorage.getItem("dev-primary") ?? "#ffffff",
-        secondaryColor: localStorage.getItem("dev-secondary") ?? "#000000",
-      },
-    } satisfies PlayerPattern;
-  }
-
   getSelectedPatternName(cosmetics: Cosmetics | null): PlayerPattern | null {
     if (cosmetics === null) return null;
     let data = this.getCached(PATTERN_KEY);
@@ -617,12 +602,6 @@ export class UserSettings {
     if (data === null) return null;
     const skinPrefix = "skin:";
     return data.startsWith(skinPrefix) ? data.slice(skinPrefix.length) : null;
-  }
-
-  // For development only. Crown image URL for testing, set in the console
-  // manually (localStorage "dev-crown"), like getDevOnlyPattern.
-  getDevOnlyCrown(): string | undefined {
-    return localStorage.getItem("dev-crown") ?? undefined;
   }
 
   /** Returns the selected crown name, or null if none is selected. */

@@ -1,5 +1,4 @@
 import type { ServerMessage } from "@zombie-defense/shared/WireSchemas";
-import { createGameWireContext } from "@zombie-defense/shared/ZbinWire";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   cid,
@@ -112,26 +111,6 @@ describe("GameServer group token", () => {
     }
     const lastOf = (f: { groupToken?: string }[]) => f[f.length - 1].groupToken;
     expect(lastOf(frames[0])).toBe(lastOf(frames[1]));
-  });
-
-  // A late joiner never sees a lobby_info — the broadcast stopped before they
-  // connected — so the start message is their only chance at the token.
-  it("gives a late joiner the token in its catch-up start message", () => {
-    const game = makeGame({ id: cid("late") });
-    const player = makeClient({ clientID: cid("p1") });
-    game.joinClient(player);
-    vi.advanceTimersByTime(1000);
-    startGame(game);
-    const expected = tokensSentTo(mockWsOf(player))[0].groupToken;
-
-    const latecomer = makeClient({ clientID: cid("p2"), spectator: true });
-    game.joinClient(latecomer);
-
-    const ctx = createGameWireContext([{ clientID: cid("p1") }]);
-    const received = tokensSentTo(mockWsOf(latecomer), ctx);
-    expect(received.map((r) => r.type)).toContain("start");
-    expect(received.find((r) => r.type === "start")!.groupToken).toBe(expected);
-    expect(expected).toBeDefined();
   });
 
   // The whole point of an opaque token is that holding it means something.

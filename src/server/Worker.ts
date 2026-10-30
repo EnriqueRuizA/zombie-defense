@@ -1,10 +1,9 @@
-import { ID, isValidGameID } from "@zombie-defense/engine-api/Schemas";
+import { ID } from "@zombie-defense/engine-api/Schemas";
 import { CloseCode, CloseReason } from "@zombie-defense/shared/CloseCodes";
 import { GameEnv } from "@zombie-defense/shared/configuration/Env";
 import { generateID, replacer } from "@zombie-defense/shared/SharedUtil";
 import {
   ClientMessage,
-  ClientPlatformSchema,
   HOSTED_LOBBY_AUTO_START_MS,
   LevelBadge,
   MAX_HOSTED_LOBBIES,
@@ -43,25 +42,18 @@ import { levelBadgeForPlayer } from "./LevelBadge";
 import { payForLobbyQueue, queueListedLobby } from "./LobbyQueuePayment";
 import { logger } from "./Logger";
 import { registerPlayerProfileRoute } from "./PlayerProfileRoute";
-import { resolveVerifiedJoin } from "./Privilege";
+import { FailOpenPrivilegeChecker, resolveVerifiedJoin } from "./Privilege";
 
-import { MapPlaylist } from "./MapPlaylist";
 import { setNoStoreHeaders } from "./NoStoreHeaders";
-import { PrivilegeRefresher } from "./PrivilegeRefresher";
-import { startRankedCheckinLoops } from "./RankedCheckin";
 import { rejoinOrClose } from "./Rejoin";
 import { ServerEnv } from "./ServerEnv";
-import { SingleplayerPresence } from "./SingleplayerPresence";
 import { applyStaticAssetCacheControl } from "./StaticAssetCache";
-import { createMatchTelemetryEmitter } from "./telemetry/BufferedMatchTelemetryEmitter";
 import { MAX_WEBSOCKET_PAYLOAD_BYTES } from "./telemetry/MatchTelemetryConfig";
 import { WorkerLobbyService } from "./WorkerLobbyService";
-import { initWorkerMetrics } from "./WorkerMetrics";
 import { stripWorkerPrefix } from "./WorkerPathPrefix";
 
 const workerId = ServerEnv.workerId() ?? 0;
 const log = logger.child({ comp: `w_${workerId}` });
-const playlist = new MapPlaylist();
 
 // Worker setup
 export async function startWorker() {
@@ -82,57 +74,15 @@ export async function startWorker() {
   });
 
   const buildHash = ServerEnv.gitCommit();
-  const telemetry = createMatchTelemetryEmitter(process.env, log, {
-    buildHash,
-    instanceId: ServerEnv.instanceId(),
-    // Reuse the normalized worker id (defaults to 0 when WORKER_ID is unset) so
-    // telemetry identity matches routing and logging instead of reporting
-    // undefined.
-    workerId,
-  });
-  const gm = new GameManager(log, telemetry, buildHash);
-  server.on("close", () => telemetry.stop());
+  const gm = new GameManager(log, undefined, buildHash);
 
   // Initialize lobby service (handles WebSocket upgrade routing)
   const lobbyService = new WorkerLobbyService(server, wss, gm, log);
-  const singleplayerPresence = new SingleplayerPresence();
 
-  setTimeout(
-    () => {
-      // Casual mode schedules its own lobbies locally: there is no ranking to
-      // check in for and no deployment-active flag to follow.
-      if (ServerEnv.casualMode()) {
-        return;
-      }
-      // The ranked loop follows the deployment-active flag the master pushes
-      // to this worker (OPE-469): a draining, standby or fenced server keeps
-      // the games it has but stops offering new matches.
-      startRankedCheckinLoops({
-        gm,
-        playlist,
-        workerId,
-        log,
-        isActive: () => lobbyService.isDeploymentActive(),
-      });
-    },
-    1000 + Math.random() * 2000,
-  );
-
-  if (ServerEnv.otelEnabled()) {
-    initWorkerMetrics(gm, lobbyService, singleplayerPresence);
-  }
-
-  const privilegeRefresher = new PrivilegeRefresher(
-    ServerEnv.jwtIssuer() + "/cosmetics.json",
-    ServerEnv.apiKey(),
-    ServerEnv.jwtIssuer() + "/reserved_clan_tags",
-    log,
-  );
-  // Casual mode polls nothing: with no start(), get() answers with the
-  // fail-open checker, which is exactly the local, account-free behaviour.
-  if (!ServerEnv.casualMode()) {
-    privilegeRefresher.start();
-  }
+  // Local mode: fail-open privilege checker, no external cosmetics infra.
+  const privilegeRefresher = {
+    get: () => new FailOpenPrivilegeChecker(),
+  };
 
   // Ahead of everything that can reject a request — the worker-prefix check
   // below and the rate limiter further down — so that a 404 or a 429 still
@@ -450,24 +400,6 @@ export async function startWorker() {
     res.status(outcome.status).json(outcome.body);
   });
 
-  // Singleplayer games run in the browser; the client beats here once a
-  // minute so the worker can export how many are in progress (see
-  // SingleplayerPresence). The id is client-minted and routes here by hash,
-  // exactly like the game socket would.
-  app.post("/api/singleplayer/:id/heartbeat", (req, res) => {
-    const gameID = req.params.id;
-    if (!isValidGameID(gameID)) {
-      res.status(400).json({ error: "Invalid game ID" });
-      return;
-    }
-    const platform = ClientPlatformSchema.safeParse(req.body?.platform);
-    singleplayerPresence.heartbeat(
-      gameID,
-      platform.success ? platform.data : "unknown",
-    );
-    res.status(204).end();
-  });
-
   app.get("/api/game/:id/exists", async (req, res) => {
     const lobbyId = req.params.id;
     res.json({
@@ -655,7 +587,7 @@ export async function startWorker() {
           const plan = planJoinVerify({
             isReadmit,
             gameStarted: game?.hasStarted() ?? false,
-            turnstileToken: clientMsg.turnstileToken ?? null,
+            turnstileToken: null,
             identityUnchanged:
               stored !== null &&
               stored.username === clientMsg.username &&
@@ -867,7 +799,7 @@ export async function startWorker() {
           cosmeticResult.cosmetics,
           publicId,
           friends,
-          clientMsg.spectator === true,
+          false, // spectator support removed (LocalMode R10)
           trusted,
           clientMsg.platform,
           levelBadge,

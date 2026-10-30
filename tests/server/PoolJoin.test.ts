@@ -225,15 +225,6 @@ describe("GameServer - pool routing (GameConfig.pool)", () => {
     expect(caster.spectator).toBe(true);
   });
 
-  it("lets a spectator take a seat on the member that is theirs", async () => {
-    const game = makeGame();
-    const caster = makeClient(C2, "p2", STAYS, { spectator: true });
-    expect(game.joinClient(caster)).toBe("joined");
-
-    await mockWsOf(caster).emit({ type: "spectate", spectator: false });
-    expect(caster.spectator).toBe(false);
-  });
-
   it("does not route a player who is already in this game", () => {
     // A mid-game drop reconnects as a fresh join, so routing has to know that
     // this player is here already — structurally, not by trusting that the

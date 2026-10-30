@@ -18,8 +18,6 @@ import type { LangSelector } from "./LangSelector";
 import { pagePin } from "./PagePin";
 import { Platform } from "./Platform";
 
-export const TUTORIAL_VIDEO_URL = "https://www.youtube.com/embed/7J5zwb_s_Cg";
-
 // The desktop shell cannot embed YouTube inside Electron, so it bundles the
 // same tutorial and serves it under a reserved prefix of its app:// scheme
 // (see openfront-desktop's protocol.ts, which pins this path with a test).
@@ -661,23 +659,6 @@ export function getModifierKey(): string {
 
 export function getAltKey(): string {
   return Platform.isMac ? "⌥" : "Alt";
-}
-
-export function getGamesPlayed(): number {
-  try {
-    return parseInt(localStorage.getItem("gamesPlayed") ?? "0", 10) || 0;
-  } catch (error) {
-    console.warn("Failed to read games played from localStorage:", error);
-    return 0;
-  }
-}
-
-export function incrementGamesPlayed(): void {
-  try {
-    localStorage.setItem("gamesPlayed", (getGamesPlayed() + 1).toString());
-  } catch (error) {
-    console.warn("Failed to increment games played in localStorage:", error);
-  }
 }
 
 export function isInIframe(): boolean {

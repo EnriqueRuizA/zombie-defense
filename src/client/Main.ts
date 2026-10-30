@@ -43,7 +43,6 @@ import {
   currentPagePath,
   flushReloadToast,
   homeHref,
-  incrementGamesPlayed,
   reloadForUpdate,
   translateText,
 } from "./Utils";
@@ -576,7 +575,6 @@ class Client {
       // slot unset, which is what the server would have resolved for a player
       // with nothing equipped.
       cosmetics: {},
-      turnstileToken: null,
       playerName: resolvedName.name,
       playerClanTag: null,
       playerRole: null,
@@ -633,7 +631,6 @@ class Client {
     this.lobbyHandle.join.then(() => {
       this.loadedJoinModal()?.closeWithoutLeaving();
       this.gameModeSelector.stop();
-      incrementGamesPlayed();
 
       hideMenuChrome();
       setInGameSignal(true);

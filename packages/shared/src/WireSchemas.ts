@@ -712,7 +712,6 @@ export const ClientJoinMessageSchema = z.object({
   clanTag: ClanTagSchema,
   // Server replaces the refs with the actual cosmetic data.
   cosmetics: PlayerCosmeticRefsSchema.optional(),
-  turnstileToken: z.string().nullable(),
   // Watch without playing: no spawn, no team, no lobby slot.
   spectator: z.boolean().optional(),
   // Build commit of the client bundle. The sim only stays deterministic when

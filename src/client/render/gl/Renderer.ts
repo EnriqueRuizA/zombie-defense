@@ -103,7 +103,7 @@ const SAM_RADIUS_HIGHLIGHT_TYPES = new Set([
   "Hydrogen Bomb",
 ]);
 
-const GRID_VIEW_KEY = "renderer:grid_view_enabled";
+
 
 export class GPURenderer {
   private gl: WebGL2RenderingContext;
@@ -640,11 +640,7 @@ export class GPURenderer {
       mapH,
       this.settings,
     );
-    try {
-      this.gridView = window.localStorage.getItem(GRID_VIEW_KEY) === "true";
-    } catch {
-      this.setGridView(false);
-    }
+    this.gridView = false;
 
     for (const p of header.players) {
       if (p.team !== null) this.playerTeams.set(p.smallID, p.team);
@@ -1167,11 +1163,6 @@ export class GPURenderer {
 
   setGridView(active: boolean): void {
     this.gridView = active;
-    try {
-      window.localStorage.setItem(GRID_VIEW_KEY, active ? "true" : "false");
-    } catch {
-      // Ignore if we are unable to use localstorage.
-    }
   }
 
   getSettings(): RenderSettings {

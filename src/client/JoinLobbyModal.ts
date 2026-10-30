@@ -20,7 +20,7 @@ import {
   renderDuration,
   translateText,
 } from "../client/Utils";
-import { SendSpectateEvent } from "./LobbyEvents";
+
 import { PublicLobbySocket } from "./LobbySocket";
 import { JoinLobbyEvent } from "./Main";
 import { ensureServerList, redirectToGameVersion } from "./ServerList";
@@ -86,19 +86,6 @@ export class JoinLobbyModal extends BaseModal {
     return this.gameConfig?.gameType === GameType.Private;
   }
 
-  // Read off the server's own view of us, so a switch it refused (lobby full,
-  // game already started) shows the real state instead of what was asked for.
-  private get isSpectating(): boolean {
-    return (
-      this.players.find((p) => p.clientID === this.currentClientID)
-        ?.spectator === true
-    );
-  }
-
-  private setSpectating(spectator: boolean) {
-    this.eventBus?.emit(new SendSpectateEvent(spectator));
-  }
-
   private readonly handleLobbyInfo = (event: LobbyInfoEvent) => {
     const lobby = event.lobby;
     this.currentClientID = event.myClientID;
@@ -155,40 +142,6 @@ export class JoinLobbyModal extends BaseModal {
           ? html`<div class="flex items-center gap-2">${copy}${invite}</div>`
           : (copy ?? invite),
     });
-  }
-
-  // Play/Spectate switch. Hidden once the game is running: the player list is
-  // frozen at start, so the server would refuse to seat anyone new and the
-  // control would do nothing.
-  private renderSpectateToggle() {
-    // Any joined lobby can be spectated — a host-started private lobby has no
-    // scheduled start (lobbyStartAt null), and gating on it hid the toggle in
-    // exactly the lobbies it exists for. The server still refuses seating after
-    // start, so no client-side start check is needed here.
-    if (this.isConnecting) return html``;
-    const spectating = this.isSpectating;
-    const cls = (on: boolean) =>
-      `px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition ${
-        on ? "bg-white text-black" : "text-white/60 hover:text-white"
-      }`;
-    return html`
-      <div class="flex items-center gap-1 rounded-xl bg-white/5 p-1">
-        <button
-          class=${cls(!spectating)}
-          ?disabled=${!spectating}
-          @click=${() => this.setSpectating(false)}
-        >
-          ${translateText("private_lobby.play")}
-        </button>
-        <button
-          class=${cls(spectating)}
-          ?disabled=${spectating}
-          @click=${() => this.setSpectating(true)}
-        >
-          ${translateText("private_lobby.spectate")}
-        </button>
-      </div>
-    `;
   }
 
   protected renderBody() {
@@ -276,7 +229,6 @@ export class JoinLobbyModal extends BaseModal {
                 >
                 <span class="text-sm font-bold text-white">${statusLabel}</span>
               </div>
-              ${this.renderSpectateToggle()}
               ${maxPlayers > 0
                 ? html`
                     <div
@@ -342,14 +294,6 @@ export class JoinLobbyModal extends BaseModal {
                   title=${translateText("private_lobby.join_lobby")}
                   width="block"
                   submit
-                ></o-button>
-              </div>
-              <div class="flex-1">
-                <o-button
-                  variant="ghost"
-                  title=${translateText("private_lobby.spectate")}
-                  width="block"
-                  @click=${this.spectateLobbyFromInput}
                 ></o-button>
               </div>
             </div>
@@ -524,17 +468,16 @@ export class JoinLobbyModal extends BaseModal {
       this.startTrackingLobby(lobbyId, lobbyInfo);
       // If opened with lobbyId but no lobbyInfo (URL join case), auto-join the lobby
       if (!lobbyInfo) {
-        this.handleUrlJoin(lobbyId, args?.spectate === true);
+        this.handleUrlJoin(lobbyId);
       }
     }
   }
 
   private async handleUrlJoin(
     lobbyId: string,
-    spectator = false,
   ): Promise<void> {
     try {
-      const gameExists = await this.checkActiveLobby(lobbyId, spectator);
+      const gameExists = await this.checkActiveLobby(lobbyId);
       if (gameExists) return;
 
       // A finished game has no lobby to spectate, so both link forms fall
@@ -1018,14 +961,10 @@ export class JoinLobbyModal extends BaseModal {
 
   private joinLobbyFromInput(e: SubmitEvent): Promise<void> {
     e.preventDefault();
-    return this.enterLobbyFromInput(false);
+    return this.enterLobbyFromInput();
   }
 
-  private spectateLobbyFromInput(): Promise<void> {
-    return this.enterLobbyFromInput(true);
-  }
-
-  private async enterLobbyFromInput(spectator: boolean): Promise<void> {
+  private async enterLobbyFromInput(): Promise<void> {
     const lobbyId = this.normalizeLobbyId(this.lobbyIdInput.value);
     if (!lobbyId) {
       this.showMessage(translateText("private_lobby.not_found"), "red");
@@ -1039,7 +978,7 @@ export class JoinLobbyModal extends BaseModal {
     this.startTrackingLobby(lobbyId);
 
     try {
-      const gameExists = await this.checkActiveLobby(lobbyId, spectator);
+      const gameExists = await this.checkActiveLobby(lobbyId);
       if (gameExists) return;
 
       switch (await this.checkArchivedGame(lobbyId)) {
@@ -1081,7 +1020,6 @@ export class JoinLobbyModal extends BaseModal {
 
   private async checkActiveLobby(
     lobbyId: string,
-    spectator = false,
   ): Promise<boolean> {
     // The id's letter names the game's server in the API's list
     // (multi-server v2); load it before resolving. No version check here:
@@ -1095,7 +1033,7 @@ export class JoinLobbyModal extends BaseModal {
     // caller should stop as it does for a game it joined. The desktop and
     // replay shells, and the loop-guarded cases, fall through -- the whole
     // rule lives in redirectToGameVersion.
-    if (redirectToGameVersion(lobbyId, spectator)) return true;
+    if (redirectToGameVersion(lobbyId, false)) return true;
     const url = `${ClientEnv.gameHttpBase(lobbyId)}/${ClientEnv.gameWorkerPath(lobbyId)}/api/game/${lobbyId}/exists`;
 
     const response = await fetch(url, {
@@ -1120,15 +1058,7 @@ export class JoinLobbyModal extends BaseModal {
     }
 
     if (gameInfo.exists) {
-      // A spectator can enter a game that is already running, so the usual
-      // "waiting for host to start" is wrong for them.
-      this.showMessage(
-        translateText(
-          spectator
-            ? "private_lobby.spectating"
-            : "private_lobby.joined_waiting",
-        ),
-      );
+      this.showMessage(translateText("private_lobby.joined_waiting"));
 
       // Use the clientID that was already set by startTrackingLobby in open()
       this.dispatchEvent(
@@ -1136,7 +1066,6 @@ export class JoinLobbyModal extends BaseModal {
           detail: {
             gameID: lobbyId,
             source: "private",
-            spectator,
           } as JoinLobbyEvent,
           bubbles: true,
           composed: true,

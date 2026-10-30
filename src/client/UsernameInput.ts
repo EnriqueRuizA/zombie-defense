@@ -33,7 +33,6 @@ interface LangSelectorLike {
 }
 
 const usernameKey: string = "username";
-const clanTagKey: string = "clanTag";
 const useVerifiedNameKey: string = "useVerifiedName";
 // "The stored username is one we generated, not one the player chose." Written
 // alongside the name itself; see usernameIsGenerated.
@@ -623,9 +622,6 @@ export class UsernameInput extends LitElement {
     const storedUsername = this.onGamePortal
       ? null
       : localStorage.getItem(usernameKey);
-    if (storedUsername) {
-      this.clanTag = localStorage.getItem(clanTagKey) ?? "";
-    }
     // No persona yet — it arrives asynchronously and reseeds in
     // connectedCallback, so this settles on the stored or generated name.
     const resolved = resolvePlayerName({
@@ -997,9 +993,6 @@ export class UsernameInput extends LitElement {
     if (this.verifiedActive) {
       this._isValid = true;
       this.validationError = "";
-      if (!this.onGamePortal) {
-        localStorage.setItem(clanTagKey, this.getClanTag() ?? "");
-      }
       this.emitValidity();
       return;
     }
@@ -1017,7 +1010,6 @@ export class UsernameInput extends LitElement {
           usernameIsGeneratedKey,
           String(this.usernameIsGenerated),
         );
-        localStorage.setItem(clanTagKey, this.getClanTag() ?? "");
       }
       this.validationError = "";
     } else {

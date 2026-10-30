@@ -1058,7 +1058,7 @@ export class SinglePlayerModal extends BaseModal {
       //      attempt reaching it advertises a game that never starts, and a
       //      reopened modal can put a second request in flight beside it.
       //   2. the join-lobby dispatch — and everything downstream of it,
-      //      including Main's gameplayStart() and incrementGamesPlayed().
+      //      including Main's gameplayStart().
       // resolveNameAndCosmetics() above is deliberately NOT gated: its only
       // writes are validating stored cosmetic selections against the catalog
       // and profile, which happens on any cosmetics resolution (menu

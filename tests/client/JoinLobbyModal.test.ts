@@ -186,10 +186,9 @@ describe("JoinLobbyModal server time offset", () => {
   });
 });
 
-describe("JoinLobbyModal spectate link", () => {
-  // A spectate URL is the same lobby link with ?spectate: it must reach the
-  // server as a spectator join, and fall through to the archive once the game
-  // is over exactly as the play link does.
+describe("JoinLobbyModal url join", () => {
+  // Spectator support removed (LocalMode R10): a lobby link always joins as
+  // a player.
   const modalWith = (exists: boolean, archived: string) => {
     const modal = new JoinLobbyModal();
     (modal as any).startTrackingLobby = vi.fn();
@@ -200,28 +199,16 @@ describe("JoinLobbyModal spectate link", () => {
     return modal;
   };
 
-  it("joins a live lobby as a spectator", async () => {
-    const modal = modalWith(true, "not_found");
-    await (modal as any).handleUrlJoin("AbCd1234", true);
-    expect((modal as any).checkActiveLobby).toHaveBeenCalledWith(
-      "AbCd1234",
-      true,
-    );
-    expect((modal as any).checkArchivedGame).not.toHaveBeenCalled();
-  });
-
-  it("joins as a player without the flag", async () => {
+  it("joins a live lobby", async () => {
     const modal = modalWith(true, "not_found");
     await (modal as any).handleUrlJoin("AbCd1234");
-    expect((modal as any).checkActiveLobby).toHaveBeenCalledWith(
-      "AbCd1234",
-      false,
-    );
+    expect((modal as any).checkActiveLobby).toHaveBeenCalledWith("AbCd1234");
+    expect((modal as any).checkArchivedGame).not.toHaveBeenCalled();
   });
 
   it("becomes the replay once the game is over", async () => {
     const modal = modalWith(false, "success");
-    await (modal as any).handleUrlJoin("AbCd1234", true);
+    await (modal as any).handleUrlJoin("AbCd1234");
     expect((modal as any).checkArchivedGame).toHaveBeenCalledWith("AbCd1234");
     expect((modal as any).showMessage).not.toHaveBeenCalled();
   });

@@ -718,9 +718,7 @@ export class Transport {
       username: this.lobbyConfig.playerName,
       clanTag: this.lobbyConfig.playerClanTag ?? null,
       cosmetics: this.lobbyConfig.cosmetics,
-      turnstileToken: this.lobbyConfig.turnstileToken,
       token,
-      spectator: this.lobbyConfig.spectator,
       gitCommit: ClientEnv.gitCommit(),
       platform: clientPlatform(),
     } satisfies ClientJoinMessage);

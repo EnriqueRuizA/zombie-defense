@@ -10,8 +10,6 @@ import { Controller } from "../../Controller";
 import { translateText } from "../../Utils";
 import { GameView } from "../../view";
 
-const COLLUSION_WARNING_CLOSED_KEY = "hasClosedCollusionWarning";
-
 @customElement("heads-up-message")
 export class HeadsUpMessage extends LitElement implements Controller {
   public game: GameView;
@@ -20,8 +18,7 @@ export class HeadsUpMessage extends LitElement implements Controller {
   private isVisible = false;
 
   @state()
-  private hasClosedCollusionWarning =
-    localStorage.getItem(COLLUSION_WARNING_CLOSED_KEY) !== null;
+  private hasClosedCollusionWarning = false;
 
   @state()
   private isPaused = false;
@@ -230,7 +227,6 @@ export class HeadsUpMessage extends LitElement implements Controller {
   }
 
   private onCloseCollusionWarning = (): void => {
-    localStorage.setItem(COLLUSION_WARNING_CLOSED_KEY, "true");
     this.hasClosedCollusionWarning = true;
     this.requestUpdate();
   };

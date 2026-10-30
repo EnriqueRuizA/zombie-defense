@@ -16,7 +16,6 @@ const baseJoin = {
   gameID: "abcd1234",
   username: "TestPlayer",
   clanTag: null,
-  turnstileToken: null,
 };
 
 const baseRejoin = {

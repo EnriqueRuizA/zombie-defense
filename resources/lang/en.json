@@ -680,13 +680,7 @@
     "toggle_name_reveal": "Toggle whether this player can see real names",
     "waiting": "Waiting for players..."
   },
-  "inventory": {
-    "loadout_add": "New loadout",
-    "loadout_delete_target": "Delete {name}",
-    "loadout_presets": "Loadouts",
-    "loadout_slot": "Loadout {name}",
-    "unequip_all": "Unequip all"
-  },
+  "inventory": {},
   "ios_banner": {
     "got_it": "Got it",
     "how": "How",
@@ -935,8 +929,6 @@
   },
   "mode_selector": {
     "lobbies_unreachable": "Can't reach the public lobbies right now",
-    "ranked_title": "Ranked",
-    "ranked_trust_tooltip_title": "Trusted ranked",
     "retry_lobbies": "Retry",
     "servers_unreachable": "Can't connect to the Zombie Defense servers",
     "teams_count": "{teamCount} teams",
@@ -1061,10 +1053,7 @@
     "no_open_lobbies": "No open lobbies right now",
     "not_found": "Lobby not found. Please check the ID and try again.",
     "open_lobbies": "Open Lobbies",
-    "play": "Play",
     "pvp_immunity": "PVP immunity duration",
-    "spectate": "Spectate",
-    "spectating": "Spectating! Loading the game...",
     "starting_gold": "Starting Gold",
     "title": "Join Lobby",
     "version_mismatch": "This game was created with a different version. Cannot join."

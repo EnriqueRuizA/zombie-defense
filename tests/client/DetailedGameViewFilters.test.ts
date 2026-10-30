@@ -8,20 +8,14 @@ import {
 } from "@zombie-defense/engine-api/game/GameTypes";
 import { GameConfig } from "@zombie-defense/engine-api/Schemas";
 import { PublicGameInfo } from "@zombie-defense/shared/WireSchemas";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   DEFAULT_FILTERS,
-  deleteFilterProfile,
-  FILTER_PROFILES_KEY,
   filterAndSortLobbies,
   flattenLobbies,
-  hasFilterProfile,
-  loadFilterProfiles,
   lobbyFacts,
   LobbyFilters,
-  MAX_FILTER_PROFILES,
   normalizeFilters,
-  saveFilterProfile,
 } from "../../src/client/components/DetailedGameViewFilters";
 
 function config(overrides: Partial<GameConfig> = {}): GameConfig {
@@ -262,69 +256,5 @@ describe("normalizeFilters", () => {
     // A stored profile from an older build can carry fields the filter set no
     // longer has; they're dropped rather than copied through.
     expect("sort" in normalized).toBe(false);
-  });
-});
-
-describe("filter profiles", () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
-  it("saves, loads and deletes a profile", () => {
-    saveFilterProfile("Big teams", filters({ minCapacity: 100 }));
-    expect(loadFilterProfiles()["Big teams"].minCapacity).toBe(100);
-    deleteFilterProfile("Big teams");
-    expect(loadFilterProfiles()).toEqual({});
-  });
-
-  it("ignores blank names", () => {
-    expect(saveFilterProfile("   ", filters())).toEqual({});
-    expect(loadFilterProfiles()).toEqual({});
-  });
-
-  it("normalizes profiles read back from storage", () => {
-    localStorage.setItem(
-      FILTER_PROFILES_KEY,
-      JSON.stringify({ broken: { modes: ["nope"], hideEmpty: "nope" } }),
-    );
-    expect(loadFilterProfiles().broken).toEqual(DEFAULT_FILTERS);
-  });
-
-  it("survives unparseable storage", () => {
-    localStorage.setItem(FILTER_PROFILES_KEY, "{not json");
-    expect(loadFilterProfiles()).toEqual({});
-  });
-
-  it("treats a profile named __proto__ as an ordinary name", () => {
-    const saved = saveFilterProfile("__proto__", filters({ hideEmpty: true }));
-    expect(Object.keys(saved)).toEqual(["__proto__"]);
-    expect(saved["__proto__"].hideEmpty).toBe(true);
-    // Nothing leaked onto Object.prototype, and the round trip survives.
-    expect(({} as Record<string, unknown>).hideEmpty).toBeUndefined();
-
-    const reloaded = loadFilterProfiles();
-    expect(hasFilterProfile(reloaded, "__proto__")).toBe(true);
-    expect(reloaded["__proto__"].hideEmpty).toBe(true);
-
-    expect(Object.keys(deleteFilterProfile("__proto__"))).toEqual([]);
-    expect(loadFilterProfiles()["__proto__"]).toBeUndefined();
-  });
-
-  it("does not mistake inherited Object members for saved profiles", () => {
-    const profiles = loadFilterProfiles();
-    expect(hasFilterProfile(profiles, "toString")).toBe(false);
-    expect(profiles["toString"]).toBeUndefined();
-    // Deleting a name nobody saved is a no-op, not a write.
-    expect(Object.keys(deleteFilterProfile("toString"))).toEqual([]);
-  });
-
-  it("caps the number of stored profiles but still overwrites existing ones", () => {
-    for (let i = 0; i < MAX_FILTER_PROFILES; i++) {
-      saveFilterProfile(`p${i}`, filters());
-    }
-    const afterOverflow = saveFilterProfile("one too many", filters());
-    expect(Object.keys(afterOverflow)).toHaveLength(MAX_FILTER_PROFILES);
-    const overwritten = saveFilterProfile("p0", filters({ hideEmpty: true }));
-    expect(overwritten.p0.hideEmpty).toBe(true);
   });
 });
