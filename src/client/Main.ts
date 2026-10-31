@@ -52,10 +52,9 @@ import {
   installSafariPinchZoomBlocker,
 } from "./utilities/DisableSafariPinchZoom";
 
-import "./components/Footer";
-import "./components/MainLayout";
-import "./components/DesktopNavBar";
-import "./components/MobileNavBar";
+  import "./components/Footer";
+  import "./components/MainLayout";
+  import "./components/MobileNavBar";
 import "./components/PlayPage";
 import "./components/baseComponents/Button";
 import "./components/baseComponents/Modal";
@@ -199,7 +198,6 @@ class Client {
 
     // Wait for components to render before setting version
     await customElements.whenDefined("mobile-nav-bar");
-    await customElements.whenDefined("desktop-nav-bar");
 
     const openFrontFont = new FontFace(
       "OpenFront",

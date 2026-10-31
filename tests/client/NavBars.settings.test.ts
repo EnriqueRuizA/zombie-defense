@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import "../../src/client/components/DesktopNavBar";
 import "../../src/client/components/NavUtilityIcons";
 import "../../src/client/components/PlayPage";
 import { initNavigation } from "../../src/client/Navigation";
@@ -105,15 +104,6 @@ describe("the nav bars that host the cluster", () => {
 
   // No account menu in the local build (R5): the local nick lives in the play
   // page's identity row, so the utility cluster is the last control standing.
-  it("puts the cogwheel in the desktop bar as the last control", async () => {
-    const bar = await mount("desktop-nav-bar");
-    expect(settingsButton(bar)).not.toBeNull();
-
-    const cluster = bar.querySelector("nav-utility-icons")!;
-    expect(bar.querySelector("nav-account-menu")).toBeNull();
-    expect(cluster.parentElement?.nextElementSibling).toBeNull();
-  });
-
   it("puts the cogwheel in the mobile top bar too", async () => {
     const page = await mount("play-page");
     const cluster = page.querySelector("nav-utility-icons")!;

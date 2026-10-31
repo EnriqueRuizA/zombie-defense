@@ -96,9 +96,7 @@ body.halloween-theme:not(.in-game) [data-i18n] {
   text-shadow: var(--hw-orange-glow) !important;
 }
 
-/* Navigation bars (desktop and mobile) */
-body.halloween-theme:not(.in-game) desktop-nav-bar nav,
-body.halloween-theme:not(.in-game) desktop-nav-bar > div,
+/* Navigation bars (mobile) */
 body.halloween-theme:not(.in-game) mobile-nav-bar,
 body.halloween-theme:not(.in-game) #sidebar-menu,
 body.halloween-theme:not(.in-game) play-page > div > div.fixed.bg-surface {
@@ -108,7 +106,6 @@ body.halloween-theme:not(.in-game) play-page > div > div.fixed.bg-surface {
 }
 
 /* Nav Bar Logo Image (Blue -> Orange with Jack-o'-Lantern candlelight flicker) */
-body.halloween-theme:not(.in-game) desktop-nav-bar img[src*="OpenFrontLogo"],
 body.halloween-theme:not(.in-game) mobile-nav-bar img[src*="OpenFrontLogo"],
 body.halloween-theme:not(.in-game)
   play-page
