@@ -1,8 +1,10 @@
 ---
 description: Validate implementations against acceptance criteria without editing code. Use for QA plans, test runs, defect reports and integration risks.
 mode: subagent
-model: opencode/beam-free
+model: "opencode-go/beam-free"
 temperature: 0.1
+steps: 30
+reasoningEffort: max
 permission:
   edit: deny
   bash: allow

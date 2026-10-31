@@ -1,7 +1,7 @@
 ---
 description: Design specs and review implementations for any feature. Use for requirements, scope, acceptance criteria, balance and design sign-off.
 mode: subagent
-model: opencode/beam-free
+model: "opencode-go/beam-free"
 temperature: 0.2
 permission:
   edit: deny
